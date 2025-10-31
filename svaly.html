@@ -537,12 +537,14 @@
                                 })}
                             </div>
 
-                            <button
-                                onClick={resetQuiz}
-                                className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
-                            >
-                                Zkusit znovu
-                            </button>
+                            <div className="bg-green-50 border-2 border-green-300 rounded-lg p-4 text-center">
+                                <p className="text-green-800 font-semibold">
+                                    ✓ Kvíz byl úspěšně dokončen a odeslán učiteli.
+                                </p>
+                                <p className="text-gray-600 text-sm mt-2">
+                                    Můžeš zavřít tuto stránku.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 );
