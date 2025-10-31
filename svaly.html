@@ -27,22 +27,6 @@
         ✓ E-mail učitele (teacherEmail)
         ✓ Všechny otázky a odpovědi (questions)
 
-        JAK TO UDĚLAT:
-        1. Najdi sekci "NASTAVENÍ KVÍZU" (hned pod tímto textem)
-        2. Změň hodnoty podle potřeby
-        3. Pro přidání/odebrání otázek upravuj pole "questions"
-        4. Zachovej formát - nezapomeň na čárky mezi otázkami!
-
-        TYPY OTÁZEK:
-        - 'multiple' = výběr z možností (A, B, C, D)
-        - 'boolean' = pravda/nepravda
-
-        FUNKCE KVÍZU:
-        ✓ Náhodné pořadí otázek při každém otevření
-        ✓ Automatické hodnocení podle českého systému (1-5)
-        ✓ Odesílání výsledků e-mailem učiteli
-        ✓ Přehled všech odpovědí studenta
-
         =============================================================================
         */
 
@@ -52,19 +36,9 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                // Název kvízu - zobrazuje se nahoře
                 title: "Svalová soustava člověka",
-                
-                // E-mail učitele, kam se posílají výsledky
                 teacherEmail: "hynek@gymberoun.cz",
                 
-                // Otázky kvízu
-                // Pro každou otázku nastavíš:
-                // - id: číslo otázky (1, 2, 3, ...)
-                // - type: 'multiple' pro výběr z možností NEBO 'boolean' pro pravda/nepravda
-                // - question: text otázky
-                // - options: pole možností (jen u type: 'multiple')
-                // - correct: index správné odpovědi (0, 1, 2, 3) u multiple NEBO true/false u boolean
                 questions: [
                     {
                         id: 1,
@@ -277,30 +251,6 @@
                         correct: 2
                     }
                 ]
-                // 
-                // JAK PŘIDAT NOVOU OTÁZKU:
-                // 
-                // Výběr z možností:
-                // {
-                //   id: 21,
-                //   type: 'multiple',
-                //   question: 'Tvoje otázka?',
-                //   options: [
-                //     'Možnost A',
-                //     'Možnost B',
-                //     'Možnost C',
-                //     'Možnost D'
-                //   ],
-                //   correct: 0  // 0 = první možnost, 1 = druhá, 2 = třetí, 3 = čtvrtá
-                // },
-                //
-                // Pravda/Nepravda:
-                // {
-                //   id: 22,
-                //   type: 'boolean',
-                //   question: 'Tvoje tvrzení.',
-                //   correct: true  // nebo false
-                // },
             };
             
             // ========================================
@@ -321,8 +271,19 @@
             const [answers, setAnswers] = useState({});
             const [showResults, setShowResults] = useState(false);
             const [userAnswer, setUserAnswer] = useState('');
-            const [studentName, setStudentName] = useState('');
+            const [studentFirstName, setStudentFirstName] = useState('');
+            const [studentLastName, setStudentLastName] = useState('');
             const [showEmailSent, setShowEmailSent] = useState(false);
+            const [quizCompleted, setQuizCompleted] = useState(false);
+
+            // Kontrola, jestli student už kvíz vyplnil
+            useState(() => {
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const isCompleted = localStorage.getItem(completedKey);
+                if (isCompleted) {
+                    setQuizCompleted(true);
+                }
+            });
 
             const handleAnswer = (answer) => {
                 setAnswers({ ...answers, [currentQuestion]: answer });
@@ -361,21 +322,26 @@
                 setAnswers({});
                 setShowResults(false);
                 setUserAnswer('');
-                setStudentName('');
+                setStudentFirstName('');
+                setStudentLastName('');
                 setShowEmailSent(false);
             };
 
             const sendResultsEmail = () => {
-                if (!studentName.trim()) {
-                    alert('Prosím vyplň své jméno a příjmení.');
+                if (!studentFirstName.trim() || !studentLastName.trim()) {
+                    alert('Prosím vyplň své jméno i příjmení.');
                     return;
                 }
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
+                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const fullName = `${studentFirstName} ${studentLastName}`;
                 
-                let emailBody = `Jméno studenta: ${studentName}%0D%0A`;
-                emailBody += `Skóre: ${score}/${questions.length} (${percentage}%)%0D%0A%0D%0A`;
+                let emailBody = `Jméno a příjmení: ${fullName}%0D%0A`;
+                emailBody += `Počet bodů: ${score}/${questions.length}%0D%0A`;
+                emailBody += `Procenta: ${percentage}%%%0D%0A`;
+                emailBody += `Známka: ${grade}%0D%0A`;
                 emailBody += `Datum: ${new Date().toLocaleDateString('cs-CZ')}%0D%0A%0D%0A`;
                 emailBody += `Přehled odpovědí:%0D%0A`;
                 emailBody += `========================%0D%0A%0D%0A`;
@@ -399,10 +365,58 @@
                     emailBody += `   Výsledek: ${isCorrect ? '✓ Správně' : '✗ Špatně'}%0D%0A%0D%0A`;
                 });
 
-                const mailtoLink = `mailto:${QUIZ_CONFIG.teacherEmail}?subject=Výsledky kvízu - ${QUIZ_CONFIG.title} - ${studentName}&body=${emailBody}`;
+                const mailtoLink = `mailto:${QUIZ_CONFIG.teacherEmail}?subject=Výsledky kvízu - ${QUIZ_CONFIG.title} - ${fullName}&body=${emailBody}`;
                 window.location.href = mailtoLink;
+                
+                // Označit kvíz jako dokončený
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const completionData = {
+                    name: fullName,
+                    date: new Date().toISOString(),
+                    score: `${score}/${questions.length}`
+                };
+                localStorage.setItem(completedKey, JSON.stringify(completionData));
+                
                 setShowEmailSent(true);
             };
+
+            // Zobrazení hlášky, když už byl kvíz vyplněn
+            if (quizCompleted) {
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const completionData = JSON.parse(localStorage.getItem(completedKey) || '{}');
+                
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <div className="text-center">
+                                <div className="text-6xl mb-4">🔒</div>
+                                <h1 className="text-3xl font-bold text-indigo-900 mb-4">
+                                    Kvíz již byl vyplněn
+                                </h1>
+                                <p className="text-gray-700 text-lg mb-6">
+                                    Tento kvíz jsi již dokončil a odeslal učiteli.
+                                </p>
+                                {completionData.name && (
+                                    <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                        <p className="text-gray-700 mb-2">
+                                            <strong>Jméno:</strong> {completionData.name}
+                                        </p>
+                                        <p className="text-gray-700 mb-2">
+                                            <strong>Výsledek:</strong> {completionData.score}
+                                        </p>
+                                        <p className="text-gray-700">
+                                            <strong>Datum:</strong> {new Date(completionData.date).toLocaleString('cs-CZ')}
+                                        </p>
+                                    </div>
+                                )}
+                                <p className="text-gray-600 text-sm">
+                                    Každý student může kvíz vyplnit pouze jednou. Pokud si myslíš, že je to chyba, kontaktuj svého učitele.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
 
             if (showResults) {
                 const score = calculateScore();
@@ -442,13 +456,22 @@
                                 <p className="text-gray-600 text-sm mb-4">
                                     Vyplň své jméno a příjmení a odešli své výsledky učiteli e-mailem.
                                 </p>
-                                <input
-                                    type="text"
-                                    placeholder="Tvoje jméno a příjmení"
-                                    value={studentName}
-                                    onChange={(e) => setStudentName(e.target.value)}
-                                    className="w-full p-3 border-2 border-gray-300 rounded-lg mb-3 focus:border-indigo-500 focus:outline-none"
-                                />
+                                <div className="grid grid-cols-2 gap-3 mb-3">
+                                    <input
+                                        type="text"
+                                        placeholder="Jméno"
+                                        value={studentFirstName}
+                                        onChange={(e) => setStudentFirstName(e.target.value)}
+                                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Příjmení"
+                                        value={studentLastName}
+                                        onChange={(e) => setStudentLastName(e.target.value)}
+                                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none"
+                                    />
+                                </div>
                                 <button
                                     onClick={sendResultsEmail}
                                     className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
