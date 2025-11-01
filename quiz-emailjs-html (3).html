@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kvíz: Svalová soustava člověka</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        /* 
+        =============================================================================
+        EMAILJS KONFIGURACE - DOPLŇ ÚDAJE ZE SVÉHO EMAILJS ÚČTU
+        =============================================================================
+        
+        NÁVOD JAK ZÍSKAT TYTO ÚDAJE:
+        1. Jdi na https://www.emailjs.com/ a zaregistruj se (ZDARMA)
+        2. Přidej Email Service (Gmail doporučuji)
+        3. Vytvoř Email Template
+        4. Zkopíruj Public Key, Service ID a Template ID
+        5. Vlož hodnoty níže
+        
+        =============================================================================
+        */
+
+        // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        const EMAILJS_CONFIG = {
+            publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
+            serviceId: "service_t5uuqhn",      // z Email Services
+            templateId: "template_3retggz"     // z Email Templates
+        };
+
+        // Inicializace EmailJS
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== "DOPLŇ-SEM-PUBLIC-KEY") {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
+
+        /* 
+        =============================================================================
+        UNIVERZÁLNÍ KVÍZ PRO STUDENTY
+        =============================================================================
+        */
+
+        const MuscleQuiz = () => {
+            // ========================================
+            // NASTAVENÍ KVÍZU - TADY MĚNÍŠ OBSAH
+            // ========================================
+            
+            const QUIZ_CONFIG = {
+                title: "Svalová soustava člověka",
+                teacherEmail: "hynek@gymberoun.cz",
+                
+                questions: [
+                    {
+        id: 1,
+        type: 'multiple',
+        question: 'Kolik procent tělesné hmotnosti tvoří veškerá svalovina?',
+        options: [
+            '20-25%',
+            '30-35%',
+            '40-45%',
+            '50-55%'
+        ],
+        correct: 2
+    },
+    {
+        id: 2,
+        type: 'multiple',
+        question: 'Mimické svaly se upínají:',
+        options: [
+            'Z kosti na kost',
+            'Z kosti do kůže',
+            'Ze šlachy na kost',
+            'Z vazu na sval'
+        ],
+        correct: 1
+    },
+    {
+        id: 3,
+        type: 'boolean',
+        question: 'Člověk má přibližně 600 svalů.',
+        correct: true
+    },
+    {
+        id: 5,
+        type: 'multiple',
+        question: 'Žvýkací svaly pohybují:',
+        options: [
+            'Horní čelistí',
+            'Dolní čelistí',
+            'Oběma čelistmi',
+            'Jazykem'
+        ],
+        correct: 1
+    },
+    {
+        id: 6,
+        type: 'boolean',
+        question: 'Bránice odděluje dutinu břišní a hrudní.',
+        correct: true
+    },
+    {
+        id: 7,
+        type: 'multiple',
+        question: 'Nejsilnější sval lidského těla podle absolutní síly je:',
+        options: [
+            'Velký sval prsní',
+            'Široký sval zádový',
+            'Velký sval hýžďový',
+            'Čtyřhlavý sval stehenní'
+        ],
+        correct: 3
+    },
+    {
+        id: 10,
+        type: 'multiple',
+        question: 'Sval trapézový má tvar:',
+        options: [
+            'Trojúhelníku',
+            'Čtverce',
+            'ani jedna z uvedených možností ',
+            'Kruhu'
+        ],
+        correct: 2
+    },
+    {
+        id: 11,
+        type: 'multiple',
+        question: 'Deltový sval umožňuje:',
+        options: [
+            'Ohnutí paže',
+            'Natažení paže',
+            'Upažení, předpažení, zapažení',
+            'Otáčení paže'
+        ],
+        correct: 2
+    },
+    {
+        id: 12,
+        type: 'boolean',
+        question: 'Dvojhlavý sval pažní má tři začátky a dva úpony.',
+        correct: false
+    },
+    {
+        id: 13,
+        type: 'multiple',
+        question: 'Trojhlavý sval pažní:',
+        options: [
+            'Ohýbá paži v lokti',
+            'Natahuje paži v lokti',
+            'Rotuje paží',
+            'Zvedá paži'
+        ],
+        correct: 1
+    },
+    {
+        id: 14,
+        type: 'multiple',
+        question: 'Achillova šlacha patří k:',
+        options: [
+            'Dvojhlavému svalu stehennímu',
+            'Čtyřhlavému svalu stehennímu',
+            'Trojhlavému svalu lýtkovému',
+            'Krejčovskému svalu'
+        ],
+        correct: 2
+    },
+    {
+        id: 15,
+        type: 'boolean',
+        question: 'Krejčovský sval je nejdelší sval lidského těla.',
+        correct: true
+    },
+    {
+        id: 16,
+        type: 'multiple',
+        question: 'Příčné pruhování je typické pro:',
+        options: [
+            'Pouze hladkou svalovinu',
+            'Pouze kosterní svaly',
+            'Kosterní a srdeční svaly',
+            'Všechny typy svalů'
+        ],
+        correct: 2
+    },
+    {
+        id: 17,
+        type: 'multiple',
+        question: 'Kontraktilní bílkoviny v příčně pruhovaném svalu jsou:',
+        options: [
+            'Insulin a glukagon',
+            'Hemoglobin a myoglobin',
+            'Aktin a myozin',
+            'Kolagen a elastin'
+        ],
+        correct: 2
+    },
+    {
+        id: 18,
+        type: 'boolean',
+        question: 'Hladké svaly tvoří asi 3% tělesné hmotnosti.',
+        correct: true
+    },
+    {
+        id: 19,
+        type: 'multiple',
+        question: 'Svalová vlákna kosterního svalu mají:',
+        options: [
+            'Jedno jádro',
+            'Dvě jádra',
+            'Větší počet jader',
+            'Žádné jádro'
+        ],
+        correct: 2
+    },
+    {
+        id: 20,
+        type: 'multiple',
+        question: 'Myofibrily se skládají z:',
+        options: [
+            'Pouze aktinu',
+            'Pouze myozinu',
+            'Aktinu a myozinu',
+            'Kolagenu a elastinu'
+        ],
+        correct: 2
+    },
+    {
+        id: 21,
+        type: 'boolean',
+        question: 'Srdeční sval má vlastní centra automacie.',
+        correct: true
+    },
+    {
+        id: 22,
+        type: 'multiple',
+        question: 'Hladké svaly jsou inervovány:',
+        options: [
+            'Motorickými nervy',
+            'Senzitivními nervy',
+            'Vegetativními nervy',
+            'Hlavovými nervy'
+        ],
+        correct: 2
+    },
+    {
+        id: 23,
+        type: 'boolean',
+        question: 'Hladké svaly můžeme ovládat vůlí.',
+        correct: false
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'Antagonistické svaly jsou svaly, které:',
+        options: [
+            'Pracují společně',
+            'Působí proti sobě',
+            'Leží vedle sebe',
+            'Mají stejnou funkci'
+        ],
+        correct: 1
+    },
+    {
+        id: 25,
+        type: 'multiple',
+        question: 'Dvojhlavý sval pažní je:',
+        options: [
+            'Natahovač',
+            'Ohýbač',
+            'Rotátor',
+            'Přitahovač'
+        ],
+        correct: 1
+    },
+    {
+        id: 26,
+        type: 'boolean',
+        question: 'Energie pro svalový stah se získává štěpením ATP (adenosintrifosfát).',
+        correct: true
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'Signálem pro zahájení svalového stahu je zvýšení koncentrace:',
+        options: [
+            'Sodíkových iontů',
+            'Draselných iontů',
+            'Vápenatých iontů',
+            'Chloridových iontů'
+        ],
+        correct: 2
+    },
+    {
+        id: 29,
+        type: 'multiple',
+        question: 'Šlachy jsou tvořeny:',
+        options: [
+            'Nervovou tkání',
+            'Svalovou tkání',
+            'Vazivovou tkání',
+            'Epitelovou tkání'
+        ],
+        correct: 2
+    },
+    {
+        id: 30,
+        type: 'multiple',
+        question: 'Čtyřhlavý sval stehenní:',
+        options: [
+            'Ohýbá koleno',
+            'Natahuje koleno',
+            'Otáčí stehno',
+            'Přitahuje stehno'
+        ],
+        correct: 1
+    }
+                ]
+            };
+            
+            // ========================================
+            // KONEC NASTAVENÍ
+            // ========================================
+
+            const shuffleArray = (array) => {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            const [questions, setQuestions] = useState(() => shuffleArray(QUIZ_CONFIG.questions));
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [showResults, setShowResults] = useState(false);
+            const [userAnswer, setUserAnswer] = useState('');
+            const [studentFirstName, setStudentFirstName] = useState('');
+            const [studentLastName, setStudentLastName] = useState('');
+            const [isSending, setIsSending] = useState(false);
+            const [emailSent, setEmailSent] = useState(false);
+            const [quizCompleted, setQuizCompleted] = useState(false);
+
+            // Kontrola, jestli student už kvíz vyplnil
+            useState(() => {
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const isCompleted = localStorage.getItem(completedKey);
+                if (isCompleted) {
+                    setQuizCompleted(true);
+                }
+            });
+
+            const handleAnswer = (answer) => {
+                setAnswers({ ...answers, [currentQuestion]: answer });
+                setUserAnswer('');
+            };
+
+            const handleNext = () => {
+                if (currentQuestion < questions.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1);
+                } else {
+                    setShowResults(true);
+                }
+            };
+
+            const handlePrevious = () => {
+                if (currentQuestion > 0) {
+                    setCurrentQuestion(currentQuestion - 1);
+                }
+            };
+
+            const calculateScore = () => {
+                let score = 0;
+                questions.forEach((q, index) => {
+                    if (q.type === 'boolean') {
+                        if (answers[index] === q.correct) score++;
+                    } else if (q.type === 'multiple') {
+                        if (answers[index] === q.correct) score++;
+                    }
+                });
+                return score;
+            };
+
+            const sendResultsEmail = async () => {
+                if (!studentFirstName.trim() || !studentLastName.trim()) {
+                    alert('Prosím vyplň své jméno i příjmení.');
+                    return;
+                }
+
+                if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
+                    alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                setIsSending(true);
+
+                const score = calculateScore();
+                const percentage = (score / questions.length * 100).toFixed(1);
+                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const fullName = `${studentFirstName} ${studentLastName}`;
+                
+                // NEJDŘÍVE označit kvíz jako dokončený - PŘED odesláním e-mailu
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const completionData = {
+                    name: fullName,
+                    date: new Date().toISOString(),
+                    score: `${score}/${questions.length}`
+                };
+                localStorage.setItem(completedKey, JSON.stringify(completionData));
+                
+                // Vytvoření přehledu odpovědí
+                let answersDetails = '';
+                questions.forEach((q, index) => {
+                    const userAnswer = answers[index];
+                    const isCorrect = q.type === 'boolean' 
+                        ? userAnswer === q.correct 
+                        : userAnswer === q.correct;
+                    
+                    answersDetails += `${index + 1}. ${q.question}\n`;
+                    
+                    if (q.type === 'multiple') {
+                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správná odpověď: ${q.options[q.correct]}\n`;
+                    } else if (q.type === 'boolean') {
+                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správná odpověď: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                    }
+                    
+                    answersDetails += `   Výsledek: ${isCorrect ? '✓ Správně' : '✗ Špatně'}\n\n`;
+                });
+
+                const templateParams = {
+                    to_email: QUIZ_CONFIG.teacherEmail,
+                    student_name: fullName,
+                    quiz_title: QUIZ_CONFIG.title,
+                    score: `${score}/${questions.length}`,
+                    percentage: `${percentage}%`,
+                    grade: grade,
+                    date: new Date().toLocaleDateString('cs-CZ'),
+                    answers_details: answersDetails
+                };
+
+                try {
+                    await emailjs.send(
+                        EMAILJS_CONFIG.serviceId,
+                        EMAILJS_CONFIG.templateId,
+                        templateParams
+                    );
+                    
+                    setEmailSent(true);
+                    alert('✓ Výsledky byly úspěšně odeslány učiteli!');
+                } catch (error) {
+                    console.error('Chyba při odesílání e-mailu:', error);
+                    alert('Nepodařilo se odeslat e-mail. Zkus to prosím znovu nebo kontaktuj učitele.');
+                } finally {
+                    setIsSending(false);
+                }
+            };
+
+            // Zobrazení hlášky, když už byl kvíz vyplněn
+            if (quizCompleted) {
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const completionData = JSON.parse(localStorage.getItem(completedKey) || '{}');
+                
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <div className="text-center">
+                                <div className="text-6xl mb-4">🔒</div>
+                                <h1 className="text-3xl font-bold text-indigo-900 mb-4">
+                                    Kvíz již byl vyplněn
+                                </h1>
+                                <p className="text-gray-700 text-lg mb-6">
+                                    Tento kvíz jsi již dokončil a odeslal učiteli.
+                                </p>
+                                {completionData.name && (
+                                    <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                        <p className="text-gray-700 mb-2">
+                                            <strong>Jméno:</strong> {completionData.name}
+                                        </p>
+                                        <p className="text-gray-700 mb-2">
+                                            <strong>Výsledek:</strong> {completionData.score}
+                                        </p>
+                                        <p className="text-gray-700">
+                                            <strong>Datum:</strong> {new Date(completionData.date).toLocaleString('cs-CZ')}
+                                        </p>
+                                    </div>
+                                )}
+                                <p className="text-gray-600 text-sm">
+                                    Každý student může kvíz vyplnit pouze jednou. Pokud si myslíš, že je to chyba, kontaktuj svého učitele.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (showResults) {
+                const score = calculateScore();
+                const percentage = (score / questions.length * 100).toFixed(1);
+                
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold text-center text-indigo-900 mb-6">
+                                Výsledky kvízu
+                            </h1>
+                            
+                            <div className="text-center mb-8">
+                                <div className="text-6xl font-bold text-indigo-600 mb-2">
+                                    {score} / {questions.length}
+                                </div>
+                                <div className="text-2xl text-gray-700">
+                                    {percentage}%
+                                </div>
+                                <div className="mt-4 text-lg font-semibold">
+                                    {percentage < 29 ? (
+                                        <span className="text-red-600">Celkové hodnocení: 5</span>
+                                    ) : percentage <= 49 ? (
+                                        <span className="text-orange-600">Celkové hodnocení: 4</span>
+                                    ) : percentage <= 79 ? (
+                                        <span className="text-yellow-600">Celkové hodnocení: 3</span>
+                                    ) : percentage <= 89 ? (
+                                        <span className="text-blue-600">Celkové hodnocení: 2</span>
+                                    ) : (
+                                        <span className="text-green-600">Celkové hodnocení: 1</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {!emailSent && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                    <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
+                                    <p className="text-gray-600 text-sm mb-4">
+                                        Vyplň své jméno a příjmení. Výsledky budou automaticky odeslány učiteli.
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-3 mb-3">
+                                        <input
+                                            type="text"
+                                            placeholder="Jméno"
+                                            value={studentFirstName}
+                                            onChange={(e) => setStudentFirstName(e.target.value)}
+                                            disabled={isSending}
+                                            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100"
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Příjmení"
+                                            value={studentLastName}
+                                            onChange={(e) => setStudentLastName(e.target.value)}
+                                            disabled={isSending}
+                                            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100"
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={sendResultsEmail}
+                                        disabled={isSending}
+                                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                    >
+                                        {isSending ? 'Odesílám...' : 'Odeslat výsledky učiteli'}
+                                    </button>
+                                </div>
+                            )}
+
+                            {emailSent && (
+                                <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6 mb-6 text-center">
+                                    <div className="text-4xl mb-2">✓</div>
+                                    <p className="text-green-800 font-semibold text-lg mb-2">
+                                        Výsledky byly úspěšně odeslány učiteli!
+                                    </p>
+                                    <p className="text-gray-700 text-base">
+                                        Nyní můžeš zavřít prohlížeč.
+                                    </p>
+                                </div>
+                            )}
+
+                            <div className="space-y-4">
+                                <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
+                                {questions.map((q, index) => {
+                                    const userAnswer = answers[index];
+                                    const isCorrect = q.type === 'boolean' 
+                                        ? userAnswer === q.correct 
+                                        : userAnswer === q.correct;
+                                    
+                                    return (
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${isCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                            <div className="flex items-start gap-2">
+                                                <span className="font-bold text-gray-700">{index + 1}.</span>
+                                                <div className="flex-1">
+                                                    <p className="text-gray-800 mb-2">{q.question}</p>
+                                                    {q.type === 'multiple' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">
+                                                                Tvá odpověď: <span className={isCorrect ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                    {userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}
+                                                                </span>
+                                                            </p>
+                                                            {!isCorrect && (
+                                                                <p className="text-sm text-green-700 font-semibold">
+                                                                    Správná odpověď: {q.options[q.correct]}
+                                                                </p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'boolean' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">
+                                                                Tvá odpověď: <span className={isCorrect ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                    {userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}
+                                                                </span>
+                                                            </p>
+                                                            {!isCorrect && (
+                                                                <p className="text-sm text-green-700 font-semibold">
+                                                                    Správná odpověď: {q.correct ? 'Pravda' : 'Nepravda'}
+                                                                </p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-2xl">
+                                                    {isCorrect ? '✓' : '✗'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const q = questions[currentQuestion];
+            const isAnswered = answers[currentQuestion] !== undefined;
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div className="mb-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold text-indigo-900">
+                                    Kvíz: {QUIZ_CONFIG.title}
+                                </h1>
+                                <span className="text-gray-600 font-semibold">
+                                    {currentQuestion + 1} / {questions.length}
+                                </span>
+                            </div>
+                            
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div 
+                                    className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mb-8">
+                            <h2 className="text-xl text-gray-800 mb-6 leading-relaxed">
+                                {q.question}
+                            </h2>
+
+                            {q.type === 'multiple' && (
+                                <div className="space-y-3">
+                                    {q.options.map((option, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handleAnswer(index)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                                answers[currentQuestion] === index
+                                                    ? 'border-indigo-600 bg-indigo-50'
+                                                    : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                            }`}
+                                        >
+                                            <span className="font-semibold text-gray-700">{String.fromCharCode(65 + index)}.</span> {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {q.type === 'boolean' && (
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => handleAnswer(true)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                            answers[currentQuestion] === true
+                                                ? 'border-indigo-600 bg-indigo-50'
+                                                : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <span className="font-semibold text-gray-700">Pravda</span>
+                                    </button>
+                                    <button
+                                        onClick={() => handleAnswer(false)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                            answers[currentQuestion] === false
+                                                ? 'border-indigo-600 bg-indigo-50'
+                                                : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <span className="font-semibold text-gray-700">Nepravda</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button
+                                onClick={handlePrevious}
+                                disabled={currentQuestion === 0}
+                                className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ← Zpět
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                disabled={!isAnswered}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
+                            </button>
+                        </div>
+
+                        {!isAnswered && (
+                            <p className="text-center text-gray-500 text-sm mt-4">
+                                Pro pokračování vyber odpověď
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MuscleQuiz />);
+    </script>
+</body>
+</html>
