@@ -404,7 +404,7 @@
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
-                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const grade = percentage < 28 ? 5 : percentage <= 50 ? 4 : percentage <= 75 ? 3 : percentage <= 85 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
