@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kvíz: Nervová soustava člověka</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        /* 
+        =============================================================================
+        EMAILJS KONFIGURACE - DOPLŇ ÚDAJE ZE SVÉHO EMAILJS ÚČTU
+        =============================================================================
+        */
+
+        // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        const EMAILJS_CONFIG = {
+            publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
+            serviceId: "service_t5uuqhn",      // z Email Services
+            templateId: "template_3retggz"     // z Email Templates
+        };
+
+        // Inicializace EmailJS
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== "DOPLŇ-SEM-PUBLIC-KEY") {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
+
+        /* 
+        =============================================================================
+        UNIVERZÁLNÍ KVÍZ PRO STUDENTY
+        =============================================================================
+        */
+
+        const MuscleQuiz = () => {
+            // ========================================
+            // NASTAVENÍ KVÍZU - TADY MĚNÍŠ OBSAH
+            // ========================================
+            
+            const QUIZ_CONFIG = {
+                title: "Nervová soustava člověka",
+                teacherEmail: "hynek@gymberoun.cz",
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                
+                questions: [
+                    {
+                        id: 1,
+                        type: 'multiple',
+                        question: 'Jaká je hodnota klidového membránového potenciálu?',
+                        options: ['-70 mV', '-50 mV', '-90 mV', '-30 mV'],
+                        correct: 0
+                    },
+                    {
+                        id: 2,
+                        type: 'multiple',
+                        question: 'Která část neuronu přijímá signály z jiných neuronů?',
+                        options: ['Axon', 'Dendrity', 'Buněčné tělo', 'Synaptické zakončení'],
+                        correct: 1
+                    },
+                    {
+                        id: 3,
+                        type: 'multiple',
+                        question: 'Kolik axonů vychází z jednoho neuronu?',
+                        options: ['Dva', 'Více než tři', 'Pouze jeden', 'Záleží na typu neuronu'],
+                        correct: 2
+                    },
+                    {
+                        id: 4,
+                        type: 'multiple',
+                        question: 'Která buňka tvoří myelinovou pochvu v periferním nervovém systému?',
+                        options: ['Oligodendrocyt', 'Astrocyt', 'Mikroglie', 'Schwannova buňka'],
+                        correct: 3
+                    },
+                    {
+                        id: 5,
+                        type: 'multiple',
+                        question: 'Jak se nazývá vedení akčního potenciálu po myelinizovaném vlákně?',
+                        options: ['Saltatorní vedení', 'Kontinuální vedení', 'Synaptické vedení', 'Difuzní vedení'],
+                        correct: 0
+                    },
+                    {
+                        id: 6,
+                        type: 'multiple',
+                        question: 'Kolik míšních nervů má člověk?',
+                        options: ['12 párů', '31 párů', '24 párů', '40 párů'],
+                        correct: 1
+                    },
+                    {
+                        id: 7,
+                        type: 'multiple',
+                        question: 'Kolik hlavových (mozkových) nervů má člověk?',
+                        options: ['10 párů', '31 párů', '12 párů', '15 párů'],
+                        correct: 2
+                    },
+                    {
+                        id: 8,
+                        type: 'multiple',
+                        question: 'Který iont se hromadí uvnitř neuronu v klidovém stavu?',
+                        options: ['Na⁺ (sodík)', 'Ca²⁺ (vápník)', 'Cl⁻ (chlor)', 'K⁺ (draslík)'],
+                        correct: 3
+                    },
+                    {
+                        id: 9,
+                        type: 'multiple',
+                        question: 'Jaký je princip fungování akčního potenciálu?',
+                        options: ['Vše nebo nic', 'Postupné zesilování', 'Lineární nárůst', 'Náhodná aktivace'],
+                        correct: 0
+                    },
+                    {
+                        id: 10,
+                        type: 'multiple',
+                        question: 'Při depolarizaci membrány se membránový potenciál změní z -70 mV na:',
+                        options: ['0 mV', '+30 mV', '-50 mV', '+70 mV'],
+                        correct: 1
+                    },
+                    {
+                        id: 11,
+                        type: 'multiple',
+                        question: 'Která pumpa udržuje klidový membránový potenciál?',
+                        options: ['Ca²⁺ pumpa', 'H⁺ pumpa', 'Na⁺/K⁺-ATPáza', 'Cl⁻ pumpa'],
+                        correct: 2
+                    },
+                    {
+                        id: 12,
+                        type: 'multiple',
+                        question: 'Kolik iontů Na⁺ vypumpuje sodíko-draslíková pumpa ven z buňky za jeden cyklus?',
+                        options: ['2', '4', '5', '3'],
+                        correct: 3
+                    },
+                    {
+                        id: 13,
+                        type: 'multiple',
+                        question: 'Jak rychlé je vedení akčního potenciálu po nemyelinizovaných vláknech?',
+                        options: ['0,5-2 m/s', '50-120 m/s', '10-20 m/s', '200-300 m/s'],
+                        correct: 0
+                    },
+                    {
+                        id: 14,
+                        type: 'multiple',
+                        question: 'Jak rychlé je saltatorní vedení po myelinizovaných vláknech?',
+                        options: ['0,5-2 m/s', 'Až 120 m/s', '10-15 m/s', '200 m/s'],
+                        correct: 1
+                    },
+                    {
+                        id: 15,
+                        type: 'multiple',
+                        question: 'Jak široká je synaptická štěrbina?',
+                        options: ['Cca 200 nm', 'Cca 2 μm', 'Cca 20 nm', 'Cca 0,2 mm'],
+                        correct: 2
+                    },
+                    {
+                        id: 16,
+                        type: 'multiple',
+                        question: 'Který iont způsobuje uvolnění neurotransmiteru z presynaptického zakončení?',
+                        options: ['Na⁺ (sodík)', 'K⁺ (draslík)', 'Mg²⁺ (hořčík)', 'Ca²⁺ (vápník)'],
+                        correct: 3
+                    },
+                    {
+                        id: 17,
+                        type: 'multiple',
+                        question: 'Který neurotransmiter je důležitý pro svalovou kontrakci a paměť?',
+                        options: ['Acetylcholin', 'Dopamin', 'Serotonin', 'GABA'],
+                        correct: 0
+                    },
+                    {
+                        id: 18,
+                        type: 'multiple',
+                        question: 'Který neurotransmiter je inhibiční (tlumivý)?',
+                        options: ['Glutamát', 'GABA', 'Acetylcholin', 'Dopamin'],
+                        correct: 1
+                    },
+                    {
+                        id: 19,
+                        type: 'multiple',
+                        question: 'Který neurotransmiter je excitační (budivý)?',
+                        options: ['GABA', 'Serotonin', 'Glutamát', 'Endorfiny'],
+                        correct: 2
+                    },
+                    {
+                        id: 20,
+                        type: 'multiple',
+                        question: 'Co způsobuje EPSP (excitační synaptický potenciál)?',
+                        options: ['Hyperpolarizaci postsynaptické membrány', 'Uzavření iontových kanálů', 'Vypnutí neuronu', 'Depolarizaci postsynaptické membrány'],
+                        correct: 3
+                    },
+                    {
+                        id: 21,
+                        type: 'multiple',
+                        question: 'Která je nejzevnější vrstva mozkových plen (meningů)?',
+                        options: ['Tvrdá plena (dura mater)', 'Pavučnice (arachnoidea)', 'Omozečnice (pia mater)', 'Epidura'],
+                        correct: 0
+                    },
+                    {
+                        id: 22,
+                        type: 'multiple',
+                        question: 'Kolik likvoru (mozkomíšního moku) se denně vyprodukuje?',
+                        options: ['Cca 500 ml', 'Cca 150 ml', 'Cca 1000 ml', 'Cca 50 ml'],
+                        correct: 1
+                    },
+                    {
+                        id: 23,
+                        type: 'multiple',
+                        question: 'Jaká je hlavní funkce likvoru?',
+                        options: ['Vedení nervových vzruchů', 'Tvorba myelinu', 'Mechanická ochrana CNS', 'Syntéza neurotransmiterů'],
+                        correct: 2
+                    },
+                    {
+                        id: 24,
+                        type: 'multiple',
+                        question: 'Jak dlouhá je mícha?',
+                        options: ['60-70 cm', '20-25 cm', '80-90 cm', '40-45 cm'],
+                        correct: 3
+                    },
+                    {
+                        id: 25,
+                        type: 'multiple',
+                        question: 'Ve výši kterého obratle končí mícha?',
+                        options: ['2. bederní obratel (L2)', '5. bederní obratel (L5)', '12. hrudní obratel (Th12)', '1. křížový obratel (S1)'],
+                        correct: 0
+                    },
+                    {
+                        id: 26,
+                        type: 'multiple',
+                        question: 'Jaký tvar má šedá hmota míšní?',
+                        options: ['Kruhu', 'Písmene H nebo motýla', 'Hvězdy', 'Čtverce'],
+                        correct: 1
+                    },
+                    {
+                        id: 27,
+                        type: 'multiple',
+                        question: 'Co obsahuje šedá hmota míšní?',
+                        options: ['Pouze axony', 'Pouze dendrity', 'Těla neuronů', 'Myelinové pochvy'],
+                        correct: 2
+                    },
+                    {
+                        id: 28,
+                        type: 'multiple',
+                        question: 'Kde se nachází motoneurony v míše?',
+                        options: ['V zadních rozích šedé hmoty', 'V bílé hmotě', 'V centrálním kanálku', 'V předních rozích šedé hmoty'],
+                        correct: 3
+                    },
+                    {
+                        id: 29,
+                        type: 'multiple',
+                        question: 'Která dráha zajišťuje volní pohyby a kříží se v prodloužené míše?',
+                        options: ['Pyramidová dráha', 'Mimopyramidová dráha', 'Míchomozečková dráha', 'Míchohrbolová dráha'],
+                        correct: 0
+                    },
+                    {
+                        id: 30,
+                        type: 'multiple',
+                        question: 'Která dráha přenáší informace o bolesti, teple a chladu?',
+                        options: ['Pyramidová dráha', 'Míchohrbolová dráha', 'Míchomozečková dráha', 'Dráha hluboké citlivosti'],
+                        correct: 1
+                    }
+                ]
+            };
+
+            // ========================================
+            // KONEC KONFIGURACE
+            // ========================================
+
+            const { questions } = QUIZ_CONFIG;
+            const totalTime = questions.length * QUIZ_CONFIG.timePerQuestion;
+
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [showResults, setShowResults] = useState(false);
+            const [studentName, setStudentName] = useState('');
+            const [showNameInput, setShowNameInput] = useState(true);
+            const [emailStatus, setEmailStatus] = useState('');
+            const [timeLeft, setTimeLeft] = useState(totalTime);
+            const [isTimeUp, setIsTimeUp] = useState(false);
+            const timerRef = useRef(null);
+
+            // Funkce pro formátování času (MM:SS)
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            // ⏱️ ČASOVAČ
+            useEffect(() => {
+                if (!showNameInput && !showResults && !isTimeUp) {
+                    timerRef.current = setInterval(() => {
+                        setTimeLeft(prev => {
+                            if (prev <= 1) {
+                                clearInterval(timerRef.current);
+                                setIsTimeUp(true);
+                                handleFinish();
+                                return 0;
+                            }
+                            return prev - 1;
+                        });
+                    }, 1000);
+
+                    return () => clearInterval(timerRef.current);
+                }
+            }, [showNameInput, showResults, isTimeUp]);
+
+            const handleStartQuiz = () => {
+                if (studentName.trim()) {
+                    setShowNameInput(false);
+                }
+            };
+
+            const handleAnswer = (answer) => {
+                setAnswers(prev => ({
+                    ...prev,
+                    [currentQuestion]: answer
+                }));
+            };
+
+            const handleNext = () => {
+                if (currentQuestion < questions.length - 1) {
+                    setCurrentQuestion(prev => prev + 1);
+                } else {
+                    handleFinish();
+                }
+            };
+
+            const handlePrevious = () => {
+                if (currentQuestion > 0) {
+                    setCurrentQuestion(prev => prev - 1);
+                }
+            };
+
+            const calculateScore = () => {
+                let correct = 0;
+                questions.forEach((q, index) => {
+                    const userAnswer = answers[index];
+                    if (q.type === 'multiple' && userAnswer === q.correct) {
+                        correct++;
+                    } else if (q.type === 'boolean' && userAnswer === q.correct) {
+                        correct++;
+                    }
+                });
+                return correct;
+            };
+
+            const handleFinish = () => {
+                clearInterval(timerRef.current);
+                setShowResults(true);
+                
+                const score = calculateScore();
+                const percentage = Math.round((score / questions.length) * 100);
+                const timeUsed = totalTime - timeLeft;
+
+                if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey && 
+                    EMAILJS_CONFIG.publicKey !== "DOPLŇ-SEM-PUBLIC-KEY") {
+                    
+                    const detailedResults = questions.map((q, index) => {
+                        const userAnswer = answers[index];
+                        let userAnswerText, correctAnswerText, isCorrect;
+
+                        if (q.type === 'multiple') {
+                            userAnswerText = userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi';
+                            correctAnswerText = q.options[q.correct];
+                            isCorrect = userAnswer === q.correct;
+                        } else {
+                            userAnswerText = userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi';
+                            correctAnswerText = q.correct ? 'Pravda' : 'Nepravda';
+                            isCorrect = userAnswer === q.correct;
+                        }
+
+                        return `
+Otázka ${index + 1}: ${q.question}
+Odpověď studenta: ${userAnswerText}
+Správná odpověď: ${correctAnswerText}
+${isCorrect ? '✓ Správně' : '✗ Špatně'}
+`;
+                    }).join('\n');
+
+                    const templateParams = {
+                        student_name: studentName,
+                        quiz_title: QUIZ_CONFIG.title,
+                        score: score,
+                        total_questions: questions.length,
+                        percentage: percentage,
+                        time_used: formatTime(timeUsed),
+                        teacher_email: QUIZ_CONFIG.teacherEmail,
+                        detailed_results: detailedResults
+                    };
+
+                    setEmailStatus('Odesílám výsledky...');
+                    
+                    emailjs.send(
+                        EMAILJS_CONFIG.serviceId,
+                        EMAILJS_CONFIG.templateId,
+                        templateParams
+                    ).then(
+                        (response) => {
+                            console.log('Email odeslán!', response.status, response.text);
+                            setEmailStatus('✓ Výsledky byly odeslány učiteli');
+                        },
+                        (error) => {
+                            console.error('Chyba při odesílání emailu:', error);
+                            setEmailStatus('⚠ Nepodařilo se odeslat email');
+                        }
+                    );
+                } else {
+                    setEmailStatus('⚠ EmailJS není správně nakonfigurován');
+                }
+            };
+
+            if (showNameInput) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-8">
+                        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+                            <h1 className="text-2xl font-bold text-indigo-900 mb-6 text-center">
+                                {QUIZ_CONFIG.title}
+                            </h1>
+                            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                                <p className="text-gray-700 mb-2">📋 Počet otázek: <strong>{questions.length}</strong></p>
+                                <p className="text-gray-700 mb-2">⏱️ Čas na otázku: <strong>{QUIZ_CONFIG.timePerQuestion} sekund</strong></p>
+                                <p className="text-gray-700">⏰ Celkový čas: <strong>{formatTime(totalTime)}</strong></p>
+                            </div>
+                            <input
+                                type="text"
+                                value={studentName}
+                                onChange={(e) => setStudentName(e.target.value)}
+                                placeholder="Zadej své jméno a příjmení"
+                                className="w-full p-3 border-2 border-gray-300 rounded-lg mb-4 focus:border-indigo-600 focus:outline-none"
+                                onKeyPress={(e) => e.key === 'Enter' && handleStartQuiz()}
+                            />
+                            <button
+                                onClick={handleStartQuiz}
+                                disabled={!studentName.trim()}
+                                className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Začít kvíz
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (showResults) {
+                const score = calculateScore();
+                const percentage = Math.round((score / questions.length) * 100);
+                const timeUsed = totalTime - timeLeft;
+
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold text-indigo-900 mb-6 text-center">
+                                {isTimeUp ? '⏰ Čas vypršel!' : '🎉 Kvíz dokončen!'}
+                            </h1>
+                            
+                            <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg p-6 mb-6">
+                                <p className="text-xl mb-2">Student: <strong>{studentName}</strong></p>
+                                <p className="text-3xl font-bold mb-2">
+                                    Skóre: {score} / {questions.length} ({percentage}%)
+                                </p>
+                                <p className="text-lg">Čas: {formatTime(timeUsed)}</p>
+                            </div>
+
+                            {emailStatus && (
+                                <div className={`p-4 rounded-lg mb-6 text-center ${
+                                    emailStatus.includes('✓') ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'
+                                }`}>
+                                    {emailStatus}
+                                </div>
+                            )}
+
+                            <div className="mb-6">
+                                <h2 className="text-xl font-bold text-gray-800 mb-4">📊 Detailní výsledky:</h2>
+                                {questions.map((q, index) => {
+                                    const userAnswer = answers[index];
+                                    let isCorrect, userAnswerText, correctAnswerText;
+
+                                    if (q.type === 'multiple') {
+                                        isCorrect = userAnswer === q.correct;
+                                        userAnswerText = userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi';
+                                        correctAnswerText = q.options[q.correct];
+                                    } else {
+                                        isCorrect = userAnswer === q.correct;
+                                    }
+
+                                    return (
+                                        <div 
+                                            key={index}
+                                            className={`mb-4 p-4 rounded-lg border-2 ${
+                                                isCorrect ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500'
+                                            }`}
+                                        >
+                                            <div className="flex justify-between items-start">
+                                                <div className="flex-1">
+                                                    <p className="font-semibold text-gray-800 mb-2">
+                                                        {index + 1}. {q.question}
+                                                    </p>
+                                                    {q.type === 'multiple' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-700">
+                                                                Tvá odpověď: <span className={isCorrect ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                    {userAnswerText}
+                                                                </span>
+                                                            </p>
+                                                            {!isCorrect && (
+                                                                <p className="text-sm text-green-700 font-semibold">
+                                                                    Správná odpověď: {correctAnswerText}
+                                                                </p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'boolean' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-700">
+                                                                Tvá odpověď: <span className={isCorrect ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                    {userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}
+                                                                </span>
+                                                            </p>
+                                                            {!isCorrect && (
+                                                                <p className="text-sm text-green-700 font-semibold">
+                                                                    Správná odpověď: {q.correct ? 'Pravda' : 'Nepravda'}
+                                                                </p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-2xl">
+                                                    {isCorrect ? '✓' : '✗'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const q = questions[currentQuestion];
+            const isAnswered = answers[currentQuestion] !== undefined;
+            
+            const isTimeCritical = timeLeft <= 120;
+            const isTimeVeryLow = timeLeft <= 60;
+            
+            const timerColor = isTimeVeryLow 
+                ? 'bg-red-100 border-red-500' 
+                : isTimeCritical 
+                    ? 'bg-orange-100 border-orange-400' 
+                    : 'bg-blue-100 border-blue-400';
+                    
+            const timerTextColor = isTimeVeryLow 
+                ? 'text-red-800' 
+                : isTimeCritical 
+                    ? 'text-orange-800' 
+                    : 'text-blue-800';
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div className="mb-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold text-indigo-900">
+                                    Kvíz: {QUIZ_CONFIG.title}
+                                </h1>
+                                <span className="text-gray-600 font-semibold">
+                                    {currentQuestion + 1} / {questions.length}
+                                </span>
+                            </div>
+                            
+                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
+                                <div className={`text-xl font-bold ${timerTextColor}`}>
+                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
+                                </div>
+                                {isTimeCritical && (
+                                    <p className={`text-sm mt-1 ${timerTextColor}`}>
+                                        {isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}
+                                    </p>
+                                )}
+                            </div>
+                            
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div 
+                                    className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mb-8">
+                            <h2 className="text-xl text-gray-800 mb-6 leading-relaxed">
+                                {q.question}
+                            </h2>
+
+                            {q.type === 'multiple' && (
+                                <div className="space-y-3">
+                                    {q.options.map((option, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handleAnswer(index)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                                answers[currentQuestion] === index
+                                                    ? 'border-indigo-600 bg-indigo-50'
+                                                    : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                            }`}
+                                        >
+                                            <span className="font-semibold text-gray-700">{String.fromCharCode(65 + index)}.</span> {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {q.type === 'boolean' && (
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => handleAnswer(true)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                            answers[currentQuestion] === true
+                                                ? 'border-indigo-600 bg-indigo-50'
+                                                : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <span className="font-semibold text-gray-700">Pravda</span>
+                                    </button>
+                                    <button
+                                        onClick={() => handleAnswer(false)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                            answers[currentQuestion] === false
+                                                ? 'border-indigo-600 bg-indigo-50'
+                                                : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <span className="font-semibold text-gray-700">Nepravda</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button
+                                onClick={handlePrevious}
+                                disabled={currentQuestion === 0}
+                                className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ← Zpět
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                disabled={!isAnswered}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
+                            </button>
+                        </div>
+
+                        {!isAnswered && (
+                            <p className="text-center text-gray-500 text-sm mt-4">
+                                Pro pokračování vyber odpověď
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MuscleQuiz />);
+    </script>
+</body>
+</html>
