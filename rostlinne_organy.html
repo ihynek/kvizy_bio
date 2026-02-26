@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rostlinné orgány</title>
+    <title>Trávicí soustava</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -51,7 +51,7 @@
                 teacherEmail: "hynek@gymberoun.cz",
                 timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
-                questions: [
+               questions: [
     // ═══════════════════════════════════════════════════════════
     // KOŘEN (10 otázek: 2 ANO/NE, 6 MC, 2 Checkbox)
     // ═══════════════════════════════════════════════════════════
@@ -142,27 +142,27 @@
     },
     {
         id: 9,
-        type: 'checkbox',
-        question: 'Které z následujících jsou funkce kořene?',
+        type: 'multiple',
+        question: 'Která z následujících NENÍ funkcí kořene?',
         options: [
             'Zakotvení rostliny v půdě',
             'Příjem vody a minerálních látek',
             'Fotosyntéza',
             'Ukládání zásobních látek'
         ],
-        correct: [0, 1, 3]
+        correct: 2
     },
     {
         id: 10,
-        type: 'checkbox',
-        question: 'Které rostliny spolupracují s hlízkovými bakteriemi?',
+        type: 'multiple',
+        question: 'Která z následujících rostlin NESPOLUPRACUJE s hlízkovými bakteriemi?',
         options: [
             'Hrách setý',
             'Olše',
             'Smrk ztepilý',
             'Vojtěška'
         ],
-        correct: [0, 1, 3]
+        correct: 2
     },
 
     // ═══════════════════════════════════════════════════════════
@@ -255,27 +255,27 @@
     },
     {
         id: 19,
-        type: 'checkbox',
-        question: 'Které z následujících jsou metamorfózy stonku?',
+        type: 'multiple',
+        question: 'Která z následujících NENÍ metamorfózou stonku?',
         options: [
             'Oddenek',
             'Šlahoun',
             'Kořenová hlíza jiřiny',
             'Cibule'
         ],
-        correct: [0, 1, 3]
+        correct: 2
     },
     {
         id: 20,
-        type: 'checkbox',
-        question: 'Které z následujících stonků obsahují dřevo (jsou dřevnaté)?',
+        type: 'multiple',
+        question: 'Které z následujících stonků NEOBSAHUJÍ dřevo (nejsou dřevnaté)?',
         options: [
             'Stonky stromů',
             'Stonky keřů',
             'Stébla trav',
-            'Stonky jednoletých bylin'
+            'Stonky dřevitých liánů'
         ],
-        correct: [0, 1]
+        correct: 2
     },
 
     // ═══════════════════════════════════════════════════════════
@@ -386,15 +386,15 @@
     },
     {
         id: 30,
-        type: 'checkbox',
-        question: 'Které z následujících jsou metamorfózy listu?',
+        type: 'multiple',
+        question: 'Která z následujících NENÍ metamorfózou listu?',
         options: [
             'Úponky hrachu',
             'Trny kaktusu',
             'Šlahoun jahodníku',
             'Sukulentní listy netřesku'
         ],
-        correct: [0, 1, 3]
+        correct: 2
     }
 ]
 
