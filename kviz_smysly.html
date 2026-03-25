@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smyslové orgány</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        /* 
+        =============================================================================
+        EMAILJS KONFIGURACE - DOPLŇ ÚDAJE ZE SVÉHO EMAILJS ÚČTU
+        =============================================================================
+        */
+
+        // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        const EMAILJS_CONFIG = {
+            publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
+            serviceId: "service_t5uuqhn",      // z Email Services
+            templateId: "template_3retggz"     // z Email Templates
+        };
+
+        // Inicializace EmailJS
+        if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== "DOPLŇ-SEM-PUBLIC-KEY") {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
+
+        /* 
+        =============================================================================
+        UNIVERZÁLNÍ KVÍZ PRO STUDENTY
+        =============================================================================
+        */
+
+        const MuscleQuiz = () => {
+            // ========================================
+            // NASTAVENÍ KVÍZU - TADY MĚNÍŠ OBSAH
+            // ========================================
+            
+            const QUIZ_CONFIG = {
+                title: "Smyslové orgány",
+                teacherEmail: "hynek@gymberoun.cz",
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                
+    questions: [
+    {
+        id: 1,
+        type: 'boolean',
+        question: 'Zrak je pro člověka nejdůležitější smysl a zajišťuje přibližně 80 % všech informací z okolního prostředí.',
+        correct: true
+    },
+    {
+        id: 2,
+        type: 'boolean',
+        question: 'Tyčinky v sítnici umožňují barevné vidění a jsou nejaktivnější za plného denního světla.',
+        correct: false
+    },
+    {
+        id: 3,
+        type: 'boolean',
+        question: 'Eustachova trubice slouží k vyrovnávání tlaku ve středním uchu s tlakem atmosférickým.',
+        correct: true
+    },
+    {
+        id: 4,
+        type: 'boolean',
+        question: 'Čich je méně citlivý než chuť – chemoreceptory jazyka dokáží rozlišit více různých látek než čichová sliznice.',
+        correct: false
+    },
+    {
+        id: 5,
+        type: 'boolean',
+        question: 'Vestibulární ústrojí (rovnovážný orgán) je součástí vnitřního ucha.',
+        correct: true
+    },
+    {
+        id: 6,
+        type: 'multiple',
+        question: 'Viditelné záření, na které reaguje lidské oko, má vlnovou délku přibližně:',
+        options: [
+            '100 – 200 nm',
+            '380 – 780 nm',
+            '800 – 1200 nm',
+            '10 – 50 nm'
+        ],
+        correct: 1
+    },
+    {
+        id: 7,
+        type: 'multiple',
+        question: 'Akomodace oka je:',
+        options: [
+            'Automatická reakce zornice na světlo',
+            'Zaostřování změnou tvaru čočky na různě vzdálené předměty',
+            'Schopnost rozlišovat barvy',
+            'Pohyb oční koule pomocí okohybných svalů'
+        ],
+        correct: 1
+    },
+    {
+        id: 8,
+        type: 'multiple',
+        question: 'Zornicový reflex je:',
+        options: [
+            'Automatické mrknutí při podráždění rohovky',
+            'Změna tvaru čočky při pohledu na blízký předmět',
+            'Automatická změna průměru zornice v závislosti na intenzitě světla',
+            'Pohyb očí při sledování pohybujícího se předmětu'
+        ],
+        correct: 2
+    },
+    {
+        id: 9,
+        type: 'multiple',
+        question: 'Žlutá skvrna (fovea) je:',
+        options: [
+            'Místo výstupu zrakového nervu, bez fotoreceptorů',
+            'Oblast sítnice s vysokou hustotou tyčinek a žádnými čípky',
+            'Malá jamka přesně v optické ose oka – místo nejostřejšího vidění',
+            'Pigmentovaná vrstva pod bělimou'
+        ],
+        correct: 2
+    },
+    {
+        id: 10,
+        type: 'multiple',
+        question: 'Slepá skvrna vzniká proto, že:',
+        options: [
+            'V tomto místě sítnice jsou pouze tyčinky, žádné čípky',
+            'Je to místo výstupu zrakového nervu, prakticky bez fotoreceptorů',
+            'Zde dopadá světlo přímo na cévnatku, nikoli na sítnici',
+            'Čočka vrhá na toto místo rozostřený obraz'
+        ],
+        correct: 1
+    },
+    {
+        id: 11,
+        type: 'multiple',
+        question: 'Krátkozrakost (myopie) vzniká proto, že:',
+        options: [
+            'Obraz vzdálených předmětů se promítá za sítnici',
+            'Čočka je příliš plochá a nestačí lámat světlo',
+            'Obraz vzdálených předmětů se promítá před sítnici',
+            'Rohovka má vadné zakřivení a rozptyluje světlo do různých bodů'
+        ],
+        correct: 2
+    },
+    {
+        id: 12,
+        type: 'multiple',
+        question: 'Astigmatismus je způsoben:',
+        options: [
+            'Nedostatečnou funkcí tyčinek',
+            'Vadným zakřivením rohovky – obraz bodu se promítá na různá místa sítnice',
+            'Příliš silnou čočkou, která láme světlo před sítnici',
+            'Usazováním látek v čočce'
+        ],
+        correct: 1
+    },
+    {
+        id: 13,
+        type: 'multiple',
+        question: 'Šeroslepost je nejčastěji důsledkem:',
+        options: [
+            'Nedostatku vitaminu C',
+            'Poruchy čípků',
+            'Nedostatku vitaminu A, který je potřebný k tvorbě rodopsinu',
+            'Zvýšeného nitroočního tlaku'
+        ],
+        correct: 2
+    },
+    {
+        id: 14,
+        type: 'multiple',
+        question: 'Zelený zákal (glaukom) je způsoben:',
+        options: [
+            'Usazováním látek v čočce vedoucím k jejímu zákalu',
+            'Zánětem spojivky vlivem prachu nebo UV záření',
+            'Zvýšením tlaku tekutiny uvnitř oka, které může poškodit sítnici nebo zrakový nerv',
+            'Poruchou funkce slzných žláz'
+        ],
+        correct: 2
+    },
+    {
+        id: 15,
+        type: 'multiple',
+        question: 'Šedý zákal (katarakta) je stav, při němž:',
+        options: [
+            'Dochází ke zvýšení nitroočního tlaku',
+            'Rohovka ztrácí průhlednost a přestává lámat světlo',
+            'Se látky usazují v čočce a způsobují její zákal – zamlžený zrakový vjem',
+            'Se sítnice odchlipuje od cévnatky'
+        ],
+        correct: 2
+    },
+    {
+        id: 16,
+        type: 'multiple',
+        question: 'Sluchový orgán patří mezi mechanoreceptory, protože:',
+        options: [
+            'Reaguje na chemické látky obsažené ve vzduchu',
+            'Reaguje na tlakové vlny – mechanické podráždění způsobené zvukovým vlněním',
+            'Je citlivý na teplotu vzduchu',
+            'Detekuje elektromagnetické záření'
+        ],
+        correct: 1
+    },
+    {
+        id: 17,
+        type: 'multiple',
+        question: 'Lidské ucho vnímá zvukové vlny v rozsahu frekvencí přibližně:',
+        options: [
+            '1 – 1 000 Hz',
+            '20 – 20 000 Hz',
+            '100 – 100 000 Hz',
+            '0,1 – 100 Hz'
+        ],
+        correct: 1
+    },
+    {
+        id: 18,
+        type: 'multiple',
+        question: 'Sluchové kůstky (kladívko, kovadlinka, třmínek) přenášejí vibrace:',
+        options: [
+            'Z vnitřního ucha do středního',
+            'Z Cortiho orgánu na sluchový nerv',
+            'Z bubínku na oválné okénko vnitřního ucha',
+            'Z boltce do zvukovodu'
+        ],
+        correct: 2
+    },
+    {
+        id: 19,
+        type: 'multiple',
+        question: 'Cortiho orgán je umístěn v:',
+        options: [
+            'Středním uchu na povrchu bubínku',
+            'Vestibulárním ústrojí – v polokruhovitých kanálcích',
+            'Blanitém hlemýždi vnitřního ucha',
+            'Zevním zvukovodu'
+        ],
+        correct: 2
+    },
+    {
+        id: 20,
+        type: 'multiple',
+        question: 'Otolity jsou:',
+        options: [
+            'Vláskové buňky Cortiho orgánu reagující na zvuk',
+            'Krystalky uhličitanu vápenatého v rovnovážném ústrojí, jejichž pohyb stimuluje receptory',
+            'Tekutina vyplňující blanitý hlemýžď',
+            'Nejmenší kosti lidského těla přenášející zvuk'
+        ],
+        correct: 1
+    },
+    {
+        id: 21,
+        type: 'multiple',
+        question: 'Polokruhovité kanálky vestibulárního ústrojí registrují:',
+        options: [
+            'Přímočaré zrychlení a polohu hlavy vůči gravitaci',
+            'Výšku tónu zvukového podnětu',
+            'Rotační pohyby – úhlové zrychlení',
+            'Intenzitu světla dopadajícího na sítnici'
+        ],
+        correct: 2
+    },
+    {
+        id: 22,
+        type: 'multiple',
+        question: 'Chemoreceptory jazyka jsou uspořádány ve skupinách zvaných:',
+        options: [
+            'Čichový epitel',
+            'Chuťové pohárky umístěné v chuťových bradavkách',
+            'Paciniho tělíska',
+            'Cortiho orgány'
+        ],
+        correct: 1
+    },
+    {
+        id: 23,
+        type: 'multiple',
+        question: 'Proč při rýmě „nemá jídlo chuť"?',
+        options: [
+            'Rýma způsobuje otok jazyka, který znemožňuje kontakt potravy s chuťovými pohárky',
+            'Při rýmě je čichová sliznice pokryta hlenem – čich nefunguje a jemnější odstíny chuti, které zprostředkovává čich, nejsou vnímány',
+            'Rýma blokuje tvorbu slin, bez nichž se látky nemohou vázat na chuťové receptory',
+            'Virová infekce při rýmě přímo poškozuje chuťové buňky jazyka'
+        ],
+        correct: 1
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'Receptory bolesti (nociceptory) se od ostatních kožních receptorů liší tím, že:',
+        options: [
+            'Jsou umístěny pouze v hlubokých vrstvách kůže',
+            'Se neadaptují – jejich citlivost neklesá při dlouhodobém působení podnětu',
+            'Reagují výhradně na teplotní podněty',
+            'Jsou tvořeny specializovanými smyslovými buňkami s dlouhými výběžky'
+        ],
+        correct: 1
+    },
+    {
+        id: 25,
+        type: 'multiple',
+        question: 'Termoreceptory chladu jsou ve srovnání s termoreceptory tepla:',
+        options: [
+            'Mnohem méně početné a uložené hlouběji v kůži',
+            'Stejně početné, liší se pouze prahem citlivosti',
+            'Mnohem početnější a uložené povrchově ve škáře',
+            'Přítomny pouze na hřbetu ruky a v kůži obličeje'
+        ],
+        correct: 2
+    },
+    {
+        id: 26,
+        type: 'multiple',
+        question: 'Příliš silný bolestivý podnět tělo tlumí produkcí:',
+        options: [
+            'Adrenalinu, který zvyšuje práh bolesti',
+            'Endorfinů – vnitřních opiátů',
+            'Kortizolu, který blokuje nociceptory',
+            'Histaminu, který snižuje zánětlivou reakci'
+        ],
+        correct: 1
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'Základem pigmentu rodopsinu v tyčinkách je:',
+        options: [
+            'Vitamin D',
+            'Železo',
+            'Vitamin A',
+            'Jód'
+        ],
+        correct: 2
+    },
+    {
+        id: 28,
+        type: 'multiple',
+        question: 'Barvoslepost (daltonismus) je porucha, při níž:',
+        options: [
+            'Pacient nevidí za šera kvůli poruše tyčinek',
+            'Jsou poškozeny určité typy čípků – nejčastěji pro červenou a zelenou barvu',
+            'Dochází k zánětu spojivky způsobenému alergenními látkami',
+            'Čočka ztrácí průhlednost a způsobuje zamlžené vidění'
+        ],
+        correct: 1
+    },
+    {
+        id: 29,
+        type: 'multiple',
+        question: 'Slzná tekutina obsahuje enzym lysozym, jehož funkcí je:',
+        options: [
+            'Zaostřování obrazu na sítnici',
+            'Regulace průměru zornice',
+            'Desinfekce – ochrana povrchu oka před infekcí',
+            'Výživa čočky a rohovky'
+        ],
+        correct: 2
+    },
+    {
+        id: 30,
+        type: 'multiple',
+        question: 'Proč lidé za šera vidí lépe „postranním pohledem" než přímým pohledem na sledovaný objekt?',
+        options: [
+            'Při postranním pohledu se čočka více zakřiví a zlepší zaostření',
+            'Zornice je při postranním pohledu více rozšířena',
+            'Přímý pohled směřuje obraz na žlutou skvrnu s čípky, které za šera nefungují; postranní pohled dopadá na oblast bohatou na tyčinky',
+            'Okohybné svaly jsou v relaxovaném stavu a oko méně namáhá čočku'
+        ],
+        correct: 2
+    }
+]
+            };
+            
+            // ========================================
+            // KONEC NASTAVENÍ
+            // ========================================
+
+            const shuffleArray = (array) => {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            // 🎲 Zamíchání otázek + odpovědí
+            const [questions, setQuestions] = useState(() => {
+                const shuffledQuestions = shuffleArray(QUIZ_CONFIG.questions);
+                // Pro každou otázku typu 'multiple' zamíchat i odpovědi
+                return shuffledQuestions.map(q => {
+                    if (q.type === 'multiple') {
+                        const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+                        const shuffledOptions = shuffleArray(optionsWithIndex);
+                        return {
+                            ...q,
+                            options: shuffledOptions.map(o => o.text),
+                            correct: shuffledOptions.findIndex(o => o.originalIndex === q.correct)
+                        };
+                    }
+                    return q;
+                });
+            });
+            
+            const [currentQuestion, setCurrentQuestion] = useState(0);
+            const [answers, setAnswers] = useState({});
+            const [showResults, setShowResults] = useState(false);
+            const [studentFirstName, setStudentFirstName] = useState('');
+            const [studentLastName, setStudentLastName] = useState('');
+            const [isSending, setIsSending] = useState(false);
+            const [emailSent, setEmailSent] = useState(false);
+            const [quizCompleted, setQuizCompleted] = useState(false);
+            
+            // ⏱️ ČASOVAČ - nové state proměnné
+            const totalTimeLimit = QUIZ_CONFIG.timePerQuestion * questions.length;
+            const [timeLeft, setTimeLeft] = useState(totalTimeLimit);
+            const [startTime] = useState(Date.now());
+            const timeExpiredRef = useRef(false);
+            
+            // 🔍 DETEKCE PŘEPÍNÁNÍ OKEN
+            const [windowSwitches, setWindowSwitches] = useState(0);
+
+            // ⏱️ ČASOVAČ - odpočítávání
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+
+                const timer = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    const remaining = totalTimeLimit - elapsed;
+                    
+                    if (remaining <= 0 && !timeExpiredRef.current) {
+                        timeExpiredRef.current = true;
+                        setTimeLeft(0);
+                        setShowResults(true);
+                    } else {
+                        setTimeLeft(Math.max(0, remaining));
+                    }
+                }, 1000);
+
+                return () => clearInterval(timer);
+            }, [startTime, totalTimeLimit, showResults, quizCompleted]);
+
+            // 🔍 DETEKCE PŘEPÍNÁNÍ OKEN
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+
+                const handleVisibilityChange = () => {
+                    if (document.hidden) {
+                        setWindowSwitches(prev => prev + 1);
+                    }
+                };
+
+                const handleBlur = () => {
+                    setWindowSwitches(prev => prev + 1);
+                };
+
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                window.addEventListener('blur', handleBlur);
+
+                return () => {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    window.removeEventListener('blur', handleBlur);
+                };
+            }, [showResults, quizCompleted]);
+
+            // 🔒 ZÁKAZ KOPÍROVÁNÍ TEXTU
+            useEffect(() => {
+                const preventCopy = (e) => e.preventDefault();
+                const preventContextMenu = (e) => e.preventDefault();
+
+                document.addEventListener('copy', preventCopy);
+                document.addEventListener('cut', preventCopy);
+                document.addEventListener('contextmenu', preventContextMenu);
+
+                return () => {
+                    document.removeEventListener('copy', preventCopy);
+                    document.removeEventListener('cut', preventCopy);
+                    document.removeEventListener('contextmenu', preventContextMenu);
+                };
+            }, []);
+
+            // Formátování času pro zobrazení
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins} minut ${secs} sekund`;
+            };
+
+            // Zjištění skutečného času strávení
+            const getElapsedTime = () => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                return Math.min(elapsed, totalTimeLimit);
+            };
+
+            // Kontrola, jestli student už kvíz vyplnil
+            useEffect(() => {
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const isCompleted = localStorage.getItem(completedKey);
+                if (isCompleted) {
+                    setQuizCompleted(true);
+                }
+            }, []);
+
+            const handleAnswer = (answer) => {
+                setAnswers({ ...answers, [currentQuestion]: answer });
+            };
+
+            const handleNext = () => {
+                if (currentQuestion < questions.length - 1) {
+                    setCurrentQuestion(currentQuestion + 1);
+                } else {
+                    setShowResults(true);
+                }
+            };
+
+            const handlePrevious = () => {
+                if (currentQuestion > 0) {
+                    setCurrentQuestion(currentQuestion - 1);
+                }
+            };
+
+            const calculateScore = () => {
+                let score = 0;
+                questions.forEach((q, index) => {
+                    if (q.type === 'boolean') {
+                        if (answers[index] === q.correct) score++;
+                    } else if (q.type === 'multiple') {
+                        if (answers[index] === q.correct) score++;
+                    }
+                });
+                return score;
+            };
+
+            const sendResultsEmail = async () => {
+                if (!studentFirstName.trim() || !studentLastName.trim()) {
+                    alert('Prosím vyplň své jméno i příjmení.');
+                    return;
+                }
+
+                if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
+                    alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                setIsSending(true);
+
+                const score = calculateScore();
+                const percentage = (score / questions.length * 100).toFixed(1);
+                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const fullName = `${studentFirstName} ${studentLastName}`;
+                const elapsedSeconds = getElapsedTime();
+                const timeSpent = formatTime(elapsedSeconds);
+                
+                // NEJDŘÍVE označit kvíz jako dokončený
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const completionData = {
+                    name: fullName,
+                    date: new Date().toISOString(),
+                    score: `${score}/${questions.length}`,
+                    time: timeSpent,
+                    windowSwitches: windowSwitches
+                };
+                localStorage.setItem(completedKey, JSON.stringify(completionData));
+                
+                // Vytvoření přehledu odpovědí
+                let answersDetails = '';
+                questions.forEach((q, index) => {
+                    const userAnswer = answers[index];
+                    const isCorrect = q.type === 'boolean' 
+                        ? userAnswer === q.correct 
+                        : userAnswer === q.correct;
+                    
+                    answersDetails += `${index + 1}. ${q.question}\n`;
+                    
+                    if (q.type === 'multiple') {
+                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správná odpověď: ${q.options[q.correct]}\n`;
+                    } else if (q.type === 'boolean') {
+                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správná odpověď: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                    }
+                    
+                    answersDetails += `   Výsledek: ${isCorrect ? '✓ Správně' : '✗ Špatně'}\n\n`;
+                });
+
+                const templateParams = {
+                    to_email: QUIZ_CONFIG.teacherEmail,
+                    student_name: fullName,
+                    quiz_title: QUIZ_CONFIG.title,
+                    score: `${score}/${questions.length}`,
+                    percentage: `${percentage}%`,
+                    grade: grade,
+                    date: new Date().toLocaleDateString('cs-CZ'),
+                    time: timeSpent,
+                    window_switches: windowSwitches, // 🔍 Počet přepnutí oken
+                    answers_details: answersDetails
+                };
+
+                try {
+                    await emailjs.send(
+                        EMAILJS_CONFIG.serviceId,
+                        EMAILJS_CONFIG.templateId,
+                        templateParams
+                    );
+                    
+                    setEmailSent(true);
+                    alert('✓ Výsledky byly úspěšně odeslány učiteli!');
+                } catch (error) {
+                    console.error('Chyba při odesílání e-mailu:', error);
+                    alert('Nepodařilo se odeslat e-mail. Zkus to prosím znovu nebo kontaktuj učitele.');
+                } finally {
+                    setIsSending(false);
+                }
+            };
+
+            // Zobrazení hlášky, když už byl kvíz vyplněn
+            if (quizCompleted) {
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                const completionData = JSON.parse(localStorage.getItem(completedKey) || '{}');
+                
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <div className="text-center">
+                                <div className="text-6xl mb-4">🔒</div>
+                                <h1 className="text-3xl font-bold text-indigo-900 mb-4">
+                                    Kvíz již byl vyplněn
+                                </h1>
+                                <p className="text-gray-700 text-lg mb-6">
+                                    Tento kvíz jsi již dokončil a odeslal učiteli.
+                                </p>
+                                {completionData.name && (
+                                    <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                        <p className="text-gray-700 mb-2">
+                                            <strong>Jméno:</strong> {completionData.name}
+                                        </p>
+                                        <p className="text-gray-700 mb-2">
+                                            <strong>Výsledek:</strong> {completionData.score}
+                                        </p>
+                                        {completionData.time && (
+                                            <p className="text-gray-700 mb-2">
+                                                <strong>Čas:</strong> {completionData.time}
+                                            </p>
+                                        )}
+                                        {completionData.windowSwitches !== undefined && completionData.windowSwitches > 0 && (
+                                            <p className="text-gray-700 mb-2">
+                                                <strong>Přepnutí oken:</strong> {completionData.windowSwitches}×
+                                            </p>
+                                        )}
+                                        <p className="text-gray-700">
+                                            <strong>Datum:</strong> {new Date(completionData.date).toLocaleString('cs-CZ')}
+                                        </p>
+                                    </div>
+                                )}
+                                <p className="text-gray-600 text-sm">
+                                    Každý student může kvíz vyplnit pouze jednou. Pokud si myslíš, že je to chyba, kontaktuj svého učitele.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (showResults) {
+                const score = calculateScore();
+                const percentage = (score / questions.length * 100).toFixed(1);
+                const elapsedSeconds = getElapsedTime();
+                const timeSpent = formatTime(elapsedSeconds);
+                const wasTimeExpired = timeExpiredRef.current;
+                
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold text-center text-indigo-900 mb-6">
+                                Výsledky kvízu
+                            </h1>
+                            
+                            {/* ⏱️ ZOBRAZENÍ ČASU */}
+                            <div className={`border-2 rounded-lg p-4 mb-4 text-center ${wasTimeExpired ? 'bg-red-100 border-red-400' : 'bg-blue-100 border-blue-400'}`}>
+                                <div className={`text-2xl font-bold ${wasTimeExpired ? 'text-red-800' : 'text-blue-800'}`}>
+                                    {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
+                                </div>
+                                {wasTimeExpired && (() => {
+                                    const unansweredCount = questions.length - Object.keys(answers).length;
+                                    return (
+                                        <p className="text-red-700 text-sm mt-2">
+                                            Kvíz byl automaticky ukončen po {formatTime(totalTimeLimit)}. Nevyplněné otázky jsou hodnoceny 0 body.
+                                            <br />
+                                            <strong>Nezodpovězených otázek: {unansweredCount}</strong>
+                                        </p>
+                                    );
+                                })()}
+                            </div>
+
+                            {/* 🔍 ZOBRAZENÍ PŘEPNUTÍ OKEN */}
+                            {windowSwitches > 0 && (
+                                <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-6 text-center">
+                                    <div className="text-xl font-bold text-orange-800">
+                                        ⚠️ Přepnutí oken: {windowSwitches}×
+                                    </div>
+                                    <p className="text-orange-700 text-sm mt-2">
+                                        Během kvízu jsi {windowSwitches}× přepnul na jinou záložku nebo okno. Tato informace bude odeslána učiteli.
+                                    </p>
+                                </div>
+                            )}
+                            
+                            <div className="text-center mb-8">
+                                <div className="text-6xl font-bold text-indigo-600 mb-2">
+                                    {score} / {questions.length}
+                                </div>
+                                <div className="text-2xl text-gray-700">
+                                    {percentage}%
+                                </div>
+                                <div className="mt-4 text-lg font-semibold">
+                                    {percentage < 29 ? (
+                                        <span className="text-red-600">Celkové hodnocení: 5</span>
+                                    ) : percentage <= 49 ? (
+                                        <span className="text-orange-600">Celkové hodnocení: 4</span>
+                                    ) : percentage <= 79 ? (
+                                        <span className="text-yellow-600">Celkové hodnocení: 3</span>
+                                    ) : percentage <= 89 ? (
+                                        <span className="text-blue-600">Celkové hodnocení: 2</span>
+                                    ) : (
+                                        <span className="text-green-600">Celkové hodnocení: 1</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            {!emailSent && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                    <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
+                                    <p className="text-gray-600 text-sm mb-4">
+                                        {wasTimeExpired 
+                                            ? 'Čas vypršel. Pro odeslání výsledků vyplň své jméno a příjmení.'
+                                            : 'Vyplň své jméno a příjmení. Výsledky budou automaticky odeslány učiteli.'
+                                        }
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-3 mb-3">
+                                        <input
+                                            type="text"
+                                            placeholder="Jméno"
+                                            value={studentFirstName}
+                                            onChange={(e) => setStudentFirstName(e.target.value)}
+                                            disabled={isSending}
+                                            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100"
+                                        />
+                                        <input
+                                            type="text"
+                                            placeholder="Příjmení"
+                                            value={studentLastName}
+                                            onChange={(e) => setStudentLastName(e.target.value)}
+                                            disabled={isSending}
+                                            className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100"
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={() => sendResultsEmail()}
+                                        disabled={isSending}
+                                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
+                                    >
+                                        {isSending ? 'Odesílám...' : 'Odeslat výsledky učiteli'}
+                                    </button>
+                                </div>
+                            )}
+
+                            {emailSent && (
+                                <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6 mb-6 text-center">
+                                    <div className="text-4xl mb-2">✓</div>
+                                    <p className="text-green-800 font-semibold text-lg mb-2">
+                                        Výsledky byly úspěšně odeslány učiteli!
+                                    </p>
+                                    <p className="text-gray-800 font-bold text-2xl mt-4">
+                                        Nyní můžeš zavřít prohlížeč.
+                                    </p>
+                                </div>
+                            )}
+
+                            <div className="space-y-4">
+                                <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
+                                {questions.map((q, index) => {
+                                    const userAnswer = answers[index];
+                                    const isCorrect = q.type === 'boolean' 
+                                        ? userAnswer === q.correct 
+                                        : userAnswer === q.correct;
+                                    
+                                    return (
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${isCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                            <div className="flex items-start gap-2">
+                                                <span className="font-bold text-gray-700">{index + 1}.</span>
+                                                <div className="flex-1">
+                                                    <p className="text-gray-800 mb-2">{q.question}</p>
+                                                    {q.type === 'multiple' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">
+                                                                Tvá odpověď: <span className={isCorrect ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                    {userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}
+                                                                </span>
+                                                            </p>
+                                                            {!isCorrect && (
+                                                                <p className="text-sm text-green-700 font-semibold">
+                                                                    Správná odpověď: {q.options[q.correct]}
+                                                                </p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'boolean' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">
+                                                                Tvá odpověď: <span className={isCorrect ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                    {userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}
+                                                                </span>
+                                                            </p>
+                                                            {!isCorrect && (
+                                                                <p className="text-sm text-green-700 font-semibold">
+                                                                    Správná odpověď: {q.correct ? 'Pravda' : 'Nepravda'}
+                                                                </p>
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-2xl">
+                                                    {isCorrect ? '✓' : '✗'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            const q = questions[currentQuestion];
+            const isAnswered = answers[currentQuestion] !== undefined;
+            
+            // Výpočet barev podle zbývajícího času
+            const isTimeCritical = timeLeft <= 120; // 2 minuty nebo méně
+            const isTimeVeryLow = timeLeft <= 60; // 1 minuta nebo méně
+            
+            const timerColor = isTimeVeryLow 
+                ? 'bg-red-100 border-red-500' 
+                : isTimeCritical 
+                    ? 'bg-orange-100 border-orange-400' 
+                    : 'bg-blue-100 border-blue-400';
+                    
+            const timerTextColor = isTimeVeryLow 
+                ? 'text-red-800' 
+                : isTimeCritical 
+                    ? 'text-orange-800' 
+                    : 'text-blue-800';
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div className="mb-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold text-indigo-900">
+                                    Kvíz: {QUIZ_CONFIG.title}
+                                </h1>
+                                <span className="text-gray-600 font-semibold">
+                                    {currentQuestion + 1} / {questions.length}
+                                </span>
+                            </div>
+                            
+                            {/* ⏱️ ZOBRAZENÍ ČASOVAČE */}
+                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
+                                <div className={`text-xl font-bold ${timerTextColor}`}>
+                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
+                                </div>
+                                {isTimeCritical && (
+                                    <p className={`text-sm mt-1 ${timerTextColor}`}>
+                                        {isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}
+                                    </p>
+                                )}
+                            </div>
+                            
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div 
+                                    className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mb-8">
+                            <h2 className="text-xl text-gray-800 mb-6 leading-relaxed">
+                                {q.question}
+                            </h2>
+
+                            {q.type === 'multiple' && (
+                                <div className="space-y-3">
+                                    {q.options.map((option, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handleAnswer(index)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                                answers[currentQuestion] === index
+                                                    ? 'border-indigo-600 bg-indigo-50'
+                                                    : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                            }`}
+                                        >
+                                            <span className="font-semibold text-gray-700">{String.fromCharCode(65 + index)}.</span> {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {q.type === 'boolean' && (
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => handleAnswer(true)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                            answers[currentQuestion] === true
+                                                ? 'border-indigo-600 bg-indigo-50'
+                                                : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <span className="font-semibold text-gray-700">Pravda</span>
+                                    </button>
+                                    <button
+                                        onClick={() => handleAnswer(false)}
+                                        className={`w-full text-left p-4 rounded-lg border-2 transition ${
+                                            answers[currentQuestion] === false
+                                                ? 'border-indigo-600 bg-indigo-50'
+                                                : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                        }`}
+                                    >
+                                        <span className="font-semibold text-gray-700">Nepravda</span>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button
+                                onClick={handlePrevious}
+                                disabled={currentQuestion === 0}
+                                className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ← Zpět
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                disabled={!isAnswered}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
+                            </button>
+                        </div>
+
+                        {!isAnswered && (
+                            <p className="text-center text-gray-500 text-sm mt-4">
+                                Pro pokračování vyber odpověď
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MuscleQuiz />);
+    </script>
+</body>
+</html>
