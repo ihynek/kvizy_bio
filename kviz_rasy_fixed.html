@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Řasy</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const EMAILJS_CONFIG = {
+            publicKey: "3b0esMCXl9fZX1QHi",
+            serviceId: "service_t5uuqhn",
+            templateId: "template_3retggz"
+        };
+
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
+
+        const MuscleQuiz = () => {
+
+            const QUIZ_CONFIG = {
+                title: "Řasy",
+                teacherEmail: "hynek@gymberoun.cz",
+                timePerQuestion: 15,
+
+                questions: [
+                    // ── ANO / NE (5) ──────────────────────────────────────────
+                    { id: 1, type: 'boolean', question: 'Řasy jsou polyfyletická skupina – různé skupiny řas vznikly ve více nezávislých vývojových liniích.', correct: true },
+                    { id: 2, type: 'boolean', question: 'Chloroplasty červených řas vznikly sekundární endosymbiózou – stejně jako chloroplasty krásnoočka.', correct: false },
+                    { id: 3, type: 'boolean', question: 'Krásnoočka (Euglenophyta) patří do superskupiny Excavata, nikoli do Archaeplastida.', correct: true },
+                    { id: 4, type: 'boolean', question: 'Pyrenoidy jsou bílkovinná tělíska v chloroplastech, která slouží jako centrum syntézy škrobu.', correct: true },
+                    { id: 5, type: 'boolean', question: 'Červené řasy mají bičíkaté stadium – jejich gamety se pohybují pomocí bičíků.', correct: false },
+
+                    // ── MULTIPLE CHOICE (20) ──────────────────────────────────
+                    { id: 6,  type: 'multiple', question: 'Jak se nazývá tělo řas, které není diferencované na kořen, stonek a list?', options: ['Thallus (stélka)', 'Kormus', 'Rhizom', 'Sporofyt'], correct: 0 },
+                    { id: 7,  type: 'multiple', question: 'Který chlorofyl je přítomen ve VŠECH skupinách řas?', options: ['Chlorofyl b', 'Chlorofyl c', 'Chlorofyl a', 'Chlorofyl d'], correct: 2 },
+                    { id: 8,  type: 'multiple', question: 'Do které superskupiny patří zelené řasy i červené řasy?', options: ['SAR – Stramenopila', 'Excavata', 'Opisthokonta', 'Archaeplastida'], correct: 3 },
+                    { id: 9,  type: 'multiple', question: 'Jaká zásobní látka je typická výhradně pro krásnoočka (Euglenophyta)?', options: ['Paramylon', 'Škrob', 'Glykogen', 'Inulin'], correct: 0 },
+                    { id: 10, type: 'multiple', question: 'Jaký způsob pohlavního rozmnožování je typický pro šroubatku (Spirogyra)?', options: ['Konjugace (spájení)', 'Oogamie', 'Zoosporogonie', 'Fragmentace stélky'], correct: 0 },
+                    { id: 11, type: 'multiple', question: 'Která skupina řas dosahuje délky stélek až 70 m a je zdrojem alginátů?', options: ['Červené řasy (Rhodophyta)', 'Zelené řasy (Chlorophyta)', 'Rozsivky (Bacillariophyceae)', 'Hnědé řasy / Chaluhy (Phaeophyceae)'], correct: 3 },
+                    { id: 12, type: 'multiple', question: 'Co je frustul u rozsivek?', options: ['Typ bičíku pro pohyb ve vodě', 'Dvoudílná křemičitá schránka ze SiO₂', 'Zásobní organela s chrysolaminarem', 'Světločivná skvrna reagující na světlo'], correct: 1 },
+                    { id: 13, type: 'multiple', question: 'Z fosilních schránek rozsivek vzniká usazená hornina:', options: ['Vápenec', 'Křemelina (diatomit)', 'Granit', 'Rula'], correct: 1 },
+                    { id: 14, type: 'multiple', question: 'Chara (parožnatka) patří systematicky do skupiny:', options: ['Zelené řasy (Archaeplastida)', 'Červené řasy (Archaeplastida)', 'Hnědé řasy (SAR – Stramenopila)', 'Krásnoočka (Excavata)'], correct: 0 },
+                    { id: 15, type: 'multiple', question: 'Jaký vývojový stupeň stélky má Euglena viridis (krásnoočko zelené)?', options: ['Kokální', 'Vláknitý (trichální)', 'Pletivný', 'Bičíkatý (monadoidní)'], correct: 3 },
+                    { id: 16, type: 'multiple', question: 'Co je mixotrofie u krásnoočka?', options: ['Rozmnožování pomocí dvou různých buněk', 'Schopnost střídání autotrofní a heterotrofní výživy', 'Pohyb pomocí dvou různých bičíků', 'Vznik chloroplastů ze dvou endosymbioz'], correct: 1 },
+                    { id: 17, type: 'multiple', question: 'Jaký vývojový stupeň stélky mají rozsivky?', options: ['Pletivný', 'Bičíkatý (monadoidní)', 'Vláknitý (trichální)', 'Kokální (jednobuněčná bez bičíku)'], correct: 3 },
+                    { id: 18, type: 'multiple', question: 'Gelidium je mořská červená řasa. Jaká látka se z ní průmyslově získává?', options: ['Alginát', 'Agar', 'Paramylon', 'Fukoxantin'], correct: 1 },
+                    { id: 19, type: 'multiple', question: 'Porphyra (v japonské kuchyni označovaná jako nori) patří mezi:', options: ['Červené řasy', 'Zelené řasy', 'Hnědé řasy', 'Krásnoočka'], correct: 0 },
+                    { id: 20, type: 'multiple', question: 'Sargassum je hnědá řasa tvořící obrovskou volně plovoucí biomasu v Atlantiku. Jak se toto moře jmenuje?', options: ['Středozemní moře', 'Sargasové moře', 'Karibské moře', 'Arabské moře'], correct: 1 },
+                    { id: 21, type: 'multiple', question: 'Co je stigma (světločivná skvrna) u krásnoočka?', options: ['Zásobní granule s paramylonem', 'Organela pro vylučování (pulzující vakuola)', 'Fotoreceptor reagující na světlo', 'Část bičíku zajišťující pohyb'], correct: 2 },
+                    { id: 22, type: 'multiple', question: 'Cladophora glomerata (žabí vlas) je příkladem jakého vývojového stupně stélky?', options: ['Kokálního', 'Bičíkatého (monadoidního)', 'Sifonokladálního (vícejaderné buňky)', 'Pletivného'], correct: 2 },
+                    { id: 23, type: 'multiple', question: 'Kam patří hnědé řasy (chaluhy) v moderním systému eukaryot?', options: ['Archaeplastida', 'Excavata', 'Opisthokonta', 'SAR – Stramenopila'], correct: 3 },
+                    { id: 24, type: 'multiple', question: 'Primární endosymbiózou (pohlcením sinice) vznikly chloroplasty skupiny:', options: ['Excavata (krásnoočka)', 'SAR – Stramenopila (hnědé řasy, rozsivky)', 'Archaeplastida (zelené a červené řasy)', 'Opisthokonta (houby, živočichové)'], correct: 2 },
+                    { id: 25, type: 'multiple', question: 'Šroubatka (Spirogyra) je vláknitá sladkovodní řasa s charakteristickými chloroplasty. Jak jsou tyto chloroplasty tvarované?', options: ['Hvězdicovité', 'Miskovité', 'Šroubovitě stočené páskovité', 'Čočkovité'], correct: 2 },
+
+                    // ── CHECKBOX (5) ─────────────────────────────────────────
+                    { id: 26, type: 'checkbox', question: 'Která tvrzení o zelených řasách (Chlorophyta / Streptophyta) jsou správná?', options: ['Zásobní látkou je škrob ukládaný v chloroplastech u pyrenoidu.', 'Mají výhradně bičíkatý vývojový stupeň stélky.', 'Patří do superskupiny Archaeplastida.', 'Zásobní látkou je laminarin – polysacharid typický pro všechny fotosyntetizující řasy.', 'Patří do superskupiny SAR – Stramenopila – spolu s hnědými řasami.', 'Parožnatky (Charophyceae) jsou nejbližšími žijícími příbuznými vyšších rostlin.'], correct: [0, 2, 5] },
+                    { id: 27, type: 'checkbox', question: 'Která tvrzení o červených řasách (Rhodophyta) jsou správná?', options: ['Patří do superskupiny SAR – Stramenopila spolu s hnědými řasami a rozsivkami.', 'Jsou jediné řasy schopné fotosyntézy ve velkých mořských hloubkách (až 200 m).', 'Zásobní látkou je fukoxantin – červený pigment ukládaný v plastidech.', 'Nemají bičíkaté stadium – buňky jsou vždy bez bičíku.', 'Fykoerytrin a fykocyan překrývají chlorofyl a způsobují jejich červené zbarvení.', 'Chloroplasty červených řas vznikly sekundární endosymbiózou ze zelených řas.'], correct: [1, 3, 4] },
+                    { id: 28, type: 'checkbox', question: 'Která tvrzení o Euglena viridis (krásnoočko zelené) jsou správná?', options: ['Je mixotrofní – na světle fotosyntezuje, ve tmě přijímá organické látky.', 'Patří do superskupiny Archaeplastida spolu se zelenými a červenými řasami.', 'Má stigma (světločivnou skvrnu) a pulzující vakuolu.', 'Zásobní látkou je škrob ukládaný u pyrenoidu v chloroplastech.', 'Zásobní látkou je paramylon.', 'Chloroplasty Eugleny mají dvě membrány – vznikly primární endosymbiózou ze sinice.'], correct: [0, 2, 4] },
+                    { id: 29, type: 'checkbox', question: 'Která tvrzení o rozsivkách (Bacillariophyceae) jsou správná?', options: ['Jsou typicky pohyblivé pomocí bičíků – mají bičíkatý stupeň stélky.', 'Mají dvoudílnou křemičitou schránku (frustul) ze SiO₂.', 'Zásobní látkou je škrob ukládaný v chloroplastech u pyrenoidu.', 'Patří do superskupiny SAR – Stramenopila.', 'Chloroplasty rozsivek vznikly primární endosymbiózou pohlcením sinice.', 'Z fosilních schránek vzniká křemelina (diatomit) využívaná jako filtrační materiál.'], correct: [1, 3, 5] },
+                    { id: 30, type: 'checkbox', question: 'Která tvrzení o endosymbióze jsou správná?', options: ['Primární endosymbiózou vznikly chloroplasty zelených a červených řas pohlcením sinice.', 'Sekundární endosymbiózou vždy vznikají chloroplasty s jednou membránou navíc než u primárních.', 'Krásnoočka získala chloroplasty sekundární endosymbiózou ze zelených řas.', 'Chloroplasty hnědých řas vznikly primární endosymbiózou pohlcením sinice – stejně jako u zelených řas.', 'Všechny skupiny řas získaly chloroplasty stejnou cestou – primární endosymbiózou.', 'Hnědé řasy a rozsivky získaly chloroplasty sekundární endosymbiózou z ruduch.'], correct: [0, 2, 5] }
+                ]
+            };
+
+            // ── POMOCNÉ FUNKCE ──────────────────────────────────────────────
+            const shuffleArray = (array) => {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            const isCheckboxCorrect = (q, ans) => {
+                if (!Array.isArray(ans) || ans.length === 0) return false;
+                const sortedAns = [...ans].sort().join(',');
+                const sortedCorr = [...q.correct].sort().join(',');
+                return sortedAns === sortedCorr;
+            };
+
+            // ── ZAMÍCHÁNÍ OTÁZEK A MOŽNOSTÍ ─────────────────────────────────
+            const [questions] = useState(() => {
+                return shuffleArray(QUIZ_CONFIG.questions).map(q => {
+                    if (q.type === 'multiple') {
+                        const withIdx = q.options.map((opt, i) => ({ text: opt, orig: i }));
+                        const shuffled = shuffleArray(withIdx);
+                        return { ...q, options: shuffled.map(o => o.text), correct: shuffled.findIndex(o => o.orig === q.correct) };
+                    }
+                    if (q.type === 'checkbox') {
+                        const withIdx = q.options.map((opt, i) => ({ text: opt, orig: i }));
+                        const shuffled = shuffleArray(withIdx);
+                        return { ...q, options: shuffled.map(o => o.text), correct: q.correct.map(c => shuffled.findIndex(o => o.orig === c)) };
+                    }
+                    return q;
+                });
+            });
+
+            // ── STATE ───────────────────────────────────────────────────────
+            const [currentQuestion, setCurrentQuestion]   = useState(0);
+            const [answers, setAnswers]                   = useState({});
+            const [showResults, setShowResults]           = useState(false);
+            const [studentFirstName, setStudentFirstName] = useState('');
+            const [studentLastName, setStudentLastName]   = useState('');
+            const [isSending, setIsSending]               = useState(false);
+            const [emailSent, setEmailSent]               = useState(false);
+            const [quizCompleted, setQuizCompleted]       = useState(false);
+            const [windowSwitches, setWindowSwitches]     = useState(0);
+
+            const totalTimeLimit  = QUIZ_CONFIG.timePerQuestion * questions.length;
+            const [timeLeft, setTimeLeft] = useState(totalTimeLimit);
+            const [startTime]     = useState(Date.now());
+            const timeExpiredRef  = useRef(false);
+
+            // ── ČASOVAČ ─────────────────────────────────────────────────────
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+                const timer = setInterval(() => {
+                    const remaining = totalTimeLimit - Math.floor((Date.now() - startTime) / 1000);
+                    if (remaining <= 0 && !timeExpiredRef.current) {
+                        timeExpiredRef.current = true;
+                        setTimeLeft(0);
+                        setShowResults(true);
+                    } else {
+                        setTimeLeft(Math.max(0, remaining));
+                    }
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [startTime, totalTimeLimit, showResults, quizCompleted]);
+
+            // ── DETEKCE PŘEPÍNÁNÍ OKEN ───────────────────────────────────────
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+                const onHide  = () => { if (document.hidden) setWindowSwitches(p => p + 1); };
+                const onBlur  = () => setWindowSwitches(p => p + 1);
+                document.addEventListener('visibilitychange', onHide);
+                window.addEventListener('blur', onBlur);
+                return () => { document.removeEventListener('visibilitychange', onHide); window.removeEventListener('blur', onBlur); };
+            }, [showResults, quizCompleted]);
+
+            // ── ZÁKAZ KOPÍROVÁNÍ ─────────────────────────────────────────────
+            useEffect(() => {
+                const stop = e => e.preventDefault();
+                document.addEventListener('copy', stop);
+                document.addEventListener('cut', stop);
+                document.addEventListener('contextmenu', stop);
+                return () => { document.removeEventListener('copy', stop); document.removeEventListener('cut', stop); document.removeEventListener('contextmenu', stop); };
+            }, []);
+
+            // ── KONTROLA PŘEDCHOZÍHO DOKONČENÍ ───────────────────────────────
+            useEffect(() => {
+                if (localStorage.getItem(`quiz_completed_${QUIZ_CONFIG.title}`)) setQuizCompleted(true);
+            }, []);
+
+            // ── POMOCNÉ ──────────────────────────────────────────────────────
+            const formatTime = s => `${Math.floor(s / 60)} minut ${s % 60} sekund`;
+            const getElapsedTime = () => Math.min(Math.floor((Date.now() - startTime) / 1000), totalTimeLimit);
+
+            const calculateScore = () => {
+                let score = 0;
+                questions.forEach((q, i) => {
+                    const ans = answers[i];
+                    if (q.type === 'boolean'  && ans === q.correct) score++;
+                    if (q.type === 'multiple' && ans === q.correct) score++;
+                    if (q.type === 'checkbox' && isCheckboxCorrect(q, ans)) score++;
+                });
+                return score;
+            };
+
+            // ── HANDLERY ─────────────────────────────────────────────────────
+            const handleAnswer = (answer) => setAnswers({ ...answers, [currentQuestion]: answer });
+
+            const handleCheckbox = (idx) => {
+                const cur = Array.isArray(answers[currentQuestion]) ? answers[currentQuestion] : [];
+                const upd = cur.includes(idx) ? cur.filter(i => i !== idx) : [...cur, idx];
+                handleAnswer(upd);
+            };
+
+            const handleNext = () => {
+                if (currentQuestion < questions.length - 1) setCurrentQuestion(currentQuestion + 1);
+                else setShowResults(true);
+            };
+
+            const handlePrevious = () => { if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1); };
+
+            // ── ODESLÁNÍ E-MAILU ─────────────────────────────────────────────
+            const sendResultsEmail = async () => {
+                if (!studentFirstName.trim() || !studentLastName.trim()) { alert('Prosím vyplň své jméno i příjmení.'); return; }
+                setIsSending(true);
+                const score = calculateScore();
+                const pct   = (score / questions.length * 100).toFixed(1);
+                const grade = pct < 29 ? 5 : pct <= 49 ? 4 : pct <= 79 ? 3 : pct <= 89 ? 2 : 1;
+                const fullName = `${studentFirstName} ${studentLastName}`;
+                const timeSpent = formatTime(getElapsedTime());
+
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                localStorage.setItem(completedKey, JSON.stringify({ name: fullName, date: new Date().toISOString(), score: `${score}/${questions.length}`, time: timeSpent, windowSwitches }));
+
+                let answersDetails = '';
+                questions.forEach((q, i) => {
+                    const ans = answers[i];
+                    const ok  = q.type === 'checkbox' ? isCheckboxCorrect(q, ans) : ans === q.correct;
+                    answersDetails += `${i + 1}. ${q.question}\n`;
+                    if (q.type === 'multiple') {
+                        answersDetails += `   Student: ${ans !== undefined ? q.options[ans] : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správně: ${q.options[q.correct]}\n`;
+                    } else if (q.type === 'boolean') {
+                        answersDetails += `   Student: ${ans !== undefined ? (ans ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správně: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                    } else if (q.type === 'checkbox') {
+                        const selTxts  = Array.isArray(ans) ? ans.map(j => q.options[j]).join(', ') : 'Bez odpovědi';
+                        const corrTxts = q.correct.map(j => q.options[j]).join(', ');
+                        answersDetails += `   Student: ${selTxts}\n`;
+                        answersDetails += `   Správně: ${corrTxts}\n`;
+                    }
+                    answersDetails += `   Výsledek: ${ok ? '✓ Správně' : '✗ Špatně'}\n\n`;
+                });
+
+                try {
+                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+                        to_email: QUIZ_CONFIG.teacherEmail, student_name: fullName,
+                        quiz_title: QUIZ_CONFIG.title, score: `${score}/${questions.length}`,
+                        percentage: `${pct}%`, grade, date: new Date().toLocaleDateString('cs-CZ'),
+                        time: timeSpent, window_switches: windowSwitches, answers_details: answersDetails
+                    });
+                    setEmailSent(true);
+                    alert('✓ Výsledky byly úspěšně odeslány učiteli!');
+                } catch (err) {
+                    console.error(err);
+                    alert('Nepodařilo se odeslat e-mail. Zkus to prosím znovu nebo kontaktuj učitele.');
+                } finally {
+                    setIsSending(false);
+                }
+            };
+
+            // ── KVÍZ DOKONČEN (localStorage) ────────────────────────────────
+            if (quizCompleted) {
+                const data = JSON.parse(localStorage.getItem(`quiz_completed_${QUIZ_CONFIG.title}`) || '{}');
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8 text-center">
+                            <div className="text-6xl mb-4">🔒</div>
+                            <h1 className="text-3xl font-bold text-indigo-900 mb-4">Kvíz již byl vyplněn</h1>
+                            <p className="text-gray-700 text-lg mb-6">Tento kvíz jsi již dokončil a odeslal učiteli.</p>
+                            {data.name && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6 text-left">
+                                    <p className="text-gray-700 mb-2"><strong>Jméno:</strong> {data.name}</p>
+                                    <p className="text-gray-700 mb-2"><strong>Výsledek:</strong> {data.score}</p>
+                                    {data.time && <p className="text-gray-700 mb-2"><strong>Čas:</strong> {data.time}</p>}
+                                    {data.windowSwitches > 0 && <p className="text-gray-700 mb-2"><strong>Přepnutí oken:</strong> {data.windowSwitches}×</p>}
+                                    <p className="text-gray-700"><strong>Datum:</strong> {new Date(data.date).toLocaleString('cs-CZ')}</p>
+                                </div>
+                            )}
+                            <p className="text-gray-600 text-sm">Každý student může kvíz vyplnit pouze jednou. Pokud si myslíš, že je to chyba, kontaktuj svého učitele.</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ── VÝSLEDKY ─────────────────────────────────────────────────────
+            if (showResults) {
+                const score = calculateScore();
+                const pct   = (score / questions.length * 100).toFixed(1);
+                const wasTimeExpired = timeExpiredRef.current;
+                const timeSpent = formatTime(getElapsedTime());
+
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold text-center text-indigo-900 mb-6">Výsledky kvízu</h1>
+
+                            <div className={`border-2 rounded-lg p-4 mb-4 text-center ${wasTimeExpired ? 'bg-red-100 border-red-400' : 'bg-blue-100 border-blue-400'}`}>
+                                <div className={`text-2xl font-bold ${wasTimeExpired ? 'text-red-800' : 'text-blue-800'}`}>
+                                    {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
+                                </div>
+                                {wasTimeExpired && <p className="text-red-700 text-sm mt-2">Nezodpovězených otázek: {questions.length - Object.keys(answers).length}</p>}
+                            </div>
+
+                            {windowSwitches > 0 && (
+                                <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-6 text-center">
+                                    <div className="text-xl font-bold text-orange-800">⚠️ Přepnutí oken: {windowSwitches}×</div>
+                                    <p className="text-orange-700 text-sm mt-2">Tato informace bude odeslána učiteli.</p>
+                                </div>
+                            )}
+
+                            <div className="text-center mb-8">
+                                <div className="text-6xl font-bold text-indigo-600 mb-2">{score} / {questions.length}</div>
+                                <div className="text-2xl text-gray-700">{pct}%</div>
+                                <div className="mt-4 text-lg font-semibold">
+                                    {pct < 29 ? <span className="text-red-600">Celkové hodnocení: 5</span>
+                                    : pct <= 49 ? <span className="text-orange-600">Celkové hodnocení: 4</span>
+                                    : pct <= 79 ? <span className="text-yellow-600">Celkové hodnocení: 3</span>
+                                    : pct <= 89 ? <span className="text-blue-600">Celkové hodnocení: 2</span>
+                                    : <span className="text-green-600">Celkové hodnocení: 1</span>}
+                                </div>
+                            </div>
+
+                            {!emailSent && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                    <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
+                                    <div className="grid grid-cols-2 gap-3 mb-3">
+                                        <input type="text" placeholder="Jméno" value={studentFirstName} onChange={e => setStudentFirstName(e.target.value)} disabled={isSending} className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100" />
+                                        <input type="text" placeholder="Příjmení" value={studentLastName} onChange={e => setStudentLastName(e.target.value)} disabled={isSending} className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100" />
+                                    </div>
+                                    <button onClick={sendResultsEmail} disabled={isSending} className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                                        {isSending ? 'Odesílám...' : 'Odeslat výsledky učiteli'}
+                                    </button>
+                                </div>
+                            )}
+
+                            {emailSent && (
+                                <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6 mb-6 text-center">
+                                    <div className="text-4xl mb-2">✓</div>
+                                    <p className="text-green-800 font-semibold text-lg mb-2">Výsledky byly úspěšně odeslány učiteli!</p>
+                                    <p className="text-gray-800 font-bold text-2xl mt-4">Nyní můžeš zavřít prohlížeč.</p>
+                                </div>
+                            )}
+
+                            <div className="space-y-4">
+                                <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
+                                {questions.map((q, i) => {
+                                    const ans = answers[i];
+                                    const ok  = q.type === 'checkbox' ? isCheckboxCorrect(q, ans) : ans === q.correct;
+                                    return (
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${ok ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                            <div className="flex items-start gap-2">
+                                                <span className="font-bold text-gray-700">{i + 1}.</span>
+                                                <div className="flex-1">
+                                                    <p className="text-gray-800 mb-2">{q.question}</p>
+                                                    {q.type === 'multiple' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{ans !== undefined ? q.options[ans] : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.options[q.correct]}</p>}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'boolean' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{ans !== undefined ? (ans ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.correct ? 'Pravda' : 'Nepravda'}</p>}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'checkbox' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{Array.isArray(ans) && ans.length > 0 ? ans.map(j => q.options[j]).join(', ') : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.correct.map(j => q.options[j]).join(', ')}</p>}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-2xl">{ok ? '✓' : '✗'}</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ── HLAVNÍ KVÍZ ─────────────────────────────────────────────────
+            const q = questions[currentQuestion];
+            const ans = answers[currentQuestion];
+            const isAnswered = q.type === 'checkbox'
+                ? Array.isArray(ans) && ans.length > 0
+                : ans !== undefined;
+
+            const isTimeCritical  = timeLeft <= 120;
+            const isTimeVeryLow   = timeLeft <= 60;
+            const timerColor      = isTimeVeryLow ? 'bg-red-100 border-red-500' : isTimeCritical ? 'bg-orange-100 border-orange-400' : 'bg-blue-100 border-blue-400';
+            const timerTextColor  = isTimeVeryLow ? 'text-red-800' : isTimeCritical ? 'text-orange-800' : 'text-blue-800';
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div className="mb-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold text-indigo-900">Kvíz: {QUIZ_CONFIG.title}</h1>
+                                <span className="text-gray-600 font-semibold">{currentQuestion + 1} / {questions.length}</span>
+                            </div>
+                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
+                                <div className={`text-xl font-bold ${timerTextColor}`}>
+                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
+                                </div>
+                                {isTimeCritical && <p className={`text-sm mt-1 ${timerTextColor}`}>{isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}</p>}
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="bg-indigo-600 h-2 rounded-full transition-all duration-300" style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }} />
+                            </div>
+                        </div>
+
+                        <div className="mb-8">
+                            <h2 className="text-xl text-gray-800 mb-6 leading-relaxed">{q.question}</h2>
+
+                            {/* BOOLEAN */}
+                            {q.type === 'boolean' && (
+                                <div className="space-y-3">
+                                    {[true, false].map(val => (
+                                        <button key={String(val)} onClick={() => handleAnswer(val)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${ans === val ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}>
+                                            <span className="font-semibold text-gray-700">{val ? 'Pravda' : 'Nepravda'}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* MULTIPLE CHOICE */}
+                            {q.type === 'multiple' && (
+                                <div className="space-y-3">
+                                    {q.options.map((option, i) => (
+                                        <button key={i} onClick={() => handleAnswer(i)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${ans === i ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}>
+                                            <span className="font-semibold text-gray-700">{String.fromCharCode(65 + i)}.</span> {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* CHECKBOX */}
+                            {q.type === 'checkbox' && (
+                                <div className="space-y-3">
+                                    <p className="text-sm text-orange-600 font-medium mb-1">Vyber všechny správné odpovědi:</p>
+                                    {q.options.map((option, i) => {
+                                        const sel = Array.isArray(ans) && ans.includes(i);
+                                        return (
+                                            <button key={i} onClick={() => handleCheckbox(i)}
+                                                className={`w-full text-left p-4 rounded-lg border-2 transition ${sel ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'}`}>
+                                                <span className={`font-semibold mr-2 ${sel ? 'text-orange-600' : 'text-gray-500'}`}>{sel ? '☑' : '☐'}</span>{option}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button onClick={handlePrevious} disabled={currentQuestion === 0}
+                                className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                ← Zpět
+                            </button>
+                            <button onClick={handleNext} disabled={!isAnswered}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
+                            </button>
+                        </div>
+
+                        {!isAnswered && (
+                            <p className="text-center text-gray-500 text-sm mt-4">
+                                {q.type === 'checkbox' ? 'Vyber alespoň jednu odpověď pro pokračování' : 'Pro pokračování vyber odpověď'}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MuscleQuiz />);
+    </script>
+</body>
+</html>
