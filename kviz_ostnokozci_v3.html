@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kvíz – Ostnokožci (Echinodermata)</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const EMAILJS_CONFIG = {
+            publicKey: "3b0esMCXl9fZX1QHi",
+            serviceId: "service_t5uuqhn",
+            templateId: "template_3retggz"
+        };
+
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
+
+        const MuscleQuiz = () => {
+
+            const QUIZ_CONFIG = {
+                title: "Ostnokožci (Echinodermata)",
+                teacherEmail: "ivan.hynek@gymberoun.cz",
+                timePerQuestion: 35,
+
+                questions: [
+                    // ── ANO / NE (5) ──────────────────────────────────────────
+                    {
+                        id: 1,
+                        type: 'boolean',
+                        question: 'Ostnokožci jsou jednou z nejstarších živočišných skupin – jejich zkameněliny jsou hojné již ve starších prvohorách (ordovik, silur, devon).',
+                        correct: true
+                    },
+                    {
+                        id: 2,
+                        type: 'boolean',
+                        question: 'Kamenný kanálek ambulakrální soustavy propojuje madreporit přímo s radiálními (paprsčitými) kanálky vedoucími do ramen.',
+                        correct: false
+                    },
+                    {
+                        id: 3,
+                        type: 'boolean',
+                        question: 'Sumýši (Holothuroidea) patří do podkmene Pelmatozoa – jsou přisedlí stejně jako lilijice.',
+                        correct: false
+                    },
+                    {
+                        id: 4,
+                        type: 'boolean',
+                        question: 'U druhoústých živočichů se ústní otvor prolamuje druhotně, zatímco blastopór (původní otvor gastruly) se stává řitním otvorem nebo zcela zaniká.',
+                        correct: true
+                    },
+                    {
+                        id: 5,
+                        type: 'boolean',
+                        question: 'Ambulakrální nožky (panožky) se prodlužují tlakem vody přečerpané z ampulek – jde tedy o hydraulický mechanismus pohybu.',
+                        correct: true
+                    },
+
+                    // ── VÝBĚR ODPOVĚDI (20) ───────────────────────────────────
+                    {
+                        id: 6,
+                        type: 'multiple',
+                        question: 'Co jsou Tiedemannova tělíska a kde se nacházejí?',
+                        options: [
+                            'Světločivné orgány na koncích ramen hvězdic detekující intenzitu světla',
+                            'Žláznaté váčky na okružním kanálku ambulakrální soustavy s imunitní a filtrační funkcí',
+                            'Vápenatá tělíska v tělní stěně sumýšů nahrazující redukovaný krunýř',
+                            'Specializované ampulky ježovek umožňující pohyb po svislých površích'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 7,
+                        type: 'multiple',
+                        question: 'Která třída ostnokožců má největší rozpětí velikosti těla – od 2 cm do 2 m délky?',
+                        options: [
+                            'Hvězdice (Asteroidea)',
+                            'Ježovky (Echinoidea)',
+                            'Lilijice (Crinoidea)',
+                            'Sumýši (Holothuroidea)'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 8,
+                        type: 'multiple',
+                        question: 'Co jsou papulae u hvězdic a jakou plní funkci?',
+                        options: [
+                            'Výchlipky pokožky sloužící jako kožní žábry pro výměnu plynů s mořskou vodou',
+                            'Vápenité výrůstky tvořící pevný exoskelet na hřbetní straně těla',
+                            'Kleštičkovité výrůstky chránící povrch těla před přisedáním parazitů',
+                            'Specializované panožky na špičkách ramen umožňující zachytávání potravy'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 9,
+                        type: 'multiple',
+                        question: 'Která hvězdice způsobuje rozsáhlé škody na korálových útesech Tichého oceánu při přemnožení?',
+                        options: [
+                            'Asterias rubens (hvězdice růžová)',
+                            'Crossaster papposus (hvězdice sluneční)',
+                            'Pisaster ochraceus (hvězdice okrová)',
+                            'Acanthaster planci (hvězdice trnová koruna)'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 10,
+                        type: 'multiple',
+                        question: 'Okružní kanálek (ring canal) ambulakrální soustavy:',
+                        options: [
+                            'Je totožný s kamenným kanálkem – jde o dvě různá pojmenování stejné struktury',
+                            'Přímo spojuje madreporit s panožkami bez dalšího větvení',
+                            'Plní výhradně vylučovací funkci – odvádí metabolické odpadní látky z těla do moře',
+                            'Obklopuje jícen v centrální části těla a je zdrojem pěti radiálních kanálků mířících do ramen'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 11,
+                        type: 'multiple',
+                        question: 'Jak se nazývá jev, při němž sumýš při ohrožení predátorem vypuzuje z těla vnitřní orgány?',
+                        options: [
+                            'Autotomie ramene',
+                            'Eviscerace (evisceration)',
+                            'Madreporace',
+                            'Pedicelace'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 12,
+                        type: 'multiple',
+                        question: 'Nepravidelné ježovky (Irregularia, např. Echinocardium cordatum) se od pravidelných liší:',
+                        options: [
+                            'Absencí Aristotelovy lucerny a druhotně získanou dvoustrannou souměrností uzpůsobenou k zahrabávání do sedimentu',
+                            'Přítomností 10 ambulakrálních pásů místo standardních 5',
+                            'Úplnou absencí vápenatého krunýře – mají pouze měkký tělní pokryv',
+                            'Absencí ambulakrálních panožek – pohybují se výhradně vlněním těla'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 13,
+                        type: 'multiple',
+                        question: 'Ve které geologické éře dosáhly lilijice největší druhové rozmanitosti?',
+                        options: [
+                            'Kenozoikum – třetihory (miocén a pliocén)',
+                            'Druhohory – triasové moře po velkém vymírání na konci permu',
+                            'Prvohory – zejména ordovik, silur a devon, kdy tvořily husté podmořské lesy',
+                            'Archaikum – jsou nejstaršími živočichy vůbec, starší než trilobiti'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 14,
+                        type: 'multiple',
+                        question: 'Co jsou pedicelarie a u které kombinace tříd ostnokožců se vyskytují?',
+                        options: [
+                            'Přísavné panožky specializované na lov potravy – vyskytují se u hvězdic a hadic',
+                            'Drobné kleštičkovité výrůstky sloužící k obraně a čištění – typické pro hvězdice a ježovky',
+                            'Vápenité výběžky tvořící ochranné ostny – přítomné u všech pěti tříd ostnokožců',
+                            'Světločivné smyslové orgány na koncích ramen – přítomné u hvězdic, hadic a ježovek'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 15,
+                        type: 'multiple',
+                        question: 'Hemální soustava ostnokožců:',
+                        options: [
+                            'Je totožná s ambulakrální soustavou – naplněna mořskou vodou a plní stejné funkce',
+                            'Je uzavřenou oběhovou soustavou s centrálním srdcem zásobující tkáně kyslíkem',
+                            'Je soustava propojená s ambulakrální a coelomovou dutinou – zajišťuje výživu tkání',
+                            'Je redukovatelná soustava přítomná pouze u primitivních tříd (lilijice, sumýši)'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 16,
+                        type: 'multiple',
+                        question: 'Jaký ekologický vztah mají hvězdice (rod Pisaster) ke společenstvům mořského pobřeží?',
+                        options: [
+                            'Jsou klíčovým druhem (keystone species) – regulují populace mlžů a jejich odstranění vede k monokultuře slávek',
+                            'Jsou výhradně parazitičtí na korálech – jejich přítomnost indikuje zdravý korálový útes',
+                            'Jsou producenti – fotosyntetizují pomocí symbiotických řas v pokožce ramen',
+                            'Jsou dekompozitoré – rozkládají uhynulé organismy a vracejí živiny do ekosystému'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 17,
+                        type: 'multiple',
+                        question: 'Která kombinace znaků jednoznačně identifikuje třídu Hadice (Ophiuroidea)?',
+                        options: [
+                            'Kompaktní vápenatý krunýř + 5 ambulakrálních pásů s panožkami + Aristotelova lucerna',
+                            'Přisedlý způsob života + stopka (stvol) + výrazně větvená ramena zachytávající plankton',
+                            'Ostře oddělený centrální terč od tenkých stáčivých ramen + pohyb vlněním ramen + ambulakra bez pohybové funkce',
+                            'Protáhlé válcovité tělo + vodní plíce + schopnost eviscerace'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 18,
+                        type: 'multiple',
+                        question: 'Jak se nazývá žvýkací ústrojí ježovek tvořené 40 vápenatými prvky s 5 zuby?',
+                        options: [
+                            'Madreporová lucerna',
+                            'Radiální krunýř',
+                            'Tiedemannovo tělísko',
+                            'Aristotelova lucerna'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 19,
+                        type: 'multiple',
+                        question: 'Jak hvězdice tráví kořist (mlže, korýše)?',
+                        options: [
+                            'Paralyzují kořist jedem z pedicelárií a pak ji polknou celou',
+                            'Vychrlí vychlípitelný žaludek ven přes ústa, obalí kořist a tráví ji mimotělně',
+                            'Pomocí Aristotelovy lucerny rozkousají schránky mlžů a korýšů',
+                            'Filtrují vodu ambulakrálními nožkami a zachytávají planktické organismy'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 20,
+                        type: 'multiple',
+                        question: 'Která třída ostnokožců má protáhlé válcovité tělo a druhotně přechází ke dvoustranné souměrnosti?',
+                        options: [
+                            'Hvězdice (Asteroidea)',
+                            'Hadice (Ophiuroidea)',
+                            'Sumýši (Holothuroidea)',
+                            'Ježovky (Echinoidea)'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 21,
+                        type: 'multiple',
+                        question: 'Jak se nazývá larva hvězdic (Asteroidea)?',
+                        options: [
+                            'Pluteus',
+                            'Nauplius',
+                            'Trochofora',
+                            'Bipinnaria'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 22,
+                        type: 'multiple',
+                        question: 'Jak sumýši dýchají?',
+                        options: [
+                            'Výhradně přes pokožku (kutánní dýchání) bez specializovaných orgánů',
+                            'Žábrami podobnými rybím žábrám na stranách těla',
+                            'Vodními plícemi – výběžky kloaky, do nichž je přečerpávána voda',
+                            'Spirálami (tracheami) podobně jako členovci'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 23,
+                        type: 'multiple',
+                        question: 'Ke které systematické skupině patří lilijice (Crinoidea)?',
+                        options: [
+                            'Podkmen Eleutherozoa (volnoživci)',
+                            'Podkmen Pelmatozoa (stvolovci)',
+                            'Podkmen Echinozoa',
+                            'Podkmen Asterozoa'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 24,
+                        type: 'multiple',
+                        question: 'Tělní pokryv ostnokožců tvoří:',
+                        options: [
+                            'Pokožka (epidermis) a mezodermální vrstva vyztužená uhličitanem vápenatým',
+                            'Pouze pokožka (epidermis) bez dalšího vyztužení',
+                            'Chitinovitá kutikula tvořená ektodermálními buňkami',
+                            'Třívrstevná schránka: epidermis, dermis a hypodermis s vápenatými krystaly'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 25,
+                        type: 'multiple',
+                        question: 'Která tvrzení o larvách ostnokožců jsou správná?',
+                        options: [
+                            'Larvy jsou dvoustranně souměrné; paprsčitou souměrnost získávají teprve metamorfózou',
+                            'Larvy jsou paprsčitě souměrné – pentamerii mají od prvního stádia',
+                            'Larvy ostnokožců se líhnou přímo jako miniaturní dospělci bez metamorfózy',
+                            'Larva ježovek se nazývá bipinnaria a larva hvězdic pluteus'
+                        ],
+                        correct: 0
+                    },
+
+                    // ── CHECKBOX (5) ──────────────────────────────────────────
+                    {
+                        id: 26,
+                        type: 'checkbox',
+                        question: 'Která tvrzení o ambulakrální soustavě ostnokožců jsou správná?',
+                        options: [
+                            'Voda do soustavy vstupuje přes madreporit a kamenným kanálkem se dostává do okružního kanálku.',
+                            'Ampulky jsou svalové váčky, jejichž stah přečerpá vodu do panožky a ta se prodlouží.',
+                            'Ambulakrální soustava je přítomna i u strunatců – jde o společný znak všech druhoústých.',
+                            'Soustava zajišťuje pohyb, dýchání, rozvod látek i vylučování odpadních produktů.',
+                            'Voda v soustavě je čerpána hemálním srdcem, nikoli svalovými ampulkami.',
+                            'Radiální kanálky vedou z okružního kanálku do ramen, kde se větví k ampulkám.'
+                        ],
+                        correct: [0, 1, 3, 5]
+                    },
+                    {
+                        id: 27,
+                        type: 'checkbox',
+                        question: 'Které znaky jsou charakteristické pro kmen Ostnokožci (Echinodermata)?',
+                        options: [
+                            'Žijí výhradně v mořském prostředí.',
+                            'Tělo dospělců je paprsčitě souměrné (pentamerie), ale jde o druhotně získaný znak.',
+                            'Tělní pokryv je vyztužen vápenatými destičkami nebo ostny z uhličitanu vápenatého.',
+                            'Mají dobře vyvinutý mozek a párové smyslové orgány (oči, tykadla).',
+                            'Patří mezi prvoústé živočichy – blastopór se u nich stává ústním otvorem.',
+                            'Larvy jsou dvoustranně souměrné – paprsčitou souměrnost získávají až metamorfózou.'
+                        ],
+                        correct: [0, 1, 2, 5]
+                    },
+                    {
+                        id: 28,
+                        type: 'checkbox',
+                        question: 'Která tvrzení o třídě Ježovky (Echinoidea) jsou správná?',
+                        options: [
+                            'Vápenatá výztuž tvoří kompaktní pevný krunýř (test) z navzájem spojených destiček.',
+                            'V ústech mají Aristotelovu lucernu – komplexní žvýkací ústrojí s 5 zuby.',
+                            'Na povrchu krunýře je 5 ambulakrálních pásů s panožkami pro pohyb.',
+                            'Jsou výhradně přisedlé – pohybovat se nemohou a celý život setrvají na jednom místě.',
+                            'Aristotelova lucerna slouží k filtraci mořské vody, nikoli ke zpracování tuhé potravy.',
+                            'Ježovky dýchají výhradně vodními plícemi – výběžky kloaky stejně jako sumýši.'
+                        ],
+                        correct: [0, 1, 2]
+                    },
+                    {
+                        id: 29,
+                        type: 'checkbox',
+                        question: 'Která tvrzení detailně srovnávají hvězdice (Asteroidea) a hadice (Ophiuroidea)?',
+                        options: [
+                            'Hvězdice mají tělní terč plynule přecházející do ramen; u hadic je terč ostře oddělen od tenkých stáčivých ramen.',
+                            'U obou tříd plní ambulakrální panožky klíčovou pohybovou funkci.',
+                            'Hvězdice jsou dravci živící se mlži a korýši; hadice se živí spíše drobnou potravou a organickým odpadem.',
+                            'U hadic ambulakrální soustava neplní pohybovou funkci – k pohybu slouží aktivní vlnění ramen.',
+                            'Obě třídy jsou přisedlé – pohybují se pouze příležitostně při hledání potravy.',
+                            'Hvězdice mají kožní žábry (papulae) pro dýchání; u hadic dýchání zajišťuje ambulakrální soustava.'
+                        ],
+                        correct: [0, 2, 3, 5]
+                    },
+                    {
+                        id: 30,
+                        type: 'checkbox',
+                        question: 'Která tvrzení o fylogenezi a ekologii ostnokožců jsou správná?',
+                        options: [
+                            'Ostnokožci jsou druhoústí (Deuterostomia) – patří do stejné vývojové linie jako strunatci.',
+                            'Předkové ostnokožců byli dvoustranně souměrní – pentamerie vznikla sekundárně jako adaptace bentického života.',
+                            'Ostnokožci jsou nejbližšími příbuznými členovců – sdílejí společnou vývojovou linii prvoústých.',
+                            'V Barrandienu (střední Čechy) jsou hojné zkameněliny lilijic a ježovek z prvohor a druhohory.',
+                            'Ambulakrální soustava vznikla nezávisle v různých vývojových liniích ostnokožců.',
+                            'Sumýši (trepang) jsou konzumováni jako potrava – zejména v jihovýchodní Asii a Tichomořské oblasti.'
+                        ],
+                        correct: [0, 1, 3, 5]
+                    }
+                ]
+            };
+
+            // ── POMOCNÉ FUNKCE ──────────────────────────────────────────────
+            const shuffleArray = (array) => {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            const isCheckboxCorrect = (q, ans) => {
+                if (!Array.isArray(ans) || ans.length === 0) return false;
+                const sortedAns = [...ans].sort().join(',');
+                const sortedCorr = [...q.correct].sort().join(',');
+                return sortedAns === sortedCorr;
+            };
+
+            // ── ZAMÍCHÁNÍ OTÁZEK A MOŽNOSTÍ ─────────────────────────────────
+            const [questions] = useState(() => {
+                return shuffleArray(QUIZ_CONFIG.questions).map(q => {
+                    if (q.type === 'multiple') {
+                        const withIdx = q.options.map((opt, i) => ({ text: opt, orig: i }));
+                        const shuffled = shuffleArray(withIdx);
+                        return { ...q, options: shuffled.map(o => o.text), correct: shuffled.findIndex(o => o.orig === q.correct) };
+                    }
+                    if (q.type === 'checkbox') {
+                        const withIdx = q.options.map((opt, i) => ({ text: opt, orig: i }));
+                        const shuffled = shuffleArray(withIdx);
+                        return { ...q, options: shuffled.map(o => o.text), correct: q.correct.map(c => shuffled.findIndex(o => o.orig === c)) };
+                    }
+                    return q;
+                });
+            });
+
+            // ── STATE ───────────────────────────────────────────────────────
+            const [currentQuestion, setCurrentQuestion]   = useState(0);
+            const [answers, setAnswers]                   = useState({});
+            const [showResults, setShowResults]           = useState(false);
+            const [studentFirstName, setStudentFirstName] = useState('');
+            const [studentLastName, setStudentLastName]   = useState('');
+            const [isSending, setIsSending]               = useState(false);
+            const [emailSent, setEmailSent]               = useState(false);
+            const [quizCompleted, setQuizCompleted]       = useState(false);
+            const [windowSwitches, setWindowSwitches]     = useState(0);
+
+            const totalTimeLimit  = QUIZ_CONFIG.timePerQuestion * questions.length;
+            const [timeLeft, setTimeLeft] = useState(totalTimeLimit);
+            const [startTime]     = useState(Date.now());
+            const timeExpiredRef  = useRef(false);
+
+            // ── ČASOVAČ ─────────────────────────────────────────────────────
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+                const timer = setInterval(() => {
+                    const remaining = totalTimeLimit - Math.floor((Date.now() - startTime) / 1000);
+                    if (remaining <= 0 && !timeExpiredRef.current) {
+                        timeExpiredRef.current = true;
+                        setTimeLeft(0);
+                        setShowResults(true);
+                    } else {
+                        setTimeLeft(Math.max(0, remaining));
+                    }
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [startTime, totalTimeLimit, showResults, quizCompleted]);
+
+            // ── DETEKCE PŘEPÍNÁNÍ OKEN ───────────────────────────────────────
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+                const onHide  = () => { if (document.hidden) setWindowSwitches(p => p + 1); };
+                const onBlur  = () => setWindowSwitches(p => p + 1);
+                document.addEventListener('visibilitychange', onHide);
+                window.addEventListener('blur', onBlur);
+                return () => { document.removeEventListener('visibilitychange', onHide); window.removeEventListener('blur', onBlur); };
+            }, [showResults, quizCompleted]);
+
+            // ── ZÁKAZ KOPÍROVÁNÍ ─────────────────────────────────────────────
+            useEffect(() => {
+                const stop = e => e.preventDefault();
+                document.addEventListener('copy', stop);
+                document.addEventListener('cut', stop);
+                document.addEventListener('contextmenu', stop);
+                return () => { document.removeEventListener('copy', stop); document.removeEventListener('cut', stop); document.removeEventListener('contextmenu', stop); };
+            }, []);
+
+            // ── KONTROLA PŘEDCHOZÍHO DOKONČENÍ ───────────────────────────────
+            useEffect(() => {
+                if (localStorage.getItem(`quiz_completed_${QUIZ_CONFIG.title}`)) setQuizCompleted(true);
+            }, []);
+
+            // ── POMOCNÉ ──────────────────────────────────────────────────────
+            const formatTime = s => `${Math.floor(s / 60)} minut ${s % 60} sekund`;
+            const getElapsedTime = () => Math.min(Math.floor((Date.now() - startTime) / 1000), totalTimeLimit);
+
+            const calculateScore = () => {
+                let score = 0;
+                questions.forEach((q, i) => {
+                    const ans = answers[i];
+                    if (q.type === 'boolean'  && ans === q.correct) score++;
+                    if (q.type === 'multiple' && ans === q.correct) score++;
+                    if (q.type === 'checkbox' && isCheckboxCorrect(q, ans)) score++;
+                });
+                return score;
+            };
+
+            // ── HANDLERY ─────────────────────────────────────────────────────
+            const handleAnswer = (answer) => setAnswers({ ...answers, [currentQuestion]: answer });
+
+            const handleCheckbox = (idx) => {
+                const cur = Array.isArray(answers[currentQuestion]) ? answers[currentQuestion] : [];
+                const upd = cur.includes(idx) ? cur.filter(i => i !== idx) : [...cur, idx];
+                handleAnswer(upd);
+            };
+
+            const handleNext = () => {
+                if (currentQuestion < questions.length - 1) setCurrentQuestion(currentQuestion + 1);
+                else setShowResults(true);
+            };
+
+            const handlePrevious = () => { if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1); };
+
+            // ── ODESLÁNÍ E-MAILU ─────────────────────────────────────────────
+            const sendResultsEmail = async () => {
+                if (!studentFirstName.trim() || !studentLastName.trim()) { alert('Prosím vyplň své jméno i příjmení.'); return; }
+                setIsSending(true);
+                const score = calculateScore();
+                const pct   = (score / questions.length * 100).toFixed(1);
+                const grade = pct < 29 ? 5 : pct <= 49 ? 4 : pct <= 79 ? 3 : pct <= 89 ? 2 : 1;
+                const fullName = `${studentFirstName} ${studentLastName}`;
+                const timeSpent = formatTime(getElapsedTime());
+
+                const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
+                localStorage.setItem(completedKey, JSON.stringify({ name: fullName, date: new Date().toISOString(), score: `${score}/${questions.length}`, time: timeSpent, windowSwitches }));
+
+                let answersDetails = '';
+                questions.forEach((q, i) => {
+                    const ans = answers[i];
+                    const ok  = q.type === 'checkbox' ? isCheckboxCorrect(q, ans) : ans === q.correct;
+                    answersDetails += `${i + 1}. ${q.question}\n`;
+                    if (q.type === 'multiple') {
+                        answersDetails += `   Student: ${ans !== undefined ? q.options[ans] : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správně: ${q.options[q.correct]}\n`;
+                    } else if (q.type === 'boolean') {
+                        answersDetails += `   Student: ${ans !== undefined ? (ans ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správně: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                    } else if (q.type === 'checkbox') {
+                        const selTxts  = Array.isArray(ans) ? ans.map(j => q.options[j]).join(', ') : 'Bez odpovědi';
+                        const corrTxts = q.correct.map(j => q.options[j]).join(', ');
+                        answersDetails += `   Student: ${selTxts}\n`;
+                        answersDetails += `   Správně: ${corrTxts}\n`;
+                    }
+                    answersDetails += `   Výsledek: ${ok ? '✓ Správně' : '✗ Špatně'}\n\n`;
+                });
+
+                try {
+                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+                        to_email: QUIZ_CONFIG.teacherEmail, student_name: fullName,
+                        quiz_title: QUIZ_CONFIG.title, score: `${score}/${questions.length}`,
+                        percentage: `${pct}%`, grade, date: new Date().toLocaleDateString('cs-CZ'),
+                        time: timeSpent, window_switches: windowSwitches, answers_details: answersDetails
+                    });
+                    setEmailSent(true);
+                    alert('✓ Výsledky byly úspěšně odeslány učiteli!');
+                } catch (err) {
+                    console.error(err);
+                    alert('Nepodařilo se odeslat e-mail. Zkus to prosím znovu nebo kontaktuj učitele.');
+                } finally {
+                    setIsSending(false);
+                }
+            };
+
+            // ── KVÍZ DOKONČEN (localStorage) ────────────────────────────────
+            if (quizCompleted) {
+                const data = JSON.parse(localStorage.getItem(`quiz_completed_${QUIZ_CONFIG.title}`) || '{}');
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl p-8 text-center">
+                            <div className="text-6xl mb-4">🔒</div>
+                            <h1 className="text-3xl font-bold text-indigo-900 mb-4">Kvíz již byl vyplněn</h1>
+                            <p className="text-gray-700 text-lg mb-6">Tento kvíz jsi již dokončil a odeslal učiteli.</p>
+                            {data.name && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6 text-left">
+                                    <p className="text-gray-700 mb-2"><strong>Jméno:</strong> {data.name}</p>
+                                    <p className="text-gray-700 mb-2"><strong>Výsledek:</strong> {data.score}</p>
+                                    {data.time && <p className="text-gray-700 mb-2"><strong>Čas:</strong> {data.time}</p>}
+                                    {data.windowSwitches > 0 && <p className="text-gray-700 mb-2"><strong>Přepnutí oken:</strong> {data.windowSwitches}×</p>}
+                                    <p className="text-gray-700"><strong>Datum:</strong> {new Date(data.date).toLocaleString('cs-CZ')}</p>
+                                </div>
+                            )}
+                            <p className="text-gray-600 text-sm">Každý student může kvíz vyplnit pouze jednou. Pokud si myslíš, že je to chyba, kontaktuj svého učitele.</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ── VÝSLEDKY ─────────────────────────────────────────────────────
+            if (showResults) {
+                const score = calculateScore();
+                const pct   = (score / questions.length * 100).toFixed(1);
+                const wasTimeExpired = timeExpiredRef.current;
+                const timeSpent = formatTime(getElapsedTime());
+
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold text-center text-indigo-900 mb-6">Výsledky kvízu</h1>
+
+                            <div className={`border-2 rounded-lg p-4 mb-4 text-center ${wasTimeExpired ? 'bg-red-100 border-red-400' : 'bg-blue-100 border-blue-400'}`}>
+                                <div className={`text-2xl font-bold ${wasTimeExpired ? 'text-red-800' : 'text-blue-800'}`}>
+                                    {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
+                                </div>
+                                {wasTimeExpired && <p className="text-red-700 text-sm mt-2">Nezodpovězených otázek: {questions.length - Object.keys(answers).length}</p>}
+                            </div>
+
+                            {windowSwitches > 0 && (
+                                <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-6 text-center">
+                                    <div className="text-xl font-bold text-orange-800">⚠️ Přepnutí oken: {windowSwitches}×</div>
+                                    <p className="text-orange-700 text-sm mt-2">Tato informace bude odeslána učiteli.</p>
+                                </div>
+                            )}
+
+                            <div className="text-center mb-8">
+                                <div className="text-6xl font-bold text-indigo-600 mb-2">{score} / {questions.length}</div>
+                                <div className="text-2xl text-gray-700">{pct}%</div>
+                                <div className="mt-4 text-lg font-semibold">
+                                    {pct < 29 ? <span className="text-red-600">Celkové hodnocení: 5</span>
+                                    : pct <= 49 ? <span className="text-orange-600">Celkové hodnocení: 4</span>
+                                    : pct <= 79 ? <span className="text-yellow-600">Celkové hodnocení: 3</span>
+                                    : pct <= 89 ? <span className="text-blue-600">Celkové hodnocení: 2</span>
+                                    : <span className="text-green-600">Celkové hodnocení: 1</span>}
+                                </div>
+                            </div>
+
+                            {!emailSent && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                    <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
+                                    <div className="grid grid-cols-2 gap-3 mb-3">
+                                        <input type="text" placeholder="Jméno" value={studentFirstName} onChange={e => setStudentFirstName(e.target.value)} disabled={isSending} className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100" />
+                                        <input type="text" placeholder="Příjmení" value={studentLastName} onChange={e => setStudentLastName(e.target.value)} disabled={isSending} className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100" />
+                                    </div>
+                                    <button onClick={sendResultsEmail} disabled={isSending} className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                                        {isSending ? 'Odesílám...' : 'Odeslat výsledky učiteli'}
+                                    </button>
+                                </div>
+                            )}
+
+                            {emailSent && (
+                                <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6 mb-6 text-center">
+                                    <div className="text-4xl mb-2">✓</div>
+                                    <p className="text-green-800 font-semibold text-lg mb-2">Výsledky byly úspěšně odeslány učiteli!</p>
+                                    <p className="text-gray-800 font-bold text-2xl mt-4">Nyní můžeš zavřít prohlížeč.</p>
+                                </div>
+                            )}
+
+                            <div className="space-y-4">
+                                <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
+                                {questions.map((q, i) => {
+                                    const ans = answers[i];
+                                    const ok  = q.type === 'checkbox' ? isCheckboxCorrect(q, ans) : ans === q.correct;
+                                    return (
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${ok ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                            <div className="flex items-start gap-2">
+                                                <span className="font-bold text-gray-700">{i + 1}.</span>
+                                                <div className="flex-1">
+                                                    <p className="text-gray-800 mb-2">{q.question}</p>
+                                                    {q.type === 'multiple' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{ans !== undefined ? q.options[ans] : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.options[q.correct]}</p>}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'boolean' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{ans !== undefined ? (ans ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.correct ? 'Pravda' : 'Nepravda'}</p>}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'checkbox' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{Array.isArray(ans) && ans.length > 0 ? ans.map(j => q.options[j]).join(', ') : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.correct.map(j => q.options[j]).join(', ')}</p>}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-2xl">{ok ? '✓' : '✗'}</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ── HLAVNÍ KVÍZ ─────────────────────────────────────────────────
+            const q = questions[currentQuestion];
+            const ans = answers[currentQuestion];
+            const isAnswered = q.type === 'checkbox'
+                ? Array.isArray(ans) && ans.length > 0
+                : ans !== undefined;
+
+            const isTimeCritical  = timeLeft <= 120;
+            const isTimeVeryLow   = timeLeft <= 60;
+            const timerColor      = isTimeVeryLow ? 'bg-red-100 border-red-500' : isTimeCritical ? 'bg-orange-100 border-orange-400' : 'bg-blue-100 border-blue-400';
+            const timerTextColor  = isTimeVeryLow ? 'text-red-800' : isTimeCritical ? 'text-orange-800' : 'text-blue-800';
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div className="mb-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold text-indigo-900">Kvíz: {QUIZ_CONFIG.title}</h1>
+                                <span className="text-gray-600 font-semibold">{currentQuestion + 1} / {questions.length}</span>
+                            </div>
+                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
+                                <div className={`text-xl font-bold ${timerTextColor}`}>
+                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
+                                </div>
+                                {isTimeCritical && <p className={`text-sm mt-1 ${timerTextColor}`}>{isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}</p>}
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="bg-indigo-600 h-2 rounded-full transition-all duration-300" style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }} />
+                            </div>
+                        </div>
+
+                        <div className="mb-8">
+                            <h2 className="text-xl text-gray-800 mb-6 leading-relaxed">{q.question}</h2>
+
+                            {/* BOOLEAN */}
+                            {q.type === 'boolean' && (
+                                <div className="space-y-3">
+                                    {[true, false].map(val => (
+                                        <button key={String(val)} onClick={() => handleAnswer(val)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${ans === val ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}>
+                                            <span className="font-semibold text-gray-700">{val ? 'Pravda' : 'Nepravda'}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* MULTIPLE CHOICE */}
+                            {q.type === 'multiple' && (
+                                <div className="space-y-3">
+                                    {q.options.map((option, i) => (
+                                        <button key={i} onClick={() => handleAnswer(i)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${ans === i ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}>
+                                            <span className="font-semibold text-gray-700">{String.fromCharCode(65 + i)}.</span> {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* CHECKBOX */}
+                            {q.type === 'checkbox' && (
+                                <div className="space-y-3">
+                                    <p className="text-sm text-orange-600 font-medium mb-1">Vyber všechny správné odpovědi:</p>
+                                    {q.options.map((option, i) => {
+                                        const sel = Array.isArray(ans) && ans.includes(i);
+                                        return (
+                                            <button key={i} onClick={() => handleCheckbox(i)}
+                                                className={`w-full text-left p-4 rounded-lg border-2 transition ${sel ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'}`}>
+                                                <span className={`font-semibold mr-2 ${sel ? 'text-orange-600' : 'text-gray-500'}`}>{sel ? '☑' : '☐'}</span>{option}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button onClick={handlePrevious} disabled={currentQuestion === 0}
+                                className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                ← Zpět
+                            </button>
+                            <button onClick={handleNext} disabled={!isAnswered}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
+                            </button>
+                        </div>
+
+                        {!isAnswered && (
+                            <p className="text-center text-gray-500 text-sm mt-4">
+                                {q.type === 'checkbox' ? 'Vyber alespoň jednu odpověď pro pokračování' : 'Pro pokračování vyber odpověď'}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MuscleQuiz />);
+    </script>
+</body>
+</html>
