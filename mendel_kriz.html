@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.–3. Mendelův zákon</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const EMAILJS_CONFIG = {
+            publicKey: "3b0esMCXl9fZX1QHi",
+            serviceId: "service_t5uuqhn",
+            templateId: "template_3retggz"
+        };
+
+        if (typeof emailjs !== 'undefined') {
+            emailjs.init(EMAILJS_CONFIG.publicKey);
+        }
+
+        const MuscleQuiz = () => {
+
+            const QUIZ_CONFIG = {
+                title: "1.–3. Mendelův zákon",
+                teacherEmail: "hynek@gymberoun.cz",
+                timePerQuestion: 20,
+
+                questions: [
+                    // ── ANO / NE (5) ──────────────────────────────────────────
+                    { id: 1,  type: 'boolean', question: 'Při úplné dominanci je fenotypový štěpný poměr F₂ generace (Aa × Aa) 3 : 1.', correct: true },
+                    { id: 2,  type: 'boolean', question: 'Při neúplné dominanci má heterozygot stejný fenotyp jako jeden z rodičů.', correct: false },
+                    { id: 3,  type: 'boolean', question: 'Kodominance nastává, když se oba alely v heterozygotu projevují současně a plně – příkladem je krevní skupina AB (I\u1D2C I\u1D2E).', correct: true },
+                    { id: 4,  type: 'boolean', question: 'Genotypový štěpný poměr F₂ při monohybridním křížení (Aa × Aa) je 1 : 2 : 1.', correct: true },
+                    { id: 5,  type: 'boolean', question: 'Při dihybridním křížení AaBb × AaBb (obě geny s úplnou dominancí) je fenotypový štěpný poměr 9 : 3 : 3 : 1.', correct: true },
+
+                    // ── MULTIPLE CHOICE (20) ──────────────────────────────────
+                    { id: 6,  type: 'multiple', question: 'Červená begónie (RR) je zkřížena s bílou begónií (rr). Potomci F₁ jsou všichni růžoví. O jaký typ dědičnosti se jedná?', options: ['Úplná dominance', 'Kodominance', 'Neúplná dominance', 'Epistáze'], correct: 2 },
+                    { id: 7,  type: 'multiple', question: 'Dvě růžové begónie (Rr × Rr) jsou zkříženy – platí neúplná dominance. Jaký fenotypový poměr bude v F₂?', options: ['3 červené : 1 bílá', '1 červená : 2 růžové : 1 bílá', '1 červená : 1 bílá', 'Všechny růžové'], correct: 1 },
+                    { id: 8,  type: 'multiple', question: 'Krevní skupina AB u člověka vzniká díky:', options: ['Úplné dominanci alely Iᴬ nad Iᴮ', 'Neúplné dominanci – Iᴬ a Iᴮ vytvářejí intermediární antigen', 'Kodominanci alel Iᴬ a Iᴮ', 'Mutaci genu pro krevní skupiny'], correct: 2 },
+                    { id: 9,  type: 'multiple', question: 'Jaký genotyp má člověk s krevní skupinou 0?', options: ['Iᴬ I⁰', 'Iᴬ Iᴮ', 'I⁰ I⁰', 'Iᴮ I⁰'], correct: 2 },
+                    { id: 10, type: 'multiple', question: 'Matka má krevní skupinu A (Iᴬ I⁰), otec skupinu B (Iᴮ I⁰). Jaké krevní skupiny mohou mít jejich děti?', options: ['Jen AB a 0', 'A, B, AB nebo 0', 'Jen A nebo B', 'Jen AB'], correct: 1 },
+                    { id: 11, type: 'multiple', question: 'Při testovacím křížení heterozygota (Aa × aa) – jaký fenotypový poměr vznikne při úplné dominanci?', options: ['3 : 1', '1 : 2 : 1', '1 : 1', 'Všichni dominantního fenotypu'], correct: 2 },
+                    { id: 12, type: 'multiple', question: 'Mendel křížil hrách s kulatými semeny (RR) s hrachem s vrásčitými semeny (rr). Jaký byl fenotypový poměr v F₂ generaci?', options: ['1 kulaté : 1 vrásčité', '1 : 2 : 1', '3 kulatá : 1 vrásčité', 'Všechna kulatá'], correct: 2 },
+                    { id: 13, type: 'multiple', question: 'Flox: BB = tmavě fialový, Bb = světle fialový, bb = bílý (neúplná dominance). Rodiče Bb × bb. Jaký fenotypový poměr potomků?', options: ['3 tmavě fialové : 1 bílý', '1 světle fialový : 1 bílý', '1 : 2 : 1', 'Všechny světle fialové'], correct: 1 },
+                    { id: 14, type: 'multiple', question: 'U nosičů srpkovité anémie (HbᴬHbˢ) se v krvi nacházejí jak normální, tak srpkovité červené krvinky – oba alely jsou aktivní. O jaký typ dědičnosti se jedná?', options: ['Neúplná dominance – intermediární fenotyp', 'Kodominance – oba alely se projevují plně', 'Úplná dominance alely Hbᴬ', 'Recesivní dědičnost alely HbS'], correct: 1 },
+                    { id: 15, type: 'multiple', question: 'Jaký fenotypový poměr vznikne při dihybridním křížení AaBb × AaBb (obě geny s úplnou dominancí)?', options: ['1 : 2 : 1', '9 : 3 : 3 : 1', '3 : 1', '1 : 1 : 1 : 1'], correct: 1 },
+                    { id: 16, type: 'multiple', question: 'Při monohybridním křížení AA × aa je celá F₁ generace:', options: ['Vždy AA', 'Vždy Aa', '1 AA : 1 aa', '3 AA : 1 aa'], correct: 1 },
+                    { id: 17, type: 'multiple', question: 'Otec má krevní skupinu A (genotyp Iᴬ Iᴬ), matka skupinu 0 (I⁰ I⁰). Jaká bude krevní skupina všech jejich dětí?', options: ['A nebo 0', 'Pouze A', 'A nebo B', 'Pouze AB'], correct: 1 },
+                    { id: 18, type: 'multiple', question: 'Co vyjadřuje fenotypový štěpný poměr v F₂ generaci?', options: ['Poměr různých genotypů v potomcích', 'Poměr různých viditelných projevů (fenotypů) v potomcích', 'Poměr alel v celé populaci', 'Počet gamet vzniklých při meióze'], correct: 1 },
+                    { id: 19, type: 'multiple', question: 'Skot: RR = červený, rr = bílý, Rr = žíhaný roan (neúplná dominance). Křížení Rr × Rr. Jaký fenotypový poměr potomků?', options: ['3 červení : 1 bílý', '1 červený : 1 bílý', '1 červený : 2 žíhaní : 1 bílý', 'Všichni žíhaní'], correct: 2 },
+                    { id: 20, type: 'multiple', question: 'Dva rodiče s krevní skupinou A (oba Iᴬ I⁰) mají dítě s krevní skupinou 0. Jaká je pravděpodobnost, že jejich další dítě bude mít krevní skupinu 0?', options: ['0 %', '25 %', '50 %', '75 %'], correct: 1 },
+                    { id: 21, type: 'multiple', question: 'Při křížení dvou heterozygotů (Aa × Aa) při úplné dominanci – jak se liší genotypový a fenotypový poměr F₂?', options: ['Genotypový 3 : 1, fenotypový 1 : 2 : 1', 'Genotypový 1 : 2 : 1, fenotypový 3 : 1', 'Oba jsou 1 : 2 : 1', 'Oba jsou 3 : 1'], correct: 1 },
+                    { id: 22, type: 'multiple', question: 'Co říká 1. Mendelův zákon (zákon uniformity)?', options: ['Geny pro různé znaky se dědí nezávisle na sobě', 'Potomci F₁ z křížení dvou čistých linií jsou uniformní – všichni stejného fenotypu', 'V F₂ generaci dochází ke štěpení v poměru 3 : 1', 'Každá gameta nese jednu alelu každého genu'], correct: 1 },
+                    { id: 23, type: 'multiple', question: 'Japonské křepelky: BB = tmavě hnědá, Bb = světle hnědá, bb = bílá (neúplná dominance). Rodiče BB × Bb. Jaký fenotypový poměr potomků?', options: ['3 tmavě hnědé : 1 bílá', '1 tmavě hnědá : 1 světle hnědá', '1 : 2 : 1', 'Všechny tmavě hnědé'], correct: 1 },
+                    { id: 24, type: 'multiple', question: 'Při dihybridním křížení AaBb × AaBb (obě úplná dominance) – kolik různých fenotypů může vzniknout?', options: ['2', '4', '9', '16'], correct: 1 },
+                    { id: 25, type: 'multiple', question: 'Mendelovy experimenty s hrachem vedly k platnosti 3. zákona (nezávislé kombinace), protože:', options: ['Hrách je diploidní organismus', 'Sledované geny ležely na různých chromozomech (nebo byly dostatečně vzdálené)', 'Hrách má krátkou generační dobu', 'Hrách se rozmnožuje výhradně pohlavně'], correct: 1 },
+
+                    // ── CHECKBOX (5) ─────────────────────────────────────────
+                    { id: 26, type: 'checkbox', question: 'Která tvrzení o neúplné dominanci jsou správná?', options: ['Heterozygot má intermediární fenotyp odlišný od obou rodičů.', 'Fenotypový poměr F₂ (Rr × Rr) je 3 : 1 – stejně jako při úplné dominanci.', 'Genotypový poměr F₂ (Rr × Rr) je 1 : 2 : 1 – stejný jako při úplné dominanci.', 'Příkladem je zbarvení skotu roan (Rr = žíhaný červenobílý).', 'Při neúplné dominanci nelze fenotypem rozlišit heterozygota od dominantního homozygota.', 'Fenotypový i genotypový poměr F₂ splývají v 1 : 2 : 1 – na rozdíl od úplné dominance.'], correct: [0, 2, 3, 5] },
+                    { id: 27, type: 'checkbox', question: 'Která tvrzení o kodominanci jsou správná?', options: ['Oba alely jsou v heterozygotu plně vyjádřeny současně.', 'Heterozygot má fenotyp shodný s jedním z rodičů – dominantní alela potlačí recesivní.', 'Příkladem je krevní skupina AB (Iᴬ Iᴮ) – erytrocyty nesou antigen A i antigen B zároveň.', 'U nosičů srpkovité anémie (HbᴬHbˢ) jsou přítomny oba typy hemoglobinu – projevují se oba alely.', 'Kodominance je totéž jako neúplná dominance – oba termíny jsou zaměnitelné.', 'Křížení Iᴬ Iᴮ × I⁰ I⁰ dá potomky výhradně s krevní skupinou A nebo B v poměru 1 : 1.'], correct: [0, 2, 3, 5] },
+                    { id: 28, type: 'checkbox', question: 'Která tvrzení o 2. Mendelově zákoně (zákon segregace) jsou správná?', options: ['Alely genu se při tvorbě gamet oddělují – každá gameta nese pouze jednu alelu z každého genového páru.', '2. zákon říká, že geny pro různé znaky se dědí nezávisle – to je náplní 3. zákona.', 'Zákon se projevuje fenotypovým poměrem 3 : 1 v F₂ při úplné dominanci.', 'Zákon je podmíněn oddělováním homologních chromozomů při meióze I.', 'Zákon segregace jako první formuloval Thomas Morgan, nikoli Mendel.', 'Zákon segregace platí i při neúplné dominanci – mění se jen fenotypový projev, ne segregace samotná.'], correct: [0, 2, 3, 5] },
+                    { id: 29, type: 'checkbox', question: 'Muž s krevní skupinou AB (Iᴬ Iᴮ) a žena s krevní skupinou 0 (I⁰ I⁰). Která tvrzení o jejich potomcích jsou správná?', options: ['Žádné dítě nemůže mít krevní skupinu AB.', 'Každé dítě bude mít krevní skupinu A nebo B.', 'Pravděpodobnost krevní skupiny 0 je 25 %.', 'Pravděpodobnost krevní skupiny A je 50 %.', 'Potomci mohou mít genotyp Iᴬ Iᴮ nebo I⁰ I⁰.', 'Genotypy potomků budou výhradně Iᴬ I⁰ nebo Iᴮ I⁰.'], correct: [0, 1, 3, 5] },
+                    { id: 30, type: 'checkbox', question: 'Která tvrzení o štěpných poměrech jsou správná?', options: ['Genotypový poměr 1 : 2 : 1 nastává v F₂ monohybridního křížení (Aa × Aa) vždy – bez ohledu na typ dominance.', 'Fenotypový poměr 3 : 1 platí v F₂ i při neúplné dominanci – heterozygot má shodný fenotyp s dominantním homozygotem.', 'Testovací křížení (Aa × aa) při úplné dominanci dává fenotypový poměr 1 : 1.', 'Fenotypový poměr 9 : 3 : 3 : 1 vzniká při dihybridním křížení AaBb × AaBb (obě úplná dominance).', 'Při neúplné dominanci v F₂ (Rr × Rr) je fenotypový poměr 1 : 2 : 1, nikoli 3 : 1.', 'Genotypový a fenotypový poměr jsou vždy totožné – nezávisí na typu dominance.'], correct: [0, 2, 3, 4] }
+                ]
+            };
+
+            // ── POMOCNÉ FUNKCE ──────────────────────────────────────────────
+            const shuffleArray = (array) => {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            };
+
+            const isCheckboxCorrect = (q, ans) => {
+                if (!Array.isArray(ans) || ans.length === 0) return false;
+                const sortedAns = [...ans].sort().join(',');
+                const sortedCorr = [...q.correct].sort().join(',');
+                return sortedAns === sortedCorr;
+            };
+
+            // ── ZAMÍCHÁNÍ OTÁZEK A MOŽNOSTÍ ─────────────────────────────────
+            const [questions] = useState(() => {
+                return shuffleArray(QUIZ_CONFIG.questions).map(q => {
+                    if (q.type === 'multiple') {
+                        const withIdx = q.options.map((opt, i) => ({ text: opt, orig: i }));
+                        const shuffled = shuffleArray(withIdx);
+                        return { ...q, options: shuffled.map(o => o.text), correct: shuffled.findIndex(o => o.orig === q.correct) };
+                    }
+                    if (q.type === 'checkbox') {
+                        const withIdx = q.options.map((opt, i) => ({ text: opt, orig: i }));
+                        const shuffled = shuffleArray(withIdx);
+                        return { ...q, options: shuffled.map(o => o.text), correct: q.correct.map(c => shuffled.findIndex(o => o.orig === c)) };
+                    }
+                    return q;
+                });
+            });
+
+            // ── STATE ───────────────────────────────────────────────────────
+            const [currentQuestion, setCurrentQuestion]   = useState(0);
+            const [answers, setAnswers]                   = useState({});
+            const [showResults, setShowResults]           = useState(false);
+            const [studentFirstName, setStudentFirstName] = useState('');
+            const [studentLastName, setStudentLastName]   = useState('');
+            const [isSending, setIsSending]               = useState(false);
+            const [emailSent, setEmailSent]               = useState(false);
+            const [quizCompleted, setQuizCompleted]       = useState(false);
+            const [windowSwitches, setWindowSwitches]     = useState(0);
+
+            const totalTimeLimit  = QUIZ_CONFIG.timePerQuestion * questions.length;
+            const [timeLeft, setTimeLeft] = useState(totalTimeLimit);
+            const [startTime]     = useState(Date.now());
+            const timeExpiredRef  = useRef(false);
+
+            // ── ČASOVAČ ─────────────────────────────────────────────────────
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+                const timer = setInterval(() => {
+                    const remaining = totalTimeLimit - Math.floor((Date.now() - startTime) / 1000);
+                    if (remaining <= 0 && !timeExpiredRef.current) {
+                        timeExpiredRef.current = true;
+                        setTimeLeft(0);
+                        setShowResults(true);
+                    } else {
+                        setTimeLeft(Math.max(0, remaining));
+                    }
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [startTime, totalTimeLimit, showResults, quizCompleted]);
+
+            // ── DETEKCE PŘEPÍNÁNÍ OKEN ───────────────────────────────────────
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+                const onHide  = () => { if (document.hidden) setWindowSwitches(p => p + 1); };
+                const onBlur  = () => setWindowSwitches(p => p + 1);
+                document.addEventListener('visibilitychange', onHide);
+                window.addEventListener('blur', onBlur);
+                return () => { document.removeEventListener('visibilitychange', onHide); window.removeEventListener('blur', onBlur); };
+            }, [showResults, quizCompleted]);
+
+            // ── ZÁKAZ KOPÍROVÁNÍ ─────────────────────────────────────────────
+            useEffect(() => {
+                const stop = e => e.preventDefault();
+                document.addEventListener('copy', stop);
+                document.addEventListener('cut', stop);
+                document.addEventListener('contextmenu', stop);
+                return () => { document.removeEventListener('copy', stop); document.removeEventListener('cut', stop); document.removeEventListener('contextmenu', stop); };
+            }, []);
+
+            // ── KONTROLA PŘEDCHOZÍHO DOKONČENÍ ───────────────────────────────
+            useEffect(() => {
+                if (localStorage.getItem(`quiz_completed_${QUIZ_CONFIG.title}`)) setQuizCompleted(true);
+            }, []);
+
+            // ── POMOCNÉ ──────────────────────────────────────────────────────
+            const formatTime = s => `${Math.floor(s / 60)} minut ${s % 60} sekund`;
+            const getElapsedTime = () => Math.min(Math.floor((Date.now() - startTime) / 1000), totalTimeLimit);
+
+            const calculateScore = () => {
+                let score = 0;
+                questions.forEach((q, i) => {
+                    const ans = answers[i];
+                    if (q.type === 'boolean'  && ans === q.correct) score++;
+                    if (q.type === 'multiple' && ans === q.correct) score++;
+                    if (q.type === 'checkbox' && isCheckboxCorrect(q, ans)) score++;
+                });
+                return score;
+            };
+
+            // ── HANDLERY ─────────────────────────────────────────────────────
+            const handleAnswer = (answer) => setAnswers({ ...answers, [currentQuestion]: answer });
+
+            const handleCheckbox = (idx) => {
+                const cur = Array.isArray(answers[currentQuestion]) ? answers[currentQuestion] : [];
+                const upd = cur.includes(idx) ? cur.filter(i => i !== idx) : [...cur, idx];
+                handleAnswer(upd);
+            };
+
+            const handleNext = () => {
+                if (currentQuestion < questions.length - 1) setCurrentQuestion(currentQuestion + 1);
+                else setShowResults(true);
+            };
+
+            const handlePrevious = () => { if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1); };
+
+            // ── ODESLÁNÍ E-MAILU ─────────────────────────────────────────────
+            const sendResultsEmail = async () => {
+                if (!studentFirstName.trim() || !studentLastName.trim()) { alert('Prosím vyplň své jméno i příjmení.'); return; }
+                setIsSending(true);
+                const score = calculateScore();
+                const pct   = (score / questions.length * 100).toFixed(1);
+                const grade = pct >= 90 ? 1 : pct >= 80 ? 2 : pct >= 50 ? 3 : pct >= 29 ? 4 : 5;
+                const elapsed = getElapsedTime();
+                const detailLines = questions.map((q, i) => {
+                    const ans = answers[i];
+                    const ok  = q.type === 'checkbox' ? isCheckboxCorrect(q, ans) : ans === q.correct;
+                    let ansText = 'Bez odpovědi';
+                    if (q.type === 'boolean'  && ans !== undefined) ansText = ans ? 'Pravda' : 'Nepravda';
+                    if (q.type === 'multiple' && ans !== undefined) ansText = q.options[ans];
+                    if (q.type === 'checkbox' && Array.isArray(ans) && ans.length > 0) ansText = ans.map(j => q.options[j]).join('; ');
+                    return `${i+1}. [${ok ? 'OK' : 'CHYBA'}] ${q.question}\n   Odpověď: ${ansText}`;
+                }).join('\n');
+
+                const messageBody = `Kvíz: ${QUIZ_CONFIG.title}\nŽák: ${studentFirstName} ${studentLastName}\nSkóre: ${score}/${questions.length} (${pct}%) → Známka: ${grade}\nČas: ${formatTime(elapsed)}\nPřepnutí oken: ${windowSwitches}×\n\n${detailLines}`;
+
+                try {
+                    await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+                        to_email: QUIZ_CONFIG.teacherEmail,
+                        subject:  `Kvíz: ${QUIZ_CONFIG.title} – ${studentFirstName} ${studentLastName} – ${score}/${questions.length} (${pct}%)`,
+                        message:  messageBody
+                    });
+                    localStorage.setItem(`quiz_completed_${QUIZ_CONFIG.title}`, 'true');
+                    setEmailSent(true);
+                } catch (err) {
+                    alert('Chyba při odesílání. Zkuste to znovu nebo informujte učitele.');
+                    console.error(err);
+                } finally {
+                    setIsSending(false);
+                }
+            };
+
+            // ── RENDER: DOKONČENO DŘÍVE ──────────────────────────────────────
+            if (quizCompleted) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-8">
+                        <div className="max-w-lg mx-auto bg-white rounded-lg shadow-xl p-8 text-center">
+                            <div className="text-6xl mb-4">✓</div>
+                            <h1 className="text-2xl font-bold text-indigo-900 mb-4">Kvíz již byl dokončen</h1>
+                            <p className="text-gray-600">Tento kvíz jsi již absolvoval/a a výsledky byly odeslány učiteli.</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ── RENDER: VÝSLEDKY ────────────────────────────────────────────
+            if (showResults) {
+                const score = calculateScore();
+                const pct   = (score / questions.length * 100).toFixed(1);
+                const wasTimeExpired = timeExpiredRef.current;
+                const timeSpent = formatTime(getElapsedTime());
+
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                        <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                            <h1 className="text-3xl font-bold text-center text-indigo-900 mb-6">Výsledky kvízu</h1>
+
+                            <div className={`border-2 rounded-lg p-4 mb-4 text-center ${wasTimeExpired ? 'bg-red-100 border-red-400' : 'bg-blue-100 border-blue-400'}`}>
+                                <div className={`text-2xl font-bold ${wasTimeExpired ? 'text-red-800' : 'text-blue-800'}`}>
+                                    {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
+                                </div>
+                                {wasTimeExpired && <p className="text-red-700 text-sm mt-2">Nezodpovězených otázek: {questions.length - Object.keys(answers).length}</p>}
+                            </div>
+
+                            {windowSwitches > 0 && (
+                                <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-6 text-center">
+                                    <div className="text-xl font-bold text-orange-800">⚠️ Přepnutí oken: {windowSwitches}×</div>
+                                    <p className="text-orange-700 text-sm mt-2">Tato informace bude odeslána učiteli.</p>
+                                </div>
+                            )}
+
+                            <div className="text-center mb-8">
+                                <div className="text-6xl font-bold text-indigo-600 mb-2">{score} / {questions.length}</div>
+                                <div className="text-2xl text-gray-700">{pct}%</div>
+                                <div className="mt-4 text-lg font-semibold">
+                                    {pct < 29 ? <span className="text-red-600">Celkové hodnocení: 5</span>
+                                    : pct <= 49 ? <span className="text-orange-600">Celkové hodnocení: 4</span>
+                                    : pct <= 79 ? <span className="text-yellow-600">Celkové hodnocení: 3</span>
+                                    : pct <= 89 ? <span className="text-blue-600">Celkové hodnocení: 2</span>
+                                    : <span className="text-green-600">Celkové hodnocení: 1</span>}
+                                </div>
+                            </div>
+
+                            {!emailSent && (
+                                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
+                                    <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
+                                    <div className="grid grid-cols-2 gap-3 mb-3">
+                                        <input type="text" placeholder="Jméno" value={studentFirstName} onChange={e => setStudentFirstName(e.target.value)} disabled={isSending} className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100" />
+                                        <input type="text" placeholder="Příjmení" value={studentLastName} onChange={e => setStudentLastName(e.target.value)} disabled={isSending} className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none disabled:bg-gray-100" />
+                                    </div>
+                                    <button onClick={sendResultsEmail} disabled={isSending} className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+                                        {isSending ? 'Odesílám...' : 'Odeslat výsledky učiteli'}
+                                    </button>
+                                </div>
+                            )}
+
+                            {emailSent && (
+                                <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6 mb-6 text-center">
+                                    <div className="text-4xl mb-2">✓</div>
+                                    <p className="text-green-800 font-semibold text-lg mb-2">Výsledky byly úspěšně odeslány učiteli!</p>
+                                    <p className="text-gray-800 font-bold text-2xl mt-4">Nyní můžeš zavřít prohlížeč.</p>
+                                </div>
+                            )}
+
+                            <div className="space-y-4">
+                                <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
+                                {questions.map((q, i) => {
+                                    const ans = answers[i];
+                                    const ok  = q.type === 'checkbox' ? isCheckboxCorrect(q, ans) : ans === q.correct;
+                                    return (
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${ok ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                            <div className="flex items-start gap-2">
+                                                <span className="font-bold text-gray-700">{i + 1}.</span>
+                                                <div className="flex-1">
+                                                    <p className="text-gray-800 mb-2">{q.question}</p>
+                                                    {q.type === 'multiple' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{ans !== undefined ? q.options[ans] : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.options[q.correct]}</p>}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'boolean' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{ans !== undefined ? (ans ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.correct ? 'Pravda' : 'Nepravda'}</p>}
+                                                        </>
+                                                    )}
+                                                    {q.type === 'checkbox' && (
+                                                        <>
+                                                            <p className="text-sm text-gray-600">Tvá odpověď: <span className={ok ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>{Array.isArray(ans) && ans.length > 0 ? ans.map(j => q.options[j]).join(', ') : 'Bez odpovědi'}</span></p>
+                                                            {!ok && <p className="text-sm text-green-700 font-semibold">Správná odpověď: {q.correct.map(j => q.options[j]).join(', ')}</p>}
+                                                        </>
+                                                    )}
+                                                </div>
+                                                <span className="text-2xl">{ok ? '✓' : '✗'}</span>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            // ── HLAVNÍ KVÍZ ─────────────────────────────────────────────────
+            const q = questions[currentQuestion];
+            const ans = answers[currentQuestion];
+            const isAnswered = q.type === 'checkbox'
+                ? Array.isArray(ans) && ans.length > 0
+                : ans !== undefined;
+
+            const isTimeCritical  = timeLeft <= 120;
+            const isTimeVeryLow   = timeLeft <= 60;
+            const timerColor      = isTimeVeryLow ? 'bg-red-100 border-red-500' : isTimeCritical ? 'bg-orange-100 border-orange-400' : 'bg-blue-100 border-blue-400';
+            const timerTextColor  = isTimeVeryLow ? 'text-red-800' : isTimeCritical ? 'text-orange-800' : 'text-blue-800';
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+                        <div className="mb-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <h1 className="text-2xl font-bold text-indigo-900">Kvíz: {QUIZ_CONFIG.title}</h1>
+                                <span className="text-gray-600 font-semibold">{currentQuestion + 1} / {questions.length}</span>
+                            </div>
+                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
+                                <div className={`text-xl font-bold ${timerTextColor}`}>
+                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
+                                </div>
+                                {isTimeCritical && <p className={`text-sm mt-1 ${timerTextColor}`}>{isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}</p>}
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                <div className="bg-indigo-600 h-2 rounded-full transition-all duration-300" style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }} />
+                            </div>
+                        </div>
+
+                        <div className="mb-8">
+                            <h2 className="text-xl text-gray-800 mb-6 leading-relaxed">{q.question}</h2>
+
+                            {/* BOOLEAN */}
+                            {q.type === 'boolean' && (
+                                <div className="space-y-3">
+                                    {[true, false].map(val => (
+                                        <button key={String(val)} onClick={() => handleAnswer(val)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${ans === val ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}>
+                                            <span className="font-semibold text-gray-700">{val ? 'Pravda' : 'Nepravda'}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* MULTIPLE CHOICE */}
+                            {q.type === 'multiple' && (
+                                <div className="space-y-3">
+                                    {q.options.map((option, i) => (
+                                        <button key={i} onClick={() => handleAnswer(i)}
+                                            className={`w-full text-left p-4 rounded-lg border-2 transition ${ans === i ? 'border-indigo-600 bg-indigo-50' : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'}`}>
+                                            <span className="font-semibold text-gray-700">{String.fromCharCode(65 + i)}.</span> {option}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* CHECKBOX */}
+                            {q.type === 'checkbox' && (
+                                <div className="space-y-3">
+                                    <p className="text-sm text-orange-600 font-medium mb-1">Vyber všechny správné odpovědi:</p>
+                                    {q.options.map((option, i) => {
+                                        const sel = Array.isArray(ans) && ans.includes(i);
+                                        return (
+                                            <button key={i} onClick={() => handleCheckbox(i)}
+                                                className={`w-full text-left p-4 rounded-lg border-2 transition ${sel ? 'border-orange-500 bg-orange-50' : 'border-gray-300 hover:border-orange-400 hover:bg-gray-50'}`}>
+                                                <span className={`font-semibold mr-2 ${sel ? 'text-orange-600' : 'text-gray-500'}`}>{sel ? '☑' : '☐'}</span>{option}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="flex gap-4">
+                            <button onClick={handlePrevious} disabled={currentQuestion === 0}
+                                className="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-400 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                ← Zpět
+                            </button>
+                            <button onClick={handleNext} disabled={!isAnswered}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
+                            </button>
+                        </div>
+
+                        {!isAnswered && (
+                            <p className="text-center text-gray-500 text-sm mt-4">
+                                {q.type === 'checkbox' ? 'Vyber alespoň jednu odpověď pro pokračování' : 'Pro pokračování vyber odpověď'}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MuscleQuiz />);
+    </script>
+</body>
+</html>
