@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smyslové orgány</title>
+    <title>Kvíz: Kosterní soustava</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -41,348 +45,319 @@
         =============================================================================
         */
 
-        const MuscleQuiz = () => {
+        const KostraQuiz = () => {
             // ========================================
             // NASTAVENÍ KVÍZU - TADY MĚNÍŠ OBSAH
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Smyslové orgány",
+                title: "Kosterní soustava",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
-    questions: [
-    {
-        id: 1,
-        type: 'multiple',
-        question: 'Viditelné záření, na které reaguje lidské oko, má vlnovou délku přibližně:',
-        options: [
-            '380 – 780 nm',
-            '100 – 200 nm',
-            '800 – 1200 nm',
-            '10 – 50 nm'
-        ],
-        correct: 0
-    },
-    {
-        id: 2,
-        type: 'multiple',
-        question: 'Žlutá skvrna (fovea) je:',
-        options: [
-            'Místo výstupu zrakového nervu, bez fotoreceptorů',
-            'Oblast sítnice s vysokou hustotou tyčinek a žádnými čípky',
-            'Pigmentovaná vrstva pod bělimou',
-            'Malá jamka přesně v optické ose oka – místo nejostřejšího vidění'
-        ],
-        correct: 3
-    },
-    {
-        id: 3,
-        type: 'boolean',
-        question: 'Zrak je pro člověka nejdůležitější smysl a zajišťuje přibližně 80 % všech informací z okolního prostředí.',
-        correct: true
-    },
-    {
-        id: 4,
-        type: 'multiple',
-        question: 'Akomodace oka je:',
-        options: [
-            'Pohyb oční koule pomocí okohybných svalů',
-            'Zaostřování změnou tvaru čočky na různě vzdálené předměty',
-            'Schopnost rozlišovat barvy pomocí čípků',
-            'Automatická reakce zornice na intenzitu světla'
-        ],
-        correct: 1
-    },
-    {
-        id: 5,
-        type: 'multiple',
-        question: 'Slepá skvrna vzniká proto, že:',
-        options: [
-            'Čočka vrhá na toto místo rozostřený obraz',
-            'V tomto místě jsou pouze tyčinky, žádné čípky',
-            'Zde dopadá světlo přímo na cévnatku, nikoli na sítnici',
-            'Je to místo výstupu zrakového nervu, prakticky bez fotoreceptorů'
-        ],
-        correct: 3
-    },
-    {
-        id: 6,
-        type: 'multiple',
-        question: 'Zornicový reflex je:',
-        options: [
-            'Automatická změna průměru zornice v závislosti na intenzitě světla',
-            'Automatické mrknutí při podráždění rohovky',
-            'Změna tvaru čočky při pohledu na blízký předmět',
-            'Pohyb očí při sledování pohybujícího se předmětu'
-        ],
-        correct: 0
-    },
-    {
-        id: 7,
-        type: 'boolean',
-        question: 'Tyčinky v sítnici umožňují barevné vidění a jsou nejaktivnější za plného denního světla.',
-        correct: false
-    },
-    {
-        id: 8,
-        type: 'multiple',
-        question: 'Krátkozrakost (myopie) vzniká proto, že:',
-        options: [
-            'Rohovka má vadné zakřivení a rozptyluje světlo',
-            'Čočka je příliš plochá a nestačí lámat světlo',
-            'Obraz vzdálených předmětů se promítá před sítnici',
-            'Obraz vzdálených předmětů se promítá za sítnici'
-        ],
-        correct: 2
-    },
-    {
-        id: 9,
-        type: 'multiple',
-        question: 'Astigmatismus je způsoben:',
-        options: [
-            'Příliš silnou čočkou, která láme světlo před sítnici',
-            'Vadným zakřivením rohovky – obraz bodu se promítá na různá místa sítnice',
-            'Nedostatečnou funkcí tyčinek',
-            'Usazováním látek v čočce'
-        ],
-        correct: 1
-    },
-    {
-        id: 10,
-        type: 'multiple',
-        question: 'Šeroslepost je nejčastěji důsledkem:',
-        options: [
-            'Poruchy čípků reagujících na modrou barvu',
-            'Zvýšeného nitroočního tlaku',
-            'Zánětu spojivky způsobeného UV zářením',
-            'Nedostatku vitaminu A, který je potřebný k tvorbě rodopsinu'
-        ],
-        correct: 3
-    },
-    {
-        id: 11,
-        type: 'boolean',
-        question: 'Eustachova trubice slouží k vyrovnávání tlaku ve středním uchu s tlakem atmosférickým.',
-        correct: true
-    },
-    {
-        id: 12,
-        type: 'multiple',
-        question: 'Zelený zákal (glaukom) je způsoben:',
-        options: [
-            'Zánětem spojivky vlivem prachu nebo UV záření',
-            'Zvýšením tlaku tekutiny uvnitř oka, které může poškodit sítnici nebo zrakový nerv',
-            'Usazováním látek v čočce vedoucím k jejímu zákalu',
-            'Poruchou funkce slzných žláz'
-        ],
-        correct: 1
-    },
-    {
-        id: 13,
-        type: 'multiple',
-        question: 'Sluchový orgán patří mezi mechanoreceptory, protože:',
-        options: [
-            'Detekuje elektromagnetické záření zvukového původu',
-            'Je citlivý na změny teploty vzduchu',
-            'Reaguje na tlakové vlny – mechanické podráždění způsobené zvukovým vlněním',
-            'Reaguje na chemické látky obsažené ve vzduchu'
-        ],
-        correct: 2
-    },
-    {
-        id: 14,
-        type: 'multiple',
-        question: 'Lidské ucho vnímá zvukové vlny v rozsahu frekvencí přibližně:',
-        options: [
-            '1 – 1 000 Hz',
-            '100 – 100 000 Hz',
-            '0,1 – 100 Hz',
-            '20 – 20 000 Hz'
-        ],
-        correct: 3
-    },
-    {
-        id: 15,
-        type: 'multiple',
-        question: 'Sluchové kůstky (kladívko, kovadlinka, třmínek) přenášejí vibrace:',
-        options: [
-            'Z bubínku na oválné okénko vnitřního ucha',
-            'Z vnitřního ucha do středního',
-            'Z boltce do zvukovodu',
-            'Z Cortiho orgánu na sluchový nerv'
-        ],
-        correct: 0
-    },
-    {
-        id: 16,
-        type: 'boolean',
-        question: 'Čich je méně citlivý než chuť – chemoreceptory jazyka dokáží rozlišit více různých látek než čichová sliznice.',
-        correct: false
-    },
-    {
-        id: 17,
-        type: 'multiple',
-        question: 'Cortiho orgán je umístěn v:',
-        options: [
-            'Středním uchu na povrchu bubínku',
-            'Blanitém hlemýždi vnitřního ucha',
-            'Vestibulárním ústrojí – v polokruhovitých kanálcích',
-            'Zevním zvukovodu'
-        ],
-        correct: 1
-    },
-    {
-        id: 18,
-        type: 'multiple',
-        question: 'Otolity jsou:',
-        options: [
-            'Vláskové buňky Cortiho orgánu reagující na zvuk',
-            'Tekutina vyplňující blanitý hlemýžď',
-            'Krystalky uhličitanu vápenatého v rovnovážném ústrojí, jejichž pohyb stimuluje receptory',
-            'Nejmenší kosti lidského těla přenášející zvuk'
-        ],
-        correct: 2
-    },
-    {
-        id: 19,
-        type: 'multiple',
-        question: 'Polokruhovité kanálky vestibulárního ústrojí registrují:',
-        options: [
-            'Přímočaré zrychlení a polohu hlavy vůči gravitaci',
-            'Intenzitu zvukového podnětu',
-            'Výšku tónu zvukového podnětu',
-            'Rotační pohyby – úhlové zrychlení'
-        ],
-        correct: 3
-    },
-    {
-        id: 20,
-        type: 'multiple',
-        question: 'Chemoreceptory jazyka jsou uspořádány ve skupinách zvaných:',
-        options: [
-            'Chuťové pohárky umístěné v chuťových bradavkách',
-            'Čichový epitel',
-            'Paciniho tělíska',
-            'Cortiho orgány'
-        ],
-        correct: 0
-    },
-    {
-        id: 21,
-        type: 'boolean',
-        question: 'Vestibulární ústrojí (rovnovážný orgán) je součástí vnitřního ucha.',
-        correct: true
-    },
-    {
-        id: 22,
-        type: 'multiple',
-        question: 'Proč při rýmě „nemá jídlo chuť"?',
-        options: [
-            'Rýma způsobuje otok jazyka znemožňující kontakt potravy s chuťovými pohárky',
-            'Virová infekce při rýmě přímo poškozuje chuťové buňky jazyka',
-            'Rýma blokuje tvorbu slin, bez nichž se látky nemohou vázat na receptory',
-            'Čichová sliznice je pokryta hlenem – čich nefunguje a jemnější chuťové odstíny zprostředkované čichem nejsou vnímány'
-        ],
-        correct: 3
-    },
-    {
-        id: 23,
-        type: 'multiple',
-        question: 'Receptory bolesti (nociceptory) se od ostatních kožních receptorů liší tím, že:',
-        options: [
-            'Reagují výhradně na teplotní podněty',
-            'Se neadaptují – jejich citlivost neklesá při dlouhodobém působení podnětu',
-            'Jsou umístěny pouze v hlubokých vrstvách kůže',
-            'Jsou tvořeny specializovanými smyslovými buňkami s vláskovými výběžky'
-        ],
-        correct: 1
-    },
-    {
-        id: 24,
-        type: 'multiple',
-        question: 'Termoreceptory chladu jsou ve srovnání s termoreceptory tepla:',
-        options: [
-            'Stejně početné, liší se pouze prahem citlivosti',
-            'Přítomny pouze na hřbetu ruky a v kůži obličeje',
-            'Mnohem početnější a uložené povrchově ve škáře',
-            'Mnohem méně početné a uložené hlouběji v kůži'
-        ],
-        correct: 2
-    },
-    {
-        id: 25,
-        type: 'multiple',
-        question: 'Příliš silný bolestivý podnět tělo tlumí produkcí:',
-        options: [
-            'Kortizolu, který blokuje nociceptory',
-            'Histaminu, který snižuje zánětlivou reakci',
-            'Adrenalinu, který zvyšuje práh bolesti',
-            'Endorfinů – vnitřních opiátů'
-        ],
-        correct: 3
-    },
-    {
-        id: 26,
-        type: 'multiple',
-        question: 'Základem pigmentu rodopsinu v tyčinkách je:',
-        options: [
-            'Vitamin A',
-            'Jód',
-            'Železo',
-            'Vitamin D'
-        ],
-        correct: 0
-    },
-    {
-        id: 27,
-        type: 'multiple',
-        question: 'Barvoslepost (daltonismus) je porucha, při níž:',
-        options: [
-            'Dochází k zánětu spojivky způsobenému alergenními látkami',
-            'Jsou poškozeny určité typy čípků – nejčastěji pro červenou a zelenou barvu',
-            'Pacient nevidí za šera kvůli poruše tyčinek',
-            'Čočka ztrácí průhlednost a způsobuje zamlžené vidění'
-        ],
-        correct: 1
-    },
-    {
-        id: 28,
-        type: 'multiple',
-        question: 'Slzná tekutina obsahuje enzym lysozym, jehož funkcí je:',
-        options: [
-            'Regulace průměru zornice',
-            'Zaostřování obrazu na sítnici',
-            'Desinfekce – ochrana povrchu oka před infekcí',
-            'Výživa čočky a rohovky'
-        ],
-        correct: 2
-    },
-    {
-        id: 29,
-        type: 'multiple',
-        question: 'Šedý zákal (katarakta) je stav, při němž:',
-        options: [
-            'Rohovka ztrácí průhlednost',
-            'Dochází ke zvýšení nitroočního tlaku',
-            'Se sítnice odchlipuje od cévnatky',
-            'Se látky usazují v čočce a způsobují její zákal – zamlžený zrakový vjem'
-        ],
-        correct: 3
-    },
-    {
-        id: 30,
-        type: 'multiple',
-        question: 'Proč lidé za šera vidí lépe „postranním pohledem" než přímým pohledem?',
-        options: [
-            'Přímý pohled směřuje obraz na žlutou skvrnu s čípky, které za šera nefungují; postranní pohled dopadá na oblast bohatou na tyčinky',
-            'Zornice je při postranním pohledu více rozšířena a propustí více světla',
-            'Okohybné svaly jsou při postranním pohledu relaxované a oko méně namáhá čočku',
-            'Při postranním pohledu se čočka více zakřiví a zlepší zaostření'
-        ],
-        correct: 0
-    }
-]
+                questions: [
+        {
+            "id": 1,
+            "type": "boolean",
+            "question": "Nosič (atlas) má mohutné tělo se zubem, kolem kterého se otáčí hlava.",
+            "correct": false
+        },
+        {
+            "id": 2,
+            "type": "boolean",
+            "question": "Kost roste do délky v růstových chrupavkách a do šířky činností okostice.",
+            "correct": true
+        },
+        {
+            "id": 3,
+            "type": "boolean",
+            "question": "Kosti lebeční klenby vznikají chondrogenní osifikací, tedy z chrupavky.",
+            "correct": false
+        },
+        {
+            "id": 4,
+            "type": "boolean",
+            "question": "Dolní čelist je jedinou pohyblivou kostí lebky.",
+            "correct": true
+        },
+        {
+            "id": 5,
+            "type": "multiple",
+            "question": "Nejtvrdší kostí lidského těla je:",
+            "options": [
+                "čelní kost",
+                "stehenní kost",
+                "dolní čelist",
+                "kost skalní, část spánkové kosti"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 6,
+            "type": "multiple",
+            "question": "Vnější kotník tvoří:",
+            "options": [
+                "holenní kost",
+                "kost hlezenní",
+                "patní kost",
+                "lýtková kost"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 7,
+            "type": "multiple",
+            "question": "Počet obratlů v krčním, hrudním a bederním oddílu páteře je:",
+            "options": [
+                "12 – 7 – 5",
+                "7 – 10 – 5",
+                "7 – 12 – 5",
+                "5 – 12 – 7"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 8,
+            "type": "multiple",
+            "question": "Hlavní anorganickou složkou kostní mezibuněčné hmoty je:",
+            "options": [
+                "kolagen",
+                "glykogen",
+                "kyselina močová",
+                "fosforečnan vápenatý (apatit)"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 9,
+            "type": "multiple",
+            "question": "V tureckém sedle klínové kosti je uložena:",
+            "options": [
+                "prodloužená mícha",
+                "hypofýza",
+                "čichová ploténka",
+                "sluchové kůstky"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 10,
+            "type": "multiple",
+            "question": "Kloubní maz (synovii) tvoří:",
+            "options": [
+                "červená kostní dřeň",
+                "okostice",
+                "sklovitá chrupavka na kloubní hlavici",
+                "vnitřní vrstva kloubního pouzdra"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 11,
+            "type": "multiple",
+            "question": "Mnohojaderná buňka, která vzniká z monocytů a odbourává kostní tkáň, je:",
+            "options": [
+                "osteocyt",
+                "osteoblast",
+                "osteoklast",
+                "chondrocyt"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 12,
+            "type": "multiple",
+            "question": "Podstatou osteoporózy je:",
+            "options": [
+                "zhoubný nádor z buněk, z nichž vznikají osteoblasty",
+                "měknutí kostí z nedostatku vitaminu D v dětství",
+                "řídnutí kostí převahou osteoklastů, časté u žen po menopauze",
+                "nezánětlivé opotřebení kloubu věkem a zátěží"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 13,
+            "type": "multiple",
+            "question": "Nejmenší kostí lidského těla je:",
+            "options": [
+                "radličná kost",
+                "třmínek",
+                "jazylka",
+                "kladívko"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 14,
+            "type": "multiple",
+            "question": "Šev mezi oběma temenními kostmi se nazývá:",
+            "options": [
+                "šípový",
+                "korunový (věncový)",
+                "šupinový",
+                "lambdový"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 15,
+            "type": "multiple",
+            "question": "Čepovec (axis) se od ostatních obratlů liší tím, že:",
+            "options": [
+                "nemá tělo a umožňuje kývání hlavou",
+                "má v příčných výběžcích otvory pro cévy",
+                "srůstá s křížovou kostí",
+                "má zub, kolem kterého se otáčí hlava"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 16,
+            "type": "multiple",
+            "question": "Příčinou dny (pakostnice) je:",
+            "options": [
+                "ukládání krystalů kyseliny močové v kloubech",
+                "předčasné uzavření růstových chrupavek",
+                "nedostatek vápníku v potravě",
+                "autoimunitní zánět kloubní výstelky"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 17,
+            "type": "multiple",
+            "question": "Příkladem spojení kostí chrupavkou je:",
+            "options": [
+                "spona stydká (symfýza)",
+                "šev lebeční klenby",
+                "kyčelní kloub",
+                "křížová kost"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 18,
+            "type": "multiple",
+            "question": "Čéška je příkladem:",
+            "options": [
+                "ploché kosti vzniklé z vaziva",
+                "sezamské kosti, která vzniká osifikací šlachy",
+                "kosti srostlé z více kostí",
+                "dlouhé kosti s diafýzou a dvěma epifýzami"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 19,
+            "type": "multiple",
+            "question": "Volná žebra (11. a 12. pár):",
+            "options": [
+                "končí volně ve stěně břišní",
+                "se připojují vlastní chrupavkou k hrudní kosti",
+                "chybějí u mužů",
+                "se připojují k chrupavce předchozího žebra"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 20,
+            "type": "multiple",
+            "question": "Lamely uspořádané v soustředných kruzích kolem kanálku s cévami a nervy tvoří:",
+            "options": [
+                "osteon (Haversův systém)",
+                "meziobratlovou ploténku",
+                "fontanelu",
+                "sarkomeru"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 21,
+            "type": "multiple",
+            "question": "Lordóza je prohnutí páteře:",
+            "options": [
+                "dozadu, v hrudní a křížové oblasti",
+                "dopředu, pouze v hrudní oblasti",
+                "dopředu, v krční a bederní oblasti",
+                "do strany, nejčastěji v hrudní oblasti"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 22,
+            "type": "checkbox",
+            "question": "Které kosti patří do mozkové části lebky?",
+            "options": [
+                "týlní",
+                "temenní",
+                "dolní čelist",
+                "radličná",
+                "čelní",
+                "lícní"
+            ],
+            "correct": [
+                0,
+                1,
+                4
+            ]
+        },
+        {
+            "id": 23,
+            "type": "checkbox",
+            "question": "Které kosti patří do osové kostry?",
+            "options": [
+                "pánevní kost",
+                "lopatka",
+                "páteř",
+                "hrudník",
+                "lebka",
+                "klíční kost"
+            ],
+            "correct": [
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "id": 24,
+            "type": "checkbox",
+            "question": "Co platí o zlomeninách a první pomoci?",
+            "options": [
+                "zlomenina se hojí přímo kostní tkání, svalek nevzniká",
+                "zlomeninu se při první pomoci snažíme napravit do správné polohy",
+                "sádra se přikládá pouze u otevřených zlomenin",
+                "únavová zlomenina vzniká dlouhodobým jednostranným zatěžováním",
+                "otevřená zlomenina proniká kůží a hrozí u ní infekce",
+                "hojení začíná vznikem hematomu v místě zlomeniny"
+            ],
+            "correct": [
+                3,
+                4,
+                5
+            ]
+        },
+        {
+            "id": 25,
+            "type": "checkbox",
+            "question": "Co platí o kostní tkáni?",
+            "options": [
+                "kost dítěte je křehčí než kost starého člověka",
+                "kostní tkáň se po dorůstu už nepřestavuje",
+                "hutná kostní tkáň (kompakta) je na povrchu kosti",
+                "kostní buňky osteocyty jsou uloženy v mezibuněčné hmotě",
+                "podíl anorganické složky s věkem klesá",
+                "bílkovinnou složkou mezibuněčné hmoty je kolagen"
+            ],
+            "correct": [
+                2,
+                3,
+                5
+            ]
+        }
+    ]
+
             };
             
             // ========================================
@@ -410,6 +385,15 @@
                             ...q,
                             options: shuffledOptions.map(o => o.text),
                             correct: shuffledOptions.findIndex(o => o.originalIndex === q.correct)
+                        };
+                    }
+                    if (q.type === 'checkbox') {
+                        const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+                        const shuffledOptions = shuffleArray(optionsWithIndex);
+                        return {
+                            ...q,
+                            options: shuffledOptions.map(o => o.text),
+                            correct: q.correct.map(c => shuffledOptions.findIndex(o => o.originalIndex === c)).sort((a, b) => a - b)
                         };
                     }
                     return q;
@@ -493,6 +477,19 @@
                 };
             }, []);
 
+            // 🚪 VAROVÁNÍ PŘI ZAVŘENÍ STRÁNKY
+            useEffect(() => {
+                const handleBeforeUnload = (e) => {
+                    if (!showResults && !quizCompleted && Object.keys(answers).length > 0) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                        return '';
+                    }
+                };
+                window.addEventListener('beforeunload', handleBeforeUnload);
+                return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+            }, [showResults, quizCompleted, answers]);
+
             // Formátování času pro zobrazení
             const formatTime = (seconds) => {
                 const mins = Math.floor(seconds / 60);
@@ -533,16 +530,64 @@
                 }
             };
 
+            const handleFirst = () => setCurrentQuestion(0);
+            const handleLast = () => setCurrentQuestion(questions.length - 1);
+
+            // ========================================
+            // BODOVÁNÍ – shodné s velkými testy
+            //   ANO/NE a výběr jedné možnosti ...... 1 bod
+            //   zaškrtávací otázka ................. +1 za správně označenou možnost,
+            //                                        −1 za chybně označenou možnost
+            //                                        (může vyjít i záporně)
+            //   celkový součet ..................... nikdy neklesne pod 0
+            // ========================================
+
+            // Maximální počet bodů za otázku
+            const maxBodu = (q) => (q.type === 'checkbox' ? q.correct.length : 1);
+
+            // Body, které student za otázku skutečně získal (u checkboxu i záporné)
+            const bodyZaOtazku = (q, userAnswer) => {
+                if (q.type === 'checkbox') {
+                    const ua = Array.isArray(userAnswer) ? userAnswer : [];
+                    const spravne = ua.filter(i => q.correct.includes(i)).length;
+                    const chybne  = ua.filter(i => !q.correct.includes(i)).length;
+                    return spravne - chybne;
+                }
+                return userAnswer === q.correct ? 1 : 0;
+            };
+
+            // Úplně správně (zelený rámeček a ✓ v přehledu)
+            const isAnswerCorrect = (q, userAnswer) => bodyZaOtazku(q, userAnswer) === maxBodu(q);
+
+            const isQuestionAnswered = (q, userAnswer) => {
+                if (q.type === 'checkbox') return Array.isArray(userAnswer) && userAnswer.length > 0;
+                return userAnswer !== undefined;
+            };
+
+            // Známka podle stejné stupnice jako ve velkých testech
+            const urciZnamku = (procenta) => {
+                if (procenta <  40) return 5;
+                if (procenta <= 54) return 4;
+                if (procenta <= 74) return 3;
+                if (procenta <= 89) return 2;
+                return 1;
+            };
+
+            const maxBoduCelkem = questions.reduce((s, q) => s + maxBodu(q), 0);
+
+            // Součet bodů za celý kvíz, zdola omezený nulou
             const calculateScore = () => {
                 let score = 0;
-                questions.forEach((q, index) => {
-                    if (q.type === 'boolean') {
-                        if (answers[index] === q.correct) score++;
-                    } else if (q.type === 'multiple') {
-                        if (answers[index] === q.correct) score++;
-                    }
-                });
-                return score;
+                questions.forEach((q, index) => { score += bodyZaOtazku(q, answers[index]); });
+                return Math.max(0, score);
+            };
+
+            const toggleCheckbox = (optionIndex) => {
+                const current = Array.isArray(answers[currentQuestion]) ? answers[currentQuestion] : [];
+                const next = current.includes(optionIndex)
+                    ? current.filter(i => i !== optionIndex)
+                    : [...current, optionIndex].sort((a, b) => a - b);
+                setAnswers({ ...answers, [currentQuestion]: next });
             };
 
             const sendResultsEmail = async () => {
@@ -556,11 +601,17 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
-                const percentage = (score / questions.length * 100).toFixed(1);
-                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const procentaCislo = maxBoduCelkem > 0 ? (score / maxBoduCelkem * 100) : 0;
+                const percentage = procentaCislo.toFixed(1);
+                const grade = urciZnamku(procentaCislo);
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
@@ -570,7 +621,7 @@
                 const completionData = {
                     name: fullName,
                     date: new Date().toISOString(),
-                    score: `${score}/${questions.length}`,
+                    score: `${score}/${maxBoduCelkem} bodů`,
                     time: timeSpent,
                     windowSwitches: windowSwitches
                 };
@@ -580,28 +631,32 @@
                 let answersDetails = '';
                 questions.forEach((q, index) => {
                     const userAnswer = answers[index];
-                    const isCorrect = q.type === 'boolean' 
-                        ? userAnswer === q.correct 
-                        : userAnswer === q.correct;
-                    
+                    const isCorrect = isAnswerCorrect(q, userAnswer);
+                    const b = bodyZaOtazku(q, userAnswer);
+
                     answersDetails += `${index + 1}. ${q.question}\n`;
                     
                     if (q.type === 'multiple') {
-                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
-                        answersDetails += `   Správná odpověď: ${q.options[q.correct]}\n`;
+                        answersDetails += `Student: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
+                        answersDetails += `Správně: ${q.options[q.correct]}\n`;
                     } else if (q.type === 'boolean') {
-                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
-                        answersDetails += `   Správná odpověď: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                        answersDetails += `Student: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `Správně: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                    } else if (q.type === 'checkbox') {
+                        const ua = Array.isArray(userAnswer) ? userAnswer : [];
+                        answersDetails += `Student: ${ua.length > 0 ? ua.map(i => q.options[i]).join(', ') : 'Bez odpovědi'}\n`;
+                        answersDetails += `Správně: ${q.correct.map(i => q.options[i]).join(', ')}\n`;
                     }
                     
-                    answersDetails += `   Výsledek: ${isCorrect ? '✓ Správně' : '✗ Špatně'}\n\n`;
+                    const znacka = isCorrect ? '✓' : (b > 0 ? '~' : '✗');
+                    answersDetails += `Výsledek: ${znacka} ${b} z ${maxBodu(q)} b.\n\n`;
                 });
 
                 const templateParams = {
                     to_email: QUIZ_CONFIG.teacherEmail,
                     student_name: fullName,
                     quiz_title: QUIZ_CONFIG.title,
-                    score: `${score}/${questions.length}`,
+                    score: `${score}/${maxBoduCelkem} bodů`,
                     percentage: `${percentage}%`,
                     grade: grade,
                     date: new Date().toLocaleDateString('cs-CZ'),
@@ -677,7 +732,9 @@
 
             if (showResults) {
                 const score = calculateScore();
-                const percentage = (score / questions.length * 100).toFixed(1);
+                const procentaCislo = maxBoduCelkem > 0 ? (score / maxBoduCelkem * 100) : 0;
+                const percentage = procentaCislo.toFixed(1);
+                const znamka = urciZnamku(procentaCislo);
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
                 const wasTimeExpired = timeExpiredRef.current;
@@ -695,7 +752,7 @@
                                     {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
                                 </div>
                                 {wasTimeExpired && (() => {
-                                    const unansweredCount = questions.length - Object.keys(answers).length;
+                                    const unansweredCount = questions.filter((qq, i) => !isQuestionAnswered(qq, answers[i])).length;
                                     return (
                                         <p className="text-red-700 text-sm mt-2">
                                             Kvíz byl automaticky ukončen po {formatTime(totalTimeLimit)}. Nevyplněné otázky jsou hodnoceny 0 body.
@@ -720,23 +777,19 @@
                             
                             <div className="text-center mb-8">
                                 <div className="text-6xl font-bold text-indigo-600 mb-2">
-                                    {score} / {questions.length}
+                                    {score} / {maxBoduCelkem}
                                 </div>
                                 <div className="text-2xl text-gray-700">
-                                    {percentage}%
+                                    {percentage}% &nbsp;·&nbsp; bodů
                                 </div>
                                 <div className="mt-4 text-lg font-semibold">
-                                    {percentage < 29 ? (
-                                        <span className="text-red-600">Celkové hodnocení: 5</span>
-                                    ) : percentage <= 49 ? (
-                                        <span className="text-orange-600">Celkové hodnocení: 4</span>
-                                    ) : percentage <= 79 ? (
-                                        <span className="text-yellow-600">Celkové hodnocení: 3</span>
-                                    ) : percentage <= 89 ? (
-                                        <span className="text-blue-600">Celkové hodnocení: 2</span>
-                                    ) : (
-                                        <span className="text-green-600">Celkové hodnocení: 1</span>
-                                    )}
+                                    <span className={
+                                        znamka === 5 ? 'text-red-600'
+                                        : znamka === 4 ? 'text-orange-600'
+                                        : znamka === 3 ? 'text-yellow-600'
+                                        : znamka === 2 ? 'text-blue-600'
+                                        : 'text-green-600'
+                                    }>Celkové hodnocení: {znamka}</span>
                                 </div>
                             </div>
 
@@ -793,12 +846,14 @@
                                 <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
                                 {questions.map((q, index) => {
                                     const userAnswer = answers[index];
-                                    const isCorrect = q.type === 'boolean' 
-                                        ? userAnswer === q.correct 
-                                        : userAnswer === q.correct;
-                                    
+                                    const isCorrect = isAnswerCorrect(q, userAnswer);
+                                    const b = bodyZaOtazku(q, userAnswer);
+                                    const ramecek = isCorrect
+                                        ? 'bg-green-50 border-green-300'
+                                        : (b > 0 ? 'bg-orange-50 border-orange-300' : 'bg-red-50 border-red-300');
+
                                     return (
-                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${isCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${ramecek}`}>
                                             <div className="flex items-start gap-2">
                                                 <span className="font-bold text-gray-700">{index + 1}.</span>
                                                 <div className="flex-1">
@@ -831,9 +886,38 @@
                                                             )}
                                                         </>
                                                     )}
+                                                    {q.type === 'checkbox' && (() => {
+                                                        const ua = Array.isArray(userAnswer) ? userAnswer : [];
+                                                        return (
+                                                            <>
+                                                                <p className="text-sm text-gray-600 mb-1">Tvá odpověď:</p>
+                                                                {ua.length === 0 ? (
+                                                                    <p className="text-sm text-gray-500 italic mb-1">Bez odpovědi</p>
+                                                                ) : (
+                                                                    <ul className="text-sm mb-1">
+                                                                        {ua.map(i => (
+                                                                            <li key={i} className={q.correct.includes(i) ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                                {q.correct.includes(i) ? '🟢 +1' : '🔴 −1'} &nbsp;{q.options[i]}
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
+                                                                {!isCorrect && (
+                                                                    <p className="text-sm text-green-700 font-semibold">
+                                                                        Správně mělo být: {q.correct.map(i => q.options[i]).join(' · ')}
+                                                                    </p>
+                                                                )}
+                                                            </>
+                                                        );
+                                                    })()}
                                                 </div>
-                                                <span className="text-2xl">
-                                                    {isCorrect ? '✓' : '✗'}
+                                                <span className="text-right flex-shrink-0">
+                                                    <span className="text-2xl block">
+                                                        {isCorrect ? '✓' : (b > 0 ? '~' : '✗')}
+                                                    </span>
+                                                    <span className={`text-sm font-bold ${b > 0 ? 'text-green-700' : b < 0 ? 'text-red-700' : 'text-gray-500'}`}>
+                                                        {b} / {maxBodu(q)} b.
+                                                    </span>
                                                 </span>
                                             </div>
                                         </div>
@@ -846,7 +930,10 @@
             }
 
             const q = questions[currentQuestion];
-            const isAnswered = answers[currentQuestion] !== undefined;
+            const isAnswered = isQuestionAnswered(q, answers[currentQuestion]);
+            // Zaškrtávací otázku je možné přeskočit – při záporných bodech je to
+            // legitimní volba a formuláře ve velkém testu to umožňují také.
+            const lzePokracovat = q.type === 'checkbox' ? true : isAnswered;
             
             // Výpočet barev podle zbývajícího času
             const isTimeCritical = timeLeft <= 120; // 2 minuty nebo méně
@@ -876,7 +963,13 @@
                                     {currentQuestion + 1} / {questions.length}
                                 </span>
                             </div>
-                            
+
+                            {/* 📏 PRAVIDLA BODOVÁNÍ – stejná jako ve velkých testech */}
+                            <div className="bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 mb-4 text-sm text-gray-700">
+                                Celkem <strong>{maxBoduCelkem} bodů</strong>. Otázky ANO/NE a s jednou správnou odpovědí za 1 bod.
+                                U zaškrtávacích otázek <strong>+1</strong> za správně a <strong>−1</strong> za chybně označenou možnost; celkový součet neklesne pod nulu.
+                            </div>
+
                             {/* ⏱️ ZOBRAZENÍ ČASOVAČE */}
                             <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
                                 <div className={`text-xl font-bold ${timerTextColor}`}>
@@ -920,6 +1013,34 @@
                                 </div>
                             )}
 
+                            {q.type === 'checkbox' && (
+                                <div className="space-y-3">
+                                    <p className="text-sm font-semibold text-orange-700 bg-orange-50 border border-orange-300 rounded-lg px-3 py-2">
+                                        Více správných odpovědí ({q.correct.length} z 6). Za každou správně označenou možnost <strong>+1 bod</strong>, za každou chybně označenou <strong>−1 bod</strong>.
+                                        Tipovat se nevyplatí – když si nejsi jistý, raději možnost neoznačuj.
+                                    </p>
+                                    {q.options.map((option, index) => {
+                                        const checked = Array.isArray(answers[currentQuestion]) && answers[currentQuestion].includes(index);
+                                        return (
+                                            <button
+                                                key={index}
+                                                onClick={() => toggleCheckbox(index)}
+                                                className={`w-full text-left p-4 rounded-lg border-2 transition flex items-start gap-3 ${
+                                                    checked
+                                                        ? 'border-indigo-600 bg-indigo-50'
+                                                        : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                                }`}
+                                            >
+                                                <span className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-bold ${
+                                                    checked ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-400 bg-white'
+                                                }`}>{checked ? '✓' : ''}</span>
+                                                <span><span className="font-semibold text-gray-700">{String.fromCharCode(65 + index)}.</span> {option}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
                             {q.type === 'boolean' && (
                                 <div className="space-y-3">
                                     <button
@@ -946,7 +1067,14 @@
                             )}
                         </div>
 
-                        <div className="flex gap-4">
+                        <div className="flex gap-2 sm:gap-3">
+                            <button
+                                onClick={handleFirst}
+                                title="Na začátek"
+                                className="px-4 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ⇤
+                            </button>
                             <button
                                 onClick={handlePrevious}
                                 disabled={currentQuestion === 0}
@@ -956,14 +1084,30 @@
                             </button>
                             <button
                                 onClick={handleNext}
-                                disabled={!isAnswered}
+                                disabled={!lzePokracovat}
                                 className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
                             </button>
+                            <button
+                                onClick={handleLast}
+                                title="Na konec"
+                                className="px-4 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ⇥
+                            </button>
                         </div>
 
-                        {!isAnswered && (
+                        {(() => {
+                            const unanswered = questions.filter((qq, i) => !isQuestionAnswered(qq, answers[i])).length;
+                            return unanswered > 0 ? (
+                                <p className="text-center text-gray-500 text-sm mt-3">
+                                    Nezodpovězených otázek: <strong>{unanswered}</strong>
+                                </p>
+                            ) : null;
+                        })()}
+
+                        {!lzePokracovat && (
                             <p className="text-center text-gray-500 text-sm mt-4">
                                 Pro pokračování vyber odpověď
                             </p>
@@ -974,7 +1118,7 @@
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<MuscleQuiz />);
+        root.render(<KostraQuiz />);
     </script>
 </body>
 </html>

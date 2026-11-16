@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Bakterie</title>
+    <title>Kvíz: Srdce a cévní soustava</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,279 +51,207 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Bakterie",
+                title: "Srdce a cévní soustava",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Která bakterie vytváří metan (CH₄)?',
+        question: 'Malý (plicní) oběh začíná v:',
         options: [
-            'Metanogenní bakterie',
-            'Lactobacillus',
-            'E. coli',
-            'Streptococcus'
-        ],
-        correct: 0
-    },
-    {
-        id: 2,
-        type: 'boolean',
-        question: 'Bakterie jsou jednobuněčné prokaryotické organismy.',
-        correct: true
-    },
-    {
-        id: 3,
-        type: 'multiple',
-        question: 'Co je nitrifikace?',
-        options: [
-            'Přeměna N₂ na NH₃',
-            'Přeměna NH₃ → NO₂⁻ → NO₃⁻',
-            'Přeměna NO₃⁻ na N₂',
-            'Přeměna CO₂ na glukózu'
+            'Levé komoře',
+            'Pravé komoře',
+            'Levé síni',
+            'Pravé síni'
         ],
         correct: 1
     },
     {
+        id: 2,
+        type: 'boolean',
+        question: 'Vrátnicový oběh vede krev z trávicí soustavy přímo do dolní duté žíly.',
+        correct: false
+    },
+    {
+        id: 3,
+        type: 'multiple',
+        question: 'Normální systolický krevní tlak je v rozmezí:',
+        options: [
+            '120-140 torrů',
+            '60-75 torrů',
+            '150-190 torrů',
+            '190-225 torrů'
+        ],
+        correct: 0
+    },
+    {
         id: 4,
         type: 'boolean',
-        question: 'Peptidoglykan se nachází pouze v buněčné stěně bakterií.',
+        question: 'Stěny vlásečnic tvoří jen jedna vrstva endotelových buněk.',
         correct: true
     },
     {
         id: 5,
         type: 'multiple',
-        question: 'Co je hlavní funkcí pili?',
+        question: 'Hmotnost srdce je asi:',
         options: [
-            'Pohyb bakterie',
-            'Fotosyntéza',
-            'Přichycení a výměna DNA',
-            'Skladování živin'
+            '200 g',
+            '300 g',
+            '400 g',
+            '500 g'
         ],
-        correct: 2
+        correct: 1
     },
     {
         id: 6,
         type: 'boolean',
-        question: 'Bakterie mají v buňce pravé jádro s DNA.',
+        question: 'Mezi pravou síní a pravou komorou je chlopeň dvojcípá.',
         correct: false
     },
     {
         id: 7,
         type: 'multiple',
-        question: 'Kolik bakterií může teoreticky vzniknout z jedné buňky za 24 hodin při optimálních podmínkách?',
+        question: 'Který útvar je "časovačem rytmu" srdeční činnosti?',
         options: [
-            '2¹² bakterií',
-            '2²⁴ bakterií',
-            '2⁴⁸ bakterií',
-            '2⁷² bakterií'
+            'Uzlík síňokomorový',
+            'Hisův svazek',
+            'Uzlík sinusový',
+            'Purkyňova vlákna'
         ],
-        correct: 3
+        correct: 2
     },
     {
         id: 8,
         type: 'boolean',
-        question: 'Endospory jsou metabolicky aktivní růstové formy bakterií.',
-        correct: false
+        question: 'Průměrná hodnota klidové tepové frekvence je 70-80/min.',
+        correct: true
     },
     {
         id: 9,
         type: 'multiple',
-        question: 'Jaká je velikost bakterií?',
+        question: 'Největší lymfatický orgán v těle je:',
         options: [
-            '0,05-0,5 µm',
-            '0,5-5 µm',
-            '5-50 µm',
-            '50-500 µm'
-        ],
-        correct: 1
-    },
-    {
-        id: 10,
-        type: 'boolean',
-        question: 'Bakterie E. coli se mohou rozmnožovat binárním dělením každých 20-30 minut.',
-        correct: true
-    },
-    {
-        id: 11,
-        type: 'multiple',
-        question: 'Co jsou plazmidy?',
-        options: [
-            'Velké lineární DNA molekuly',
-            'Mitochondrie bakterií',
-            'Malé kruhové DNA molekuly',
-            'Ribozomy pro syntézu proteinů'
-        ],
-        correct: 2
-    },
-    {
-        id: 12,
-        type: 'boolean',
-        question: 'Transformace je přenos DNA mezi bakteriemi pomocí bakteriofága.',
-        correct: false
-    },
-    {
-        id: 13,
-        type: 'multiple',
-        question: 'Co je pouzdro (kapsule) u bakterií?',
-        options: [
-            'Struktura pro pohyb',
-            'Organela pro skladování živin',
-            'Organela pro dýchání',
-            'Ochrana před imunitním systémem'
+            'Brzlík',
+            'Mandle',
+            'Lymfatická uzlina',
+            'Slezina'
         ],
         correct: 3
     },
     {
-        id: 14,
-        type: 'boolean',
-        question: 'Ve stacionární fázi růstové křivky je počet nově vzniklých bakterií stejný jako počet odumírajících.',
-        correct: true
-    },
-    {
-        id: 15,
+        id: 11,
         type: 'multiple',
-        question: 'Který tvar NENÍ typický pro bakterie?',
+        question: 'Nejčastější příčinou úmrtí v České republice jsou:',
         options: [
-            'Hvězdicovité',
-            'Bacily (tyčinkovité)',
-            'Spirochety (šroubovité)',
-            'Koky (kulovité)'
+            'Kardiovaskulární onemocnění',
+            'Nádorová onemocnění',
+            'Úrazy',
+            'Infekční nemoci'
         ],
         correct: 0
     },
     {
-        id: 16,
+        id: 12,
         type: 'boolean',
-        question: 'Bakterie jsou nejvíce citlivé k antibiotikům během lag fáze.',
-        correct: false
-    },
-    {
-        id: 17,
-        type: 'multiple',
-        question: 'Co je nukleoid?',
-        options: [
-            'Pravé jádro bakterie',
-            'Oblast s kruhovou DNA bez jaderného obalu',
-            'Malá kruhová DNA nezávislá na chromozomu',
-            'Organela pro syntézu proteinů'
-        ],
-        correct: 1
-    },
-    {
-        id: 18,
-        type: 'boolean',
-        question: 'Alexander Fleming objevil penicilin v roce 1928.',
+        question: 'Angina pectoris seprojevuje bolestí na hrudi při zátěži, která ustupuje po odpočinku.',
         correct: true
     },
     {
-        id: 19,
+        id: 13,
         type: 'multiple',
-        question: 'Jak se nazývají bičíky bakterií?',
+        question: 'Infarkt myokardu vzniká:',
         options: [
-            'Cilie',
-            'Pseudopodie',
-            'Flagely',
-            'Vakuoly'
+            'Zvýšeným krevním tlakem',
+            'Akutním uzávěrem koronární tepny',
+            'Zánětem srdeční svaloviny',
+            'Vadou srdeční chlopně'
+        ],
+        correct: 1
+    },
+       {
+        id: 15,
+        type: 'multiple',
+        question: 'Hypertenze je definována jako krevní tlak:',
+        options: [
+            'Nad 100/60 mmHg',
+            'Nad 120/80 mmHg',
+            'Nad 140/90 mmHg',
+            'Nad 160/100 mmHg'
         ],
         correct: 2
     },
     {
+        id: 16,
+        type: 'boolean',
+        question: 'Ateroskleróza postihuje především malé vlásečnice.',
+        correct: false
+    },
+    {
         id: 20,
         type: 'boolean',
-        question: 'Fixace dusíku znamená přeměnu vzdušného N₂ na amoniak.',
+        question: 'Fibrilace síní zvyšuje riziko tromboembolických komplikací.',
         correct: true
     },
     {
         id: 21,
         type: 'multiple',
-        question: 'Co NENÍ mechanismem antibiotické rezistence?',
+        question: 'Bradykardie je definována jako srdeční frekvence:',
         options: [
-            'Enzymy ničí antibiotikum',
-            'Změna cílového místa',
-            'Efluxové pumpy vypuzují antibiotikum',
-            'Zvýšená citlivost ribozomů'
+            'Pod 50/min',
+            'Pod 60/min',
+            'Pod 70/min',
+            'Pod 80/min'
         ],
-        correct: 3
+        correct: 1
     },
     {
         id: 22,
         type: 'boolean',
-        question: 'Autokláv sterilizuje při teplotě 100 °C po dobu 15 minut.',
-        correct: false
-    },
-    {
-        id: 23,
-        type: 'multiple',
-        question: 'Při jaké teplotě a tlaku sterilizuje autokláv?',
-        options: [
-            '100 °C, normální tlak',
-            '110 °C, normální tlak',
-            '121 °C, zvýšený tlak',
-            '150 °C, zvýšený tlak'
-        ],
-        correct: 2
-    },
-    {
-        id: 24,
-        type: 'boolean',
-        question: 'Ribozomy v bakteriích jsou typu 70S.',
+        question: 'Tachykardie je srdeční frekvence nad 100/min.',
         correct: true
     },
     {
         id: 25,
         type: 'multiple',
-        question: 'Která fáze růstové křivky je charakterizována exponenciálním růstem?',
+        question: 'Varixy dolních končetin postihují přibližně:',
         options: [
-            'Lag fáze',
-            'Log fáze',
-            'Stacionární fáze',
-            'Fáze odumírání'
+            '10% dospělé populace',
+            '20% dospělé populace',
+            '30% dospělé populace',
+            '50% dospělé populace'
         ],
-        correct: 1
+        correct: 2
     },
-    {
-        id: 26,
-        type: 'boolean',
-        question: 'Konjugace je proces přenosu DNA mezi bakteriemi pomocí pili.',
-        correct: true
-    },
-    {
+        {
         id: 27,
         type: 'multiple',
-        question: 'Co je transformace v bakteriální genetice?',
+        question: 'Jaký podíl cévních mozkových příhod tvoří ischemická forma?',
         options: [
-            'Příjem DNA z prostředí (mrtvých bakterií)',
-            'Konjugace přes pili',
-            'Přenos DNA bakteriofágem',
-            'Mutace vlastní DNA'
+            '50%',
+            '60%',
+            '70%',
+            '80%'
+        ],
+        correct: 3
+    },
+       {
+        id: 29,
+        type: 'multiple',
+        question: 'Kouření zvyšuje riziko ischemické choroby srdeční:',
+        options: [
+            '2-4×',
+            '5-6×',
+            '7-8×',
+            '10×'
         ],
         correct: 0
     },
     {
-        id: 28,
-        type: 'boolean',
-        question: 'Efluxové pumpy zvyšují citlivost bakterií na antibiotika.',
-        correct: false
-    },
-    {
-        id: 29,
-        type: 'multiple',
-        question: 'Jak se nazývá horizontální přenos DNA pomocí bakteriofága (viru)?',
-        options: [
-            'Transformace',
-            'Mutace',
-            'Transdukce',
-            'Translace'
-        ],
-        correct: 2
-    },
-    {
         id: 30,
         type: 'boolean',
-        question: 'Bacillus anthracis a Clostridium tetani jsou schopny tvořit endospory.',
+        question: 'Doporučená týdenní doba aerobní aktivity pro prevenci kardiovaskulárních onemocnění je minimálně 150 minut.',
         correct: true
     }
 ]
@@ -496,11 +428,16 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
-                const grade = percentage < 33 ? 5 : percentage <= 51 ? 4 : percentage <= 68 ? 3 : percentage <= 84 ? 2 : 1;
+                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);

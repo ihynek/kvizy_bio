@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trávicí soustava</title>
+    <title>Kvíz: Protista</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -41,362 +45,318 @@
         =============================================================================
         */
 
-        const MuscleQuiz = () => {
+        const ProtistaQuiz = () => {
             // ========================================
             // NASTAVENÍ KVÍZU - TADY MĚNÍŠ OBSAH
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Rostlinné orgány",
+                title: "Protista",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
-               questions: [
-    // ═══════════════════════════════════════════════════════════
-    // KOŘEN (10 otázek: 2 ANO/NE, 6 MC, 2 Checkbox)
-    // ═══════════════════════════════════════════════════════════
-
-    {
-        id: 1,
-        type: 'boolean',
-        question: 'Kořenové vlásky jsou vychlípeniny pokožkových buněk kořene a žijí jen několik dní.',
-        correct: true
-    },
-    {
-        id: 2,
-        type: 'boolean',
-        question: 'Kořen je článkovaný rostlinný orgán, který nese listy.',
-        correct: false
-    },
-    {
-        id: 3,
-        type: 'multiple',
-        question: 'Kořenová čepička obsahuje buňky se škrobovými zrny, která umožňují kořenu:',
-        options: [
-            'Růst směrem ke světlu',
-            'Přijímat více vody z půdy',
-            'Růst ve směru gravitace',
-            'Vytvářet postranní kořeny'
-        ],
-        correct: 2
-    },
-    {
-        id: 4,
-        type: 'multiple',
-        question: 'Svazčitý kořenový systém (homorhizie) je typický pro:',
-        options: [
-            'Dvouděložné rostliny (hrách, fazol)',
-            'Jednoděložné rostliny (pšenice, kukuřice)',
-            'Nahosemenné rostliny (smrk, borovice)',
-            'Kapraďorosty (kapradiny, přesličky)'
-        ],
-        correct: 1
-    },
-    {
-        id: 5,
-        type: 'multiple',
-        question: 'Hlízkové bakterie na kořenech luštěnin vážou z ovzduší:',
-        options: [
-            'Kyslík',
-            'Oxid uhličitý',
-            'Dusík',
-            'Vodík'
-        ],
-        correct: 2
-    },
-    {
-        id: 6,
-        type: 'multiple',
-        question: 'Povrchový kořenový systém dřevin je typický například pro:',
-        options: [
-            'Borovici lesní',
-            'Smrk ztepilý',
-            'Buk lesní',
-            'Dub letní'
-        ],
-        correct: 1
-    },
-    {
-        id: 7,
-        type: 'multiple',
-        question: 'Haustoria jsou kořeny, které:',
-        options: [
-            'Rostou nad zemí a přijímají vzdušnou vlhkost',
-            'Vrůstají do těla hostitele a paraziticky čerpají živiny',
-            'Vyrůstají ze stonku a zajišťují oporu',
-            'Rostou vzhůru z bahnité půdy a umožňují výměnu plynů'
-        ],
-        correct: 1
-    },
-    {
-        id: 8,
-        type: 'multiple',
-        question: 'Příkladem kořenové hlízy je:',
-        options: [
-            'Mrkev a petržel',
-            'Řepa cukrová',
-            'Jiřina a orsej',
-            'Brambor'
-        ],
-        correct: 2
-    },
-    {
-        id: 9,
-        type: 'multiple',
-        question: 'Která z následujících NENÍ funkcí kořene?',
-        options: [
-            'Zakotvení rostliny v půdě',
-            'Příjem vody a minerálních látek',
-            'Fotosyntéza',
-            'Ukládání zásobních látek'
-        ],
-        correct: 2
-    },
-    {
-        id: 10,
-        type: 'multiple',
-        question: 'Která z následujících rostlin NESPOLUPRACUJE s hlízkovými bakteriemi?',
-        options: [
-            'Hrách setý',
-            'Olše',
-            'Smrk ztepilý',
-            'Vojtěška'
-        ],
-        correct: 2
-    },
-
-    // ═══════════════════════════════════════════════════════════
-    // STONEK (10 otázek: 2 ANO/NE, 6 MC, 2 Checkbox)
-    // ═══════════════════════════════════════════════════════════
-
-    {
-        id: 11,
-        type: 'boolean',
-        question: 'Osten růže je metamorfóza stonku.',
-        correct: false
-    },
-    {
-        id: 12,
-        type: 'boolean',
-        question: 'Kambium je rostlinné pletivo, které umožňuje růst kmene dřevin do šířky.',
-        correct: true
-    },
-    {
-        id: 13,
-        type: 'multiple',
-        question: 'Xylém (dřevo) ve stonku vede:',
-        options: [
-            'Produkty fotosyntézy z listů do kořene',
-            'Vodu a minerální látky z kořenů do celé rostliny',
-            'Hormony z listů do stonku',
-            'Kyslík z kořenů do listů'
-        ],
-        correct: 1
-    },
-    {
-        id: 14,
-        type: 'multiple',
-        question: 'Stéblo je:',
-        options: [
-            'Stonek bez listů',
-            'Stonek s listy bez kolínek',
-            'Dutý stonek s listy a s kolínky',
-            'Dřevnatý stonek keřů'
-        ],
-        correct: 2
-    },
-    {
-        id: 15,
-        type: 'multiple',
-        question: 'Oddenek (rhizoma) je:',
-        options: [
-            'Nadzemní stonek sloužící k fotosyntéze',
-            'Podzemní stonek rostoucí vodorovně s pupeny a šupinovými listy',
-            'Ztlustlý nadzemní stonek se zásobními látkami',
-            'Výrůstek pokožky sloužící k ochraně'
-        ],
-        correct: 1
-    },
-    {
-        id: 16,
-        type: 'multiple',
-        question: 'Cibule je tvořena:',
-        options: [
-            'Ztlustlým kořenem s velkým množstvím škrobu',
-            'Zkráceným stonkem (patou) obrostlým dužnatými šupinovými listy',
-            'Podzemním stonkem rostoucím vodorovně',
-            'Nadzemním stonkem se zásobními látkami'
-        ],
-        correct: 1
-    },
-    {
-        id: 17,
-        type: 'multiple',
-        question: 'Šlahoun jahodníku slouží především k:',
-        options: [
-            'Ukládání zásobních látek',
-            'Ochraně před býložravci',
-            'Vegetativnímu rozmnožování',
-            'Přichycení k opoře'
-        ],
-        correct: 2
-    },
-    {
-        id: 18,
-        type: 'multiple',
-        question: 'Jeden letokruh na příčném řezu kmene dřeviny odpovídá:',
-        options: [
-            'Měsíčnímu přírůstku dřeva',
-            'Ročnímu přírůstku dřeva',
-            'Přírůstku lýka za jednu sezónu',
-            'Celkovému stáří stromu'
-        ],
-        correct: 1
-    },
-    {
-        id: 19,
-        type: 'multiple',
-        question: 'Která z následujících NENÍ metamorfózou stonku?',
-        options: [
-            'Oddenek',
-            'Šlahoun',
-            'Kořenová hlíza jiřiny',
-            'Cibule'
-        ],
-        correct: 2
-    },
-    {
-        id: 20,
-        type: 'multiple',
-        question: 'Které z následujících stonků NEOBSAHUJÍ dřevo (nejsou dřevnaté)?',
-        options: [
-            'Stonky stromů',
-            'Stonky keřů',
-            'Stébla trav',
-            'Stonky dřevitých liánů'
-        ],
-        correct: 2
-    },
-
-    // ═══════════════════════════════════════════════════════════
-    // LIST (10 otázek: 1 ANO/NE, 8 MC, 1 Checkbox)
-    // ═══════════════════════════════════════════════════════════
-
-    {
-        id: 21,
-        type: 'boolean',
-        question: 'List má na rozdíl od stonku a kořene ukončený růst.',
-        correct: true
-    },
-    {
-        id: 22,
-        type: 'multiple',
-        question: 'Palisádový parenchym v listu se nachází:',
-        options: [
-            'Pod dolní pokožkou',
-            'Pod horní pokožkou a obsahuje buňky bohaté na chloroplasty',
-            'Mezi cévními svazky',
-            'Na povrchu listu jako ochranná vrstva'
-        ],
-        correct: 1
-    },
-    {
-        id: 23,
-        type: 'multiple',
-        question: 'Průduchy (stomata) se u většiny rostlin nacházejí převážně:',
-        options: [
-            'Na horní straně listu',
-            'Na dolní straně listu (spodní pokožce)',
-            'Rovnoměrně na obou stranách',
-            'Na řapíku listu'
-        ],
-        correct: 1
-    },
-    {
-        id: 24,
-        type: 'multiple',
-        question: 'Souběžná žilnatina listů je typická pro:',
-        options: [
-            'Dvouděložné rostliny (lípa, dub)',
-            'Jednoděložné rostliny (pšenice, kukuřice)',
-            'Jehličnany (smrk, borovice)',
-            'Kapradiny'
-        ],
-        correct: 1
-    },
-    {
-        id: 25,
-        type: 'multiple',
-        question: 'Složený dlanitý list má například:',
-        options: [
-            'Jeřáb a akát',
-            'Jírovec a šťavel',
-            'Buk a lípa',
-            'Pšenice a kukuřice'
-        ],
-        correct: 1
-    },
-    {
-        id: 26,
-        type: 'multiple',
-        question: 'Přeslenité postavení listů na stonku znamená, že:',
-        options: [
-            'V každé uzlině vyrůstá jeden list',
-            'V každé uzlině jsou dva listy proti sobě',
-            'V uzlině vyrůstají více než dva listy v kruhu',
-            'Listy vyrůstají těsně nad zemí'
-        ],
-        correct: 2
-    },
-    {
-        id: 27,
-        type: 'multiple',
-        question: 'Gutace je proces, při kterém rostlina:',
-        options: [
-            'Odpařuje vodu z průduchů',
-            'Vylučuje vodu v kapalné podobě při vysoké vlhkosti',
-            'Přijímá oxid uhličitý pro fotosyntézu',
-            'Uvolňuje kyslík do ovzduší'
-        ],
-        correct: 1
-    },
-    {
-        id: 28,
-        type: 'multiple',
-        question: 'U hrachu jsou koncové lístky složeného listu přeměněny v:',
-        options: [
-            'Trny pro ochranu',
-            'Úponky pro přichycení k opoře',
-            'Lapače hmyzu',
-            'Sukulentní listy pro ukládání vody'
-        ],
-        correct: 1
-    },
-    {
-        id: 29,
-        type: 'multiple',
-        question: 'Jehličnatý list jehličnanů je adaptací, která:',
-        options: [
-            'Zvyšuje plochu pro fotosyntézu',
-            'Umožňuje lepší příjem vody z ovzduší',
-            'Snižuje transpiraci a chrání před mrazem',
-            'Zlepšuje příjem světla v podrostu'
-        ],
-        correct: 2
-    },
-    {
-        id: 30,
-        type: 'multiple',
-        question: 'Která z následujících NENÍ metamorfózou listu?',
-        options: [
-            'Úponky hrachu',
-            'Trny kaktusu',
-            'Šlahoun jahodníku',
-            'Sukulentní listy netřesku'
-        ],
-        correct: 2
-    }
-]
+                questions: [
+        {
+            "id": 1,
+            "type": "boolean",
+            "question": "Protista jsou parafyletická skupina – patří k nim předek eukaryot, ale ne živočichové, rostliny a houby.",
+            "correct": true
+        },
+        {
+            "id": 2,
+            "type": "boolean",
+            "question": "Oomycety, například plíseň bramborová, nejsou houby – mají stěnu z celulózy a jsou příbuzné rozsivkám.",
+            "correct": true
+        },
+        {
+            "id": 3,
+            "type": "boolean",
+            "question": "Při konjugaci nálevníků se zvyšuje počet jedinců.",
+            "correct": false
+        },
+        {
+            "id": 4,
+            "type": "boolean",
+            "question": "Krásnoočko je mixotrofní: na světle fotosyntetizuje, ve tmě se živí heterotrofně.",
+            "correct": true
+        },
+        {
+            "id": 5,
+            "type": "multiple",
+            "question": "Protista jsou vymezena negativně, tedy jako:",
+            "options": [
+                "všichni jednobuněční zástupci živé přírody",
+                "prokaryota bez buněčného jádra",
+                "organismy, které se živí fagocytózou",
+                "eukaryota, která nejsou živočichové, rostliny ani houby"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 6,
+            "type": "multiple",
+            "question": "Plastidy rozsivek a chaluh vznikly:",
+            "options": [
+                "sekundární endosymbiózou se zelenou řasou",
+                "splynutím dvou mitochondrií",
+                "sekundární endosymbiózou s ruduchou",
+                "primární endosymbiózou se sinicí"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 7,
+            "type": "multiple",
+            "question": "Plastid krásnoočka má 3 membrány, protože vznikl:",
+            "options": [
+                "primární endosymbiózou se sinicí",
+                "terciární endosymbiózou s obrněnkou",
+                "sekundární endosymbiózou s ruduchou",
+                "sekundární endosymbiózou se zelenou řasou"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 8,
+            "type": "multiple",
+            "question": "Společným znakem skupiny Alveolata jsou:",
+            "options": [
+                "síťovité panožky a vápenitá schránka",
+                "mitochondrie s diskovitými kristami",
+                "ploché měchýřky (alveoly) pod plazmatickou membránou",
+                "dva nestejné bičíky – přední péřitý a zadní hladký"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 9,
+            "type": "multiple",
+            "question": "Jaderný dualismus nálevníků znamená, že:",
+            "options": [
+                "buňka má dvě stejná jádra, která se střídají",
+                "makronukleus řídí chod buňky a mikronukleus slouží při konjugaci",
+                "mikronukleus řídí chod buňky a makronukleus trávení",
+                "jádro se při dělení rozpadá na dvě poloviny"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 10,
+            "type": "multiple",
+            "question": "Pulzující vakuola slouží k:",
+            "options": [
+                "vystřelování obranných tělísek",
+                "odčerpávání přebytečné vody, hlavně u sladkovodních druhů",
+                "trávení pohlcené potravy",
+                "ukládání zásobních látek"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 11,
+            "type": "multiple",
+            "question": "Měňavka se pohybuje pomocí:",
+            "options": [
+                "lobopodií – laločnatých panožek",
+                "brv po celém povrchu",
+                "retikulopodií – síťovitých panožek",
+                "axopodií – paprsčitých panožek"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 12,
+            "type": "multiple",
+            "question": "Dírkonošci mají:",
+            "options": [
+                "křemičitou schránku ze dvou misek",
+                "vnější vápenitou schránku a síťovité retikulopodie",
+                "pelikulu a brvy",
+                "vnitřní křemičitou kostru a paprsčité axopodie"
+            ],
+            "correct": 1
+        },
+        {
+            "id": 13,
+            "type": "multiple",
+            "question": "Mřížovci mají:",
+            "options": [
+                "vnitřní křemičitou kostru a paprsčité axopodie",
+                "límeček z mikroklků kolem bičíku",
+                "vnější vápenitou schránku a síťovité retikulopodie",
+                "celulózové destičky v alveolách"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 14,
+            "type": "multiple",
+            "question": "Chaluhy nejsou rostliny, protože:",
+            "options": [
+                "nežijí ve vodě",
+                "nemají plastidy ani chlorofyl",
+                "jejich tělo tvoří stélka, nikoli pravé listy, stonek a kořen",
+                "jsou vždy jednobuněčné"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 15,
+            "type": "multiple",
+            "question": "Malárii způsobuje:",
+            "options": [
+                "lamblie přenášená znečištěnou potravou",
+                "trypanozoma přenášená mouchou tse-tse",
+                "měňavka úplavičná přenášená cystami ve vodě",
+                "zimnička, kterou přenáší komár rodu Anopheles"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 16,
+            "type": "multiple",
+            "question": "V cyklu zimničky je definitivním hostitelem:",
+            "options": [
+                "člověk, protože v něm vznikají gametocyty",
+                "člověk, protože v něm probíhá množení v játrech",
+                "komár, protože v něm probíhá pohlavní fáze",
+                "komár, protože v něm vznikají merozoity"
+            ],
+            "correct": 2
+        },
+        {
+            "id": 17,
+            "type": "multiple",
+            "question": "Hlenky se rozmnožují tak, že:",
+            "options": [
+                "z plazmodia vyroste plodnice s výtrusy",
+                "vyměňují si mikronuklea při konjugaci",
+                "tvoří zoospory se dvěma bičíky",
+                "se plazmodium příčně dělí na dvě buňky"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 18,
+            "type": "multiple",
+            "question": "Trubénky jsou pro biologii důležité proto, že:",
+            "options": [
+                "jsou nejbližšími jednobuněčnými příbuznými živočichů",
+                "jsou nejbližšími příbuznými rostlin",
+                "jako první získaly plastid primární endosymbiózou",
+                "jsou původci spavé nemoci"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 19,
+            "type": "multiple",
+            "question": "Trypanozoma spavičná se přenáší:",
+            "options": [
+                "pohlavním stykem",
+                "cystami ve znečištěné vodě",
+                "komárem rodu Anopheles",
+                "mouchou tse-tse"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 20,
+            "type": "multiple",
+            "question": "Pro skupinu Metamonada je typické, že:",
+            "options": [
+                "tvoří vápenité schránky",
+                "mají plastid se třemi membránami",
+                "pohybují se brvami",
+                "žijí anaerobně a mají redukované mitochondrie"
+            ],
+            "correct": 3
+        },
+        {
+            "id": 21,
+            "type": "multiple",
+            "question": "Nukleomorf v buňce kryptomonád je:",
+            "options": [
+                "zbytek jádra pohlcené ruduchy",
+                "vystřelitelné obranné tělísko",
+                "zásobní látka podobná škrobu",
+                "druhé jádro sloužící při konjugaci"
+            ],
+            "correct": 0
+        },
+        {
+            "id": 22,
+            "type": "checkbox",
+            "question": "Které znaky platí pro rozsivky?",
+            "options": [
+                "křemičitá schránka ze dvou misek",
+                "vápenitá schránka z destiček",
+                "patří mezi Stramenopila",
+                "patří mezi Alveolata",
+                "významně se podílejí na fotosyntéze Země",
+                "pohybují se pomocí brv"
+            ],
+            "correct": [
+                0,
+                2,
+                4
+            ]
+        },
+        {
+            "id": 23,
+            "type": "checkbox",
+            "question": "Kteří zástupci jsou parazity člověka?",
+            "options": [
+                "zimnička tropická",
+                "trepka velká",
+                "měňavka úplavičná",
+                "lamblie střevní",
+                "hlenka Physarum",
+                "chaluha bublinatá"
+            ],
+            "correct": [
+                0,
+                2,
+                3
+            ]
+        },
+        {
+            "id": 24,
+            "type": "checkbox",
+            "question": "Co patří do superskupiny Archaeplastida?",
+            "options": [
+                "ruduchy",
+                "zelené řasy",
+                "rozsivky",
+                "glaukofyty",
+                "nálevníci",
+                "chaluhy"
+            ],
+            "correct": [
+                0,
+                1,
+                3
+            ]
+        },
+        {
+            "id": 25,
+            "type": "checkbox",
+            "question": "Co platí o endosymbióze?",
+            "options": [
+                "mitochondrie vznikla z pohlcené bakterie",
+                "plastid z primární endosymbiózy má dvě membrány",
+                "čím více membrán plastid má, tím více pohlcení má za sebou",
+                "plastid ze sekundární endosymbiózy má vždy dvě membrány",
+                "fotosyntéza je spolehlivým znakem příbuznosti",
+                "mitochondrie vznikla pohlcením sinice"
+            ],
+            "correct": [
+                0,
+                1,
+                2
+            ]
+        }
+    ]
 
             };
             
@@ -425,6 +385,15 @@
                             ...q,
                             options: shuffledOptions.map(o => o.text),
                             correct: shuffledOptions.findIndex(o => o.originalIndex === q.correct)
+                        };
+                    }
+                    if (q.type === 'checkbox') {
+                        const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+                        const shuffledOptions = shuffleArray(optionsWithIndex);
+                        return {
+                            ...q,
+                            options: shuffledOptions.map(o => o.text),
+                            correct: q.correct.map(c => shuffledOptions.findIndex(o => o.originalIndex === c)).sort((a, b) => a - b)
                         };
                     }
                     return q;
@@ -508,6 +477,19 @@
                 };
             }, []);
 
+            // 🚪 VAROVÁNÍ PŘI ZAVŘENÍ STRÁNKY
+            useEffect(() => {
+                const handleBeforeUnload = (e) => {
+                    if (!showResults && !quizCompleted && Object.keys(answers).length > 0) {
+                        e.preventDefault();
+                        e.returnValue = '';
+                        return '';
+                    }
+                };
+                window.addEventListener('beforeunload', handleBeforeUnload);
+                return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+            }, [showResults, quizCompleted, answers]);
+
             // Formátování času pro zobrazení
             const formatTime = (seconds) => {
                 const mins = Math.floor(seconds / 60);
@@ -548,16 +530,64 @@
                 }
             };
 
+            const handleFirst = () => setCurrentQuestion(0);
+            const handleLast = () => setCurrentQuestion(questions.length - 1);
+
+            // ========================================
+            // BODOVÁNÍ – shodné s velkými testy
+            //   ANO/NE a výběr jedné možnosti ...... 1 bod
+            //   zaškrtávací otázka ................. +1 za správně označenou možnost,
+            //                                        −1 za chybně označenou možnost
+            //                                        (může vyjít i záporně)
+            //   celkový součet ..................... nikdy neklesne pod 0
+            // ========================================
+
+            // Maximální počet bodů za otázku
+            const maxBodu = (q) => (q.type === 'checkbox' ? q.correct.length : 1);
+
+            // Body, které student za otázku skutečně získal (u checkboxu i záporné)
+            const bodyZaOtazku = (q, userAnswer) => {
+                if (q.type === 'checkbox') {
+                    const ua = Array.isArray(userAnswer) ? userAnswer : [];
+                    const spravne = ua.filter(i => q.correct.includes(i)).length;
+                    const chybne  = ua.filter(i => !q.correct.includes(i)).length;
+                    return spravne - chybne;
+                }
+                return userAnswer === q.correct ? 1 : 0;
+            };
+
+            // Úplně správně (zelený rámeček a ✓ v přehledu)
+            const isAnswerCorrect = (q, userAnswer) => bodyZaOtazku(q, userAnswer) === maxBodu(q);
+
+            const isQuestionAnswered = (q, userAnswer) => {
+                if (q.type === 'checkbox') return Array.isArray(userAnswer) && userAnswer.length > 0;
+                return userAnswer !== undefined;
+            };
+
+            // Známka podle stejné stupnice jako ve velkých testech
+            const urciZnamku = (procenta) => {
+                if (procenta <  40) return 5;
+                if (procenta <= 54) return 4;
+                if (procenta <= 74) return 3;
+                if (procenta <= 89) return 2;
+                return 1;
+            };
+
+            const maxBoduCelkem = questions.reduce((s, q) => s + maxBodu(q), 0);
+
+            // Součet bodů za celý kvíz, zdola omezený nulou
             const calculateScore = () => {
                 let score = 0;
-                questions.forEach((q, index) => {
-                    if (q.type === 'boolean') {
-                        if (answers[index] === q.correct) score++;
-                    } else if (q.type === 'multiple') {
-                        if (answers[index] === q.correct) score++;
-                    }
-                });
-                return score;
+                questions.forEach((q, index) => { score += bodyZaOtazku(q, answers[index]); });
+                return Math.max(0, score);
+            };
+
+            const toggleCheckbox = (optionIndex) => {
+                const current = Array.isArray(answers[currentQuestion]) ? answers[currentQuestion] : [];
+                const next = current.includes(optionIndex)
+                    ? current.filter(i => i !== optionIndex)
+                    : [...current, optionIndex].sort((a, b) => a - b);
+                setAnswers({ ...answers, [currentQuestion]: next });
             };
 
             const sendResultsEmail = async () => {
@@ -571,11 +601,17 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
-                const percentage = (score / questions.length * 100).toFixed(1);
-                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const procentaCislo = maxBoduCelkem > 0 ? (score / maxBoduCelkem * 100) : 0;
+                const percentage = procentaCislo.toFixed(1);
+                const grade = urciZnamku(procentaCislo);
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
@@ -585,7 +621,7 @@
                 const completionData = {
                     name: fullName,
                     date: new Date().toISOString(),
-                    score: `${score}/${questions.length}`,
+                    score: `${score}/${maxBoduCelkem} bodů`,
                     time: timeSpent,
                     windowSwitches: windowSwitches
                 };
@@ -595,28 +631,32 @@
                 let answersDetails = '';
                 questions.forEach((q, index) => {
                     const userAnswer = answers[index];
-                    const isCorrect = q.type === 'boolean' 
-                        ? userAnswer === q.correct 
-                        : userAnswer === q.correct;
-                    
+                    const isCorrect = isAnswerCorrect(q, userAnswer);
+                    const b = bodyZaOtazku(q, userAnswer);
+
                     answersDetails += `${index + 1}. ${q.question}\n`;
                     
                     if (q.type === 'multiple') {
-                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
-                        answersDetails += `   Správná odpověď: ${q.options[q.correct]}\n`;
+                        answersDetails += `Student: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
+                        answersDetails += `Správně: ${q.options[q.correct]}\n`;
                     } else if (q.type === 'boolean') {
-                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
-                        answersDetails += `   Správná odpověď: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                        answersDetails += `Student: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `Správně: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
+                    } else if (q.type === 'checkbox') {
+                        const ua = Array.isArray(userAnswer) ? userAnswer : [];
+                        answersDetails += `Student: ${ua.length > 0 ? ua.map(i => q.options[i]).join(', ') : 'Bez odpovědi'}\n`;
+                        answersDetails += `Správně: ${q.correct.map(i => q.options[i]).join(', ')}\n`;
                     }
                     
-                    answersDetails += `   Výsledek: ${isCorrect ? '✓ Správně' : '✗ Špatně'}\n\n`;
+                    const znacka = isCorrect ? '✓' : (b > 0 ? '~' : '✗');
+                    answersDetails += `Výsledek: ${znacka} ${b} z ${maxBodu(q)} b.\n\n`;
                 });
 
                 const templateParams = {
                     to_email: QUIZ_CONFIG.teacherEmail,
                     student_name: fullName,
                     quiz_title: QUIZ_CONFIG.title,
-                    score: `${score}/${questions.length}`,
+                    score: `${score}/${maxBoduCelkem} bodů`,
                     percentage: `${percentage}%`,
                     grade: grade,
                     date: new Date().toLocaleDateString('cs-CZ'),
@@ -692,7 +732,9 @@
 
             if (showResults) {
                 const score = calculateScore();
-                const percentage = (score / questions.length * 100).toFixed(1);
+                const procentaCislo = maxBoduCelkem > 0 ? (score / maxBoduCelkem * 100) : 0;
+                const percentage = procentaCislo.toFixed(1);
+                const znamka = urciZnamku(procentaCislo);
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
                 const wasTimeExpired = timeExpiredRef.current;
@@ -710,7 +752,7 @@
                                     {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
                                 </div>
                                 {wasTimeExpired && (() => {
-                                    const unansweredCount = questions.length - Object.keys(answers).length;
+                                    const unansweredCount = questions.filter((qq, i) => !isQuestionAnswered(qq, answers[i])).length;
                                     return (
                                         <p className="text-red-700 text-sm mt-2">
                                             Kvíz byl automaticky ukončen po {formatTime(totalTimeLimit)}. Nevyplněné otázky jsou hodnoceny 0 body.
@@ -735,23 +777,19 @@
                             
                             <div className="text-center mb-8">
                                 <div className="text-6xl font-bold text-indigo-600 mb-2">
-                                    {score} / {questions.length}
+                                    {score} / {maxBoduCelkem}
                                 </div>
                                 <div className="text-2xl text-gray-700">
-                                    {percentage}%
+                                    {percentage}% &nbsp;·&nbsp; bodů
                                 </div>
                                 <div className="mt-4 text-lg font-semibold">
-                                    {percentage < 29 ? (
-                                        <span className="text-red-600">Celkové hodnocení: 5</span>
-                                    ) : percentage <= 49 ? (
-                                        <span className="text-orange-600">Celkové hodnocení: 4</span>
-                                    ) : percentage <= 79 ? (
-                                        <span className="text-yellow-600">Celkové hodnocení: 3</span>
-                                    ) : percentage <= 89 ? (
-                                        <span className="text-blue-600">Celkové hodnocení: 2</span>
-                                    ) : (
-                                        <span className="text-green-600">Celkové hodnocení: 1</span>
-                                    )}
+                                    <span className={
+                                        znamka === 5 ? 'text-red-600'
+                                        : znamka === 4 ? 'text-orange-600'
+                                        : znamka === 3 ? 'text-yellow-600'
+                                        : znamka === 2 ? 'text-blue-600'
+                                        : 'text-green-600'
+                                    }>Celkové hodnocení: {znamka}</span>
                                 </div>
                             </div>
 
@@ -808,12 +846,14 @@
                                 <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
                                 {questions.map((q, index) => {
                                     const userAnswer = answers[index];
-                                    const isCorrect = q.type === 'boolean' 
-                                        ? userAnswer === q.correct 
-                                        : userAnswer === q.correct;
-                                    
+                                    const isCorrect = isAnswerCorrect(q, userAnswer);
+                                    const b = bodyZaOtazku(q, userAnswer);
+                                    const ramecek = isCorrect
+                                        ? 'bg-green-50 border-green-300'
+                                        : (b > 0 ? 'bg-orange-50 border-orange-300' : 'bg-red-50 border-red-300');
+
                                     return (
-                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${isCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${ramecek}`}>
                                             <div className="flex items-start gap-2">
                                                 <span className="font-bold text-gray-700">{index + 1}.</span>
                                                 <div className="flex-1">
@@ -846,9 +886,38 @@
                                                             )}
                                                         </>
                                                     )}
+                                                    {q.type === 'checkbox' && (() => {
+                                                        const ua = Array.isArray(userAnswer) ? userAnswer : [];
+                                                        return (
+                                                            <>
+                                                                <p className="text-sm text-gray-600 mb-1">Tvá odpověď:</p>
+                                                                {ua.length === 0 ? (
+                                                                    <p className="text-sm text-gray-500 italic mb-1">Bez odpovědi</p>
+                                                                ) : (
+                                                                    <ul className="text-sm mb-1">
+                                                                        {ua.map(i => (
+                                                                            <li key={i} className={q.correct.includes(i) ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
+                                                                                {q.correct.includes(i) ? '🟢 +1' : '🔴 −1'} &nbsp;{q.options[i]}
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
+                                                                {!isCorrect && (
+                                                                    <p className="text-sm text-green-700 font-semibold">
+                                                                        Správně mělo být: {q.correct.map(i => q.options[i]).join(' · ')}
+                                                                    </p>
+                                                                )}
+                                                            </>
+                                                        );
+                                                    })()}
                                                 </div>
-                                                <span className="text-2xl">
-                                                    {isCorrect ? '✓' : '✗'}
+                                                <span className="text-right flex-shrink-0">
+                                                    <span className="text-2xl block">
+                                                        {isCorrect ? '✓' : (b > 0 ? '~' : '✗')}
+                                                    </span>
+                                                    <span className={`text-sm font-bold ${b > 0 ? 'text-green-700' : b < 0 ? 'text-red-700' : 'text-gray-500'}`}>
+                                                        {b} / {maxBodu(q)} b.
+                                                    </span>
                                                 </span>
                                             </div>
                                         </div>
@@ -861,7 +930,10 @@
             }
 
             const q = questions[currentQuestion];
-            const isAnswered = answers[currentQuestion] !== undefined;
+            const isAnswered = isQuestionAnswered(q, answers[currentQuestion]);
+            // Zaškrtávací otázku je možné přeskočit – při záporných bodech je to
+            // legitimní volba a formuláře ve velkém testu to umožňují také.
+            const lzePokracovat = q.type === 'checkbox' ? true : isAnswered;
             
             // Výpočet barev podle zbývajícího času
             const isTimeCritical = timeLeft <= 120; // 2 minuty nebo méně
@@ -891,7 +963,13 @@
                                     {currentQuestion + 1} / {questions.length}
                                 </span>
                             </div>
-                            
+
+                            {/* 📏 PRAVIDLA BODOVÁNÍ – stejná jako ve velkých testech */}
+                            <div className="bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 mb-4 text-sm text-gray-700">
+                                Celkem <strong>{maxBoduCelkem} bodů</strong>. Otázky ANO/NE a s jednou správnou odpovědí za 1 bod.
+                                U zaškrtávacích otázek <strong>+1</strong> za správně a <strong>−1</strong> za chybně označenou možnost; celkový součet neklesne pod nulu.
+                            </div>
+
                             {/* ⏱️ ZOBRAZENÍ ČASOVAČE */}
                             <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
                                 <div className={`text-xl font-bold ${timerTextColor}`}>
@@ -935,6 +1013,34 @@
                                 </div>
                             )}
 
+                            {q.type === 'checkbox' && (
+                                <div className="space-y-3">
+                                    <p className="text-sm font-semibold text-orange-700 bg-orange-50 border border-orange-300 rounded-lg px-3 py-2">
+                                        Více správných odpovědí ({q.correct.length} z 6). Za každou správně označenou možnost <strong>+1 bod</strong>, za každou chybně označenou <strong>−1 bod</strong>.
+                                        Tipovat se nevyplatí – když si nejsi jistý, raději možnost neoznačuj.
+                                    </p>
+                                    {q.options.map((option, index) => {
+                                        const checked = Array.isArray(answers[currentQuestion]) && answers[currentQuestion].includes(index);
+                                        return (
+                                            <button
+                                                key={index}
+                                                onClick={() => toggleCheckbox(index)}
+                                                className={`w-full text-left p-4 rounded-lg border-2 transition flex items-start gap-3 ${
+                                                    checked
+                                                        ? 'border-indigo-600 bg-indigo-50'
+                                                        : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
+                                                }`}
+                                            >
+                                                <span className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-bold ${
+                                                    checked ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-400 bg-white'
+                                                }`}>{checked ? '✓' : ''}</span>
+                                                <span><span className="font-semibold text-gray-700">{String.fromCharCode(65 + index)}.</span> {option}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
                             {q.type === 'boolean' && (
                                 <div className="space-y-3">
                                     <button
@@ -961,7 +1067,14 @@
                             )}
                         </div>
 
-                        <div className="flex gap-4">
+                        <div className="flex gap-2 sm:gap-3">
+                            <button
+                                onClick={handleFirst}
+                                title="Na začátek"
+                                className="px-4 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ⇤
+                            </button>
                             <button
                                 onClick={handlePrevious}
                                 disabled={currentQuestion === 0}
@@ -971,14 +1084,30 @@
                             </button>
                             <button
                                 onClick={handleNext}
-                                disabled={!isAnswered}
+                                disabled={!lzePokracovat}
                                 className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
                             </button>
+                            <button
+                                onClick={handleLast}
+                                title="Na konec"
+                                className="px-4 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                ⇥
+                            </button>
                         </div>
 
-                        {!isAnswered && (
+                        {(() => {
+                            const unanswered = questions.filter((qq, i) => !isQuestionAnswered(qq, answers[i])).length;
+                            return unanswered > 0 ? (
+                                <p className="text-center text-gray-500 text-sm mt-3">
+                                    Nezodpovězených otázek: <strong>{unanswered}</strong>
+                                </p>
+                            ) : null;
+                        })()}
+
+                        {!lzePokracovat && (
                             <p className="text-center text-gray-500 text-sm mt-4">
                                 Pro pokračování vyber odpověď
                             </p>
@@ -989,7 +1118,7 @@
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<MuscleQuiz />);
+        root.render(<ProtistaQuiz />);
     </script>
 </body>
 </html>

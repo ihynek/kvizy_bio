@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Dýchací soustava člověka</title>
+    <title>Pletiva, minerální výživa, vodní režim rostlin</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,175 +51,407 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Dýchací soustava člověka",
+                title: "Pletiva, minerální výživa, vodní režim rostlin",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
-                questions: [
-    {
-        id: 1,
-        type: 'multiple',
-        question: 'Sliznice průdušnice a průdušek je tvořena:',
-        options: [
-            'Dlaždicovým epitelem',
-            'Řasinkovým epitelem',
-            'Jednovrstevným plochým epitelem',
-            'Kubickým epitelem'
-        ],
-        correct: 1
-    },
-    {
-        id: 2,
-        type: 'boolean',
-        question: 'Nosní dutina má funkci filtrace, zvlhčení a oteplení vzduchu.',
-        correct: true
-    },
-    {
-        id: 3,
-        type: 'multiple',
-        question: 'Dechový objem (množství vzduchu vyměněného při jednom klidovém dechu) činí přibližně:',
-        options: [
-            '0,15 l',
-            '0,5 l',
-            '1,5 l',
-            '2,5 l'
-        ],
-        correct: 1
-    },
-    {
-        id: 5,
-        type: 'multiple',
-        question: 'Eustachova trubice spojuje:',
-        options: [
-            'Dutinu nosní a hrtan',
-            'Nosohltan a střední ucho',
-            'Hltan a hrtan',
-            'Dutinu ústní a nosohltan'
-        ],
-        correct: 1
-    },
-    {
-        id: 6,
-        type: 'boolean',
-        question: 'Příklopka hrtanová (epiglotis) při polykání uzavírá hrtan.',
-        correct: true
-    },
-    {
-        id: 7,
-        type: 'multiple',
-        question: 'Chrupavka štítná se lidově nazývá:',
-        options: [
-            'Jazylka',
-            'Příklopka',
-            'Ohryzek (Adamovo jablko)',
-            'Prstencová chrupavka'
-        ],
-        correct: 2
-    },
-    {
-        id: 8,
-        type: 'boolean',
-        question: 'Zvuk vzniká rozechvíváním hlasivkových vazů vydechovaným vzduchem.',
-        correct: true
-    },
-        {
-        id: 10,
-        type: 'boolean',
-        question: 'Průdušnici vyztužují podkovovité chrupavky.',
-        correct: true
-    },
-        {
-        id: 12,
-        type: 'boolean',
-        question: 'Levá plíce má 3 laloky, pravá plíce má 2 laloky.',
-        correct: false
-    },
-        {
-        id: 15,
-        type: 'multiple',
-        question: 'Stěna plicních sklípků (alveolů) je tvořena:',
-        options: [
-            'Víceřadým epitelem',
-            'Jednovrstevným respiračním epitelem',
-            'Hladkou svalovinou',
-            'Chrupavčitou tkání'
-        ],
-        correct: 1
-    },
-        {
-        id: 17,
-        type: 'multiple',
-        question: 'Vazivová blána na povrchu plic se nazývá:',
-        options: [
-            'Pohrudnice',
-            'Poplicnice',
-            'Mezihrudí',
-            'Bránice'
-        ],
-        correct: 1
-    },
-    {
-        id: 18,
-        type: 'boolean',
-        question: 'V pohrudniční štěrbině je přetlak, který usnadňuje pohyby při dýchání.',
-        correct: false
-    },
-    {
-        id: 19,
-        type: 'multiple',
-        question: 'Nádech (inspirium) je:',
-        options: [
-            'Pasivní děj – uvolnění svalů',
-            'Aktivní děj – stah dýchacích svalů',
-            'Reflexní děj bez účasti svalů',
-            'Děj řízený pouze vůlí'
-        ],
-        correct: 1
-    },
-    {
-        id: 20,
-        type: 'boolean',
-        question: 'Při vdechu se bránice pohybuje směrem dolů.',
-        correct: true
-    },
-        {
-        id: 23,
-        type: 'multiple',
-        question: 'Vitální kapacita plic u mužů činí přibližně:',
-        options: [
-            '2,5 l',
-            '3,2 l',
-            '4,2 l',
-            '5,5 l'
-        ],
-        correct: 2
-    },
-    {
-        id: 24,
-        type: 'boolean',
-        question: 'Dechová frekvence u dospělého člověka v klidu je 16–18 dechů za minutu.',
-        correct: true
-    },
-        {
-        id: 27,
-        type: 'multiple',
-        question: 'Tuberkulózu způsobuje:',
-        options: [
-            'Virus',
-            'Bakterie Mycobacterium tuberculosis',
-            'Plíseň',
-            'Alergen'
-        ],
-        correct: 1
-    },
-       {
-        id: 30,
-        type: 'boolean',
-        question: 'Pneumotorax vzniká proniknutím vzduchu do pohrudniční štěrbiny a vyrovnáním tlaku.',
-        correct: true
-    }
-]
+                 questions: [
+                    // ============================================================
+                    // TÉMA 1: ROSTLINNÁ PLETIVA (otázky 1–12)
+                    // ============================================================
+                    {
+                        id: 1,
+                        type: 'boolean',
+                        question: 'Stélka (thallus) je typ rostlinného těla, které nikdy neobsahuje cévní svazky.',
+                        correct: true
+                    },
+                    {
+                        id: 2,
+                        type: 'boolean',
+                        question: 'Kolenchym má buněčnou stěnu rovnoměrně ztloustlou.',
+                        correct: false
+                    },
+                    {
+                        id: 3,
+                        type: 'multiple',
+                        question: 'Co je typické pro parenchym?',
+                        options: [
+                            'Mrtvé buňky s tlustou stěnou',
+                            'Buňky bez vakuol a bez jádra',
+                            'Buňky neschopné dělení s výrazně ztloustlou stěnou',
+                            'Živé buňky s tenkou stěnou a mezibuněčnými prostory'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 4,
+                        type: 'multiple',
+                        question: 'Aerenchym (provzdušňovací pletivo) je typické pro:',
+                        options: [
+                            'Sukulenty v poušti',
+                            'Jehličnaté stromy',
+                            'Vodní a bahenní rostliny',
+                            'Trávy na suchých loukách'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 5,
+                        type: 'multiple',
+                        question: 'Kde se nacházejí primární (prvotní) meristémy?',
+                        options: [
+                            'Na vzrostných vrcholech stonků a v kořenových špičkách',
+                            'Mezi lýkem a dřevem v cévních svazcích',
+                            'Pod pokožkou starších dřevin',
+                            'Pouze v listech'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 6,
+                        type: 'multiple',
+                        question: 'Činností kambia vzniká:',
+                        options: [
+                            'Korková vrstva',
+                            'Pokožka listů',
+                            'Aerenchym',
+                            'Druhotné dřevo a druhotné lýko'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 7,
+                        type: 'multiple',
+                        question: 'Kutikula na povrchu epidermis:',
+                        options: [
+                            'Brání odpařování vody a chrání povrch rostliny',
+                            'Umožňuje vstřebávání vody',
+                            'Slouží k výměně plynů',
+                            'Zajišťuje fotosyntézu'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 8,
+                        type: 'multiple',
+                        question: 'Xylem (dřevní část cévního svazku) slouží k transportu:',
+                        options: [
+                            'Vody a minerálních solí z kořenů do listů',
+                            'Organických látek z listů do kořenů',
+                            'Kyslíku z kořenů do listů',
+                            'Hormonů z květů do kořenů'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 9,
+                        type: 'multiple',
+                        question: 'U jednoděložných rostlin (trávy, cibuloviny) jsou cévní svazky:',
+                        options: [
+                            'Rozptýlené po celé ploše stonku bez kambia',
+                            'Pouze v kořenech',
+                            'Uspořádané v kruhu s kambiem',
+                            'Nahrazeny parenchymem'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 10,
+                        type: 'multiple',
+                        question: 'Průduchy v pokožce listu jsou tvořeny:',
+                        options: [
+                            'Jedinou velkou buňkou s otvorem',
+                            'Dvěma svěracími buňkami s průduchovou štěrbinou',
+                            'Řadou odumřelých buněk',
+                            'Žláznatými trichomy'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 11,
+                        type: 'checkbox',
+                        question: 'Které z uvedených patří mezi druhotné (sekundární) meristémy?',
+                        options: [
+                            'Kambium',
+                            'Vzrostný vrchol stonku',
+                            'Felogen',
+                            'Kořenová špička'
+                        ],
+                        correct: [0, 2]
+                    },
+                    {
+                        id: 12,
+                        type: 'checkbox',
+                        question: 'Které funkce plní floem (lýková část cévního svazku)?',
+                        options: [
+                            'Transport vody z kořenů nahoru',
+                            'Transport organických látek (sacharidů, bílkovin)',
+                            'Rozvod látek z listů do kořenů, květů a plodů',
+                            'Transport minerálních solí z půdy'
+                        ],
+                        correct: [1, 2]
+                    },
 
+                    // ============================================================
+                    // TÉMA 2: VODNÍ REŽIM ROSTLIN (otázky 13–24)
+                    // ============================================================
+                    {
+                        id: 13,
+                        type: 'boolean',
+                        question: 'Naprostá většina vody přijaté rostlinou slouží k fotosyntéze.',
+                        correct: false
+                    },
+                    {
+                        id: 14,
+                        type: 'boolean',
+                        question: 'Gutace je výdej vody v podobě kapek přes vodní skuliny (hydatody), typicky brzy ráno.',
+                        correct: true
+                    },
+                    {
+                        id: 15,
+                        type: 'multiple',
+                        question: 'Aktivní příjem vody kořenovými vlásky je založen na:',
+                        options: [
+                            'Difuzi mezibuněčnými prostory',
+                            'Osmóze – nasávání vody buňkami s vyšší koncentrací solí',
+                            'Kapilárním vzlínání',
+                            'Transpiraci v listech'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 16,
+                        type: 'multiple',
+                        question: 'Transpirační sání je příkladem:',
+                        options: [
+                            'Aktivního transportu vody v rostlině',
+                            'Gutace',
+                            'Osmotického tlaku v kořenech',
+                            'Pasivního transportu vody v rostlině'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 17,
+                        type: 'multiple',
+                        question: 'Průduchy se otevírají, když:',
+                        options: [
+                            'Rostlina trpí nedostatkem vody',
+                            'Svěrací buňky ochabnou',
+                            'Je tma a nízká vlhkost',
+                            'Svěrací buňky jsou dostatečně napnuté vodou'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 18,
+                        type: 'multiple',
+                        question: 'Kutikulární transpirace za normálních podmínek tvoří:',
+                        options: [
+                            'Méně než 1 % celkového výdeje vody',
+                            'Přibližně 50 % celkového výdeje vody',
+                            'Více než 99 % celkového výdeje vody',
+                            'Přibližně 25 % celkového výdeje vody'
+                        ],
+                        correct: 0
+                    },
+                    {
+                        id: 19,
+                        type: 'multiple',
+                        question: 'Kořenový vztlak je příkladem:',
+                        options: [
+                            'Pasivního transportu vody',
+                            'Kutikulární transpirace',
+                            'Aktivního transportu vody v rostlině',
+                            'Gutace'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 20,
+                        type: 'multiple',
+                        question: 'Transpirace rostlin přispívá ke zmírnění teplotních extrémů, protože:',
+                        options: [
+                            'Rostliny produkují teplo při fotosyntéze',
+                            'Vlhký vzduch má vyšší tepelnou kapacitu než suchý',
+                            'Rostliny pohlcují sluneční záření',
+                            'Kořeny ochlazují půdu'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 21,
+                        type: 'multiple',
+                        question: 'Při nedostatku vody rostlina:',
+                        options: [
+                            'Zvýší transpiraci přes kutikulu',
+                            'Otevře průduchy naplno',
+                            'Začne přijímat vodu ze vzduchu listy',
+                            'Uzavře průduchy, ale stále ztrácí vodu přes kutikulu'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 22,
+                        type: 'multiple',
+                        question: 'Rhizodermis (pokožka kořene) se od epidermis liší tím, že:',
+                        options: [
+                            'Má silnou kutikulu a voskovou vrstvu',
+                            'Je tvořena mrtvými buňkami',
+                            'Nemá kutikulu a má kořenové vlásky pro příjem vody',
+                            'Obsahuje průduchy'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 23,
+                        type: 'checkbox',
+                        question: 'Které jsou hlavní funkce vody v rostlinném těle?',
+                        options: [
+                            'Zdroj vodíku pro fotosyntézu',
+                            'Stavba buněčné stěny',
+                            'Rozpouštědlo umožňující transport látek',
+                            'Tvorba chlorofylu'
+                        ],
+                        correct: [0, 2]
+                    },
+                    {
+                        id: 24,
+                        type: 'checkbox',
+                        question: 'Transport vody od kořenů k listům zajišťují tyto mechanismy:',
+                        options: [
+                            'Gutace',
+                            'Kořenový vztlak (aktivní transport)',
+                            'Transpirační sání (pasivní transport)',
+                            'Kutikulární transpirace'
+                        ],
+                        correct: [1, 2]
+                    },
+
+                    // ============================================================
+                    // TÉMA 3: MINERÁLNÍ VÝŽIVA ROSTLIN (otázky 25–36)
+                    // ============================================================
+                    {
+                        id: 25,
+                        type: 'boolean',
+                        question: 'Hydroponické pěstování je pěstování rostlin v živných roztocích bez půdy.',
+                        correct: true
+                    },
+                    {
+                        id: 26,
+                        type: 'boolean',
+                        question: 'Průmyslová hnojiva nemusí být rozpustná ve vodě, aby je rostlina mohla přijmout.',
+                        correct: false
+                    },
+                    {
+                        id: 27,
+                        type: 'multiple',
+                        question: 'Zkratka NPK v kombinovaných hnojivech označuje:',
+                        options: [
+                            'Nikl, fosfor, křemík',
+                            'Dusík, fosfor, draslík',
+                            'Sodík, fosfor, vápník',
+                            'Dusík, draslík, hořčík'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 28,
+                        type: 'multiple',
+                        question: 'Masožravé rostliny lapají živočichy, protože:',
+                        options: [
+                            'Potřebují živočišné tuky pro růst',
+                            'Nejsou schopné fotosyntézy',
+                            'Potřebují živočišné enzymy',
+                            'Žijí v půdách chudých na dusík'
+                        ],
+                        correct: 3
+                    },
+                    {
+                        id: 29,
+                        type: 'multiple',
+                        question: 'Mykorhiza je symbióza:',
+                        options: [
+                            'Kořenů rostlin s hlízkovými bakteriemi',
+                            'Kořenů dřevin s houbami',
+                            'Hub s řasami',
+                            'Rostlin s hmyzem'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 30,
+                        type: 'multiple',
+                        question: 'Hlízkové bakterie v kořenových hlízkách bobovitých rostlin:',
+                        options: [
+                            'Fixují vzdušný dusík a přeměňují ho na amonné soli',
+                            'Rozkládají organické zbytky v půdě',
+                            'Produkují fosforečná hnojiva',
+                            'Zajišťují fotosyntézu v kořenech'
+                        ],
+                        correct: 0
+                    },
+                        {
+                        id: 32,
+                        type: 'multiple',
+                        question: 'Poloparazitická rostlina JMELÍ získává z hostitele:',
+                        options: [
+                            'Organické látky (cukry)',
+                            'Kyslík pro dýchání',
+                            'Vodu s rozpuštěnými minerálními živinami',
+                            'Chloroplasty pro fotosyntézu'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 33,
+                        type: 'multiple',
+                        question: 'Uhlík, kyslík a vodík rostlina získává:',
+                        options: [
+                            'Pouze z půdy',
+                            'Z vody a ze vzduchu',
+                            'Pouze z hnojiv',
+                            'Z těl odumřelých organismů'
+                        ],
+                        correct: 1
+                    },
+                    {
+                        id: 34,
+                        type: 'multiple',
+                        question: 'Statková hnojiva se od průmyslových liší mimo jiné tím, že:',
+                        options: [
+                            'Jsou levnější a účinnější',
+                            'Obsahují pouze draslík',
+                            'Přispívají k tvorbě humusu v půdě',
+                            'Jsou vždy ve formě roztoku'
+                        ],
+                        correct: 2
+                    },
+                    {
+                        id: 35,
+                        type: 'checkbox',
+                        question: 'Které patří mezi statková (organická) hnojiva?',
+                        options: [
+                            'Hnůj',
+                            'NPK hnojivo',
+                            'Kompost',
+                            'Dusíkaté umělé hnojivo'
+                        ],
+                        correct: [0, 2]
+                    },
+                    {
+                        id: 36,
+                        type: 'checkbox',
+                        question: 'Které typy pastí využívají masožravé rostliny?',
+                        options: [
+                            'Listy pokryté lepkavými trichomy (rosnatka)',
+                            'Jedovaté kořeny',
+                            'Svírací čepele listů (mucholapka)',
+                            'Vysávání kořenů jiných rostlin'
+                        ],
+                        correct: [0, 2]
+                    }
+                ]
             };
             
             // ========================================
@@ -386,6 +622,11 @@
 
                 if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
                     alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
                     return;
                 }
 

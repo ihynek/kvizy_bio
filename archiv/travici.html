@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kroužkovci</title>
+    <title>Trávicí soustava</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,307 +51,258 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Kroužkovci",
+                title: "Trávicí soustava",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
-        {
+    {
+        id: 1,
+        type: 'multiple',
+        question: 'Které zuby slouží k ukusování soust?',
+        options: [
+            'Stoličky',
+            'Špičáky',
+            'Řezáky',
+            'Třenáky'
+        ],
+        correct: 2
+    },
+    {
         id: 2,
         type: 'multiple',
-        question: 'Jak se nazývá typ segmentace kroužkovců?',
+        question: 'Kolik mléčných zubů má dítě v kompletním chrupu?',
         options: [
-            'Metamerní (homonomní) segmentace',
-            'Heteronomní segmentace',
-            'Radiální segmentace',
-            'Bilaterální segmentace'
+            '20',
+            '24',
+            '28',
+            '32'
         ],
         correct: 0
     },
     {
         id: 3,
-        type: 'boolean',
-        question: 'Kroužkovci mají pravou tělní dutinu (coelom).',
-        correct: true
-    },
-    {
-        id: 4,
         type: 'multiple',
-        question: 'Jaký typ oběhové soustavy mají kroužkovci?',
+        question: 'Které slinné žlázy jsou největší?',
         options: [
-            'Uzavřenou cévní soustavu',
-            'Otevřenou cévní soustavu',
-            'Nemají cévní soustavu',
-            'Lymfatický systém'
+            'Podjazykové',
+            'Podčelistní',
+            'Příušní',
+            'Všechny stejně velké'
         ],
-        correct: 0
+        correct: 2
     },
-    {
+        {
         id: 5,
         type: 'multiple',
-        question: 'Vylučovací orgány kroužkovců se nazývají:',
+        question: 'Který enzym obsažený ve slinách zahajuje trávení škrobu?',
         options: [
-            'Protonefridie',
-            'Malpighické trubice',
-            'Nefrony',
-            'Metanefridie'
+            'Pepsin',
+            'Lipáza',
+            'Ptyalin (amyláza)',
+            'Trypsin'
         ],
-        correct: 3
+        correct: 2
     },
     {
         id: 6,
         type: 'boolean',
-        question: 'Krev kroužkovců obsahuje hemoglobin, který jí dodává modrou barvu.',
-        correct: false
+        question: 'Hltan má tři části: nosohltan, ústní část a hrtanovou část.',
+        correct: true
     },
     {
         id: 7,
         type: 'multiple',
-        question: 'Nervovou soustavu kroužkovců tvoří:',
+        question: 'Jaká je přibližná délka jícnu?',
         options: [
-            'Rozptýlená nervová síť',
-            'Nadhltanová zauzlina, podhltanová zauzlina a břišní nervový provazec',
-            'Pouze mozková ganglia',
-            'Trubicová nervová soustava'
+            '10-12 cm',
+            '25-28 cm',
+            '40-45 cm',
+            '60-70 cm'
         ],
         correct: 1
     },
     {
         id: 8,
-        type: 'multiple',
-        question: 'Parapodia jsou:',
-        options: [
-            'Přísavky na těle pijavic',
-            'Ochranné schránky rournatců',
-            'Párové postranní výběžky segmentů s množstvím štětin',
-            'Vylučovací orgány kroužkovců'
-        ],
-        correct: 2
+        type: 'boolean',
+        question: 'Ve stěně jícnu se nachází v horní třetině žíhaná svalovina a v dolní části hladká svalovina.',
+        correct: true
     },
     {
         id: 9,
-        type: 'boolean',
-        question: 'Mnohoštětinatci (Polychaeta) žijí převážně v moři.',
-        correct: true
-    },
-    {
-        id: 10,
         type: 'multiple',
-        question: 'Která třída kroužkovců má na každém segmentu pouze 4 páry štětin?',
+        question: 'Obsah žaludku je přibližně:',
         options: [
-            'Máloštětinatci (Oligochaeta)',
-            'Mnohoštětinatci (Polychaeta)',
-            'Pijavice (Hirudinea)',
-            'Žádná – všechny mají stejný počet'
+            '0,2-0,5 l',
+            '1-2 l',
+            '3-4 l',
+            '5-6 l'
         ],
-        correct: 0
+        correct: 1
     },
-    {
+        {
         id: 11,
         type: 'multiple',
-        question: 'Opasek (clitellum) u žížaly slouží k:',
+        question: 'Který enzym žaludeční šťávy štěpí bílkoviny?',
         options: [
-            'Dýchání',
-            'Pohybu v půdě',
-            'Vylučování odpadních látek',
-            'Tvorbě kokonu pro vajíčka'
-        ],
-        correct: 3
-    },
-    {
-        id: 12,
-        type: 'boolean',
-        question: 'Máloštětinatci jsou gonochoristé.',
-        correct: false
-    },
-    {
-        id: 13,
-        type: 'multiple',
-        question: 'Opasek žížaly obecné se nachází na segmentech:',
-        options: [
-            '1–5',
-            '10–15',
-            '32–37',
-            '100–110'
-        ],
-        correct: 2
-    },
-    {
-        id: 14,
-        type: 'multiple',
-        question: 'Kolik párů pulzujících cév („srdcí") má žížala?',
-        options: [
-            '1 pár',
-            '3 páry',
-            '10 párů',
-            '5 párů'
-        ],
-        correct: 3
-    },
-    {
-        id: 15,
-        type: 'boolean',
-        question: 'Hřbetní céva u žížaly vede krev směrem dopředu.',
-        correct: true
-    },
-     {
-        id: 18,
-        type: 'multiple',
-        question: 'Pijavice se od ostatních kroužkovců liší mimo jiné tím, že:',
-        options: [
-            'Mají parapodia',
-            'Jsou gonochoristé (odděleného pohlaví)',
-            'Nemají žádné štětiny a mají dvě přísavky',
-            'Mají otevřenou cévní soustavu'
-        ],
-        correct: 2
-    },
-    {
-        id: 19,
-        type: 'multiple',
-        question: 'Hirudin obsažený ve slinách pijavice lékařské je:',
-        options: [
-            'Antibiotikum – ničí bakterie',
-            'Antikoagulant – zabraňuje srážení krve',
-            'Hormon – reguluje krevní tlak',
-            'Toxin – ochromuje kořist'
+            'Amyláza',
+            'Pepsin',
+            'Lipáza',
+            'Maltáza'
         ],
         correct: 1
     },
     {
-        id: 20,
+        id: 12,
+        type: 'multiple',
+        question: 'Kašovitá trávenina vznikající v žaludku se nazývá:',
+        options: [
+            'Chymus',
+            'Chylus',
+            'Glykogen',
+            'Mucin'
+        ],
+        correct: 0
+    },
+        {
+        id: 14,
         type: 'boolean',
-        question: 'Pijavka koňská (Haemopis sanguisuga) saje krev teplokrevných živočichů.',
-        correct: false
+        question: 'Do jater přivádí krev jaterní tepna i vrátnicová žíla.',
+        correct: true
+    },
+        {
+        id: 16,
+        type: 'boolean',
+        question: 'Žluč je tvořena neustále v jaterních buňkách.',
+        correct: true
     },
     {
-        id: 21,
+        id: 17,
+        type: 'boolean',
+        question: 'Žluč neutralizuje kyselý chymus ze žaludku, emulguje tuky a umožňuje jejich vstřebávání.',
+        correct: true
+    },
+    {
+        id: 18,
         type: 'multiple',
-        question: 'Žížala obecná dorůstá délky:',
+        question: 'Objem žlučníku je:',
         options: [
-            '1–3 cm',
-            '50–80 cm',
-            '100–150 cm',
-            '10–30 cm'
+            '10-20 ml',
+            '50-80 ml',
+            '150-200 ml',
+            '300-400 ml'
         ],
-        correct: 3
+        correct: 1
+    },
+    {
+        id: 19,
+        type: 'boolean',
+        question: 'Slinivka břišní leží v ohybu dvanáctníku.',
+        correct: true
+    },
+        {
+        id: 21,
+        type: 'boolean',
+        question: 'Pankreatická šťáva obsahuje enzymy trypsin, amylázy a lipázy.',
+        correct: true
     },
     {
         id: 22,
         type: 'multiple',
-        question: 'V kvalitní půdě může žít až:',
+        question: 'Tenké střevo je dlouhé přibližně:',
         options: [
-            '10 žížal na m²',
-            '400 žížal na m²',
-            '50 žížal na m²',
-            '5 000 žížal na m²'
+            '1-2 m',
+            '3-5 m',
+            '8-10 m',
+            '15-20 m'
         ],
         correct: 1
     },
     {
         id: 23,
-        type: 'boolean',
-        question: 'Peristaltický pohyb žížaly je umožněn střídavým stahováním kruhovitých a podélných svalů.',
-        correct: true
-    },
-     {
-        id: 25,
-        type: 'boolean',
-        question: 'Mnohoštětinatci jsou hermafroditi.',
-        correct: false
-    },
-    {
-        id: 26,
         type: 'multiple',
-        question: 'Larva mnohoštětinatců se nazývá:',
+        question: 'Které části má tenké střevo?',
         options: [
-            'Nauplius',
-            'Veliger',
-            'Planula',
-            'Trochofora'
-        ],
-        correct: 3
-    },
-    {
-        id: 27,
-        type: 'multiple',
-        question: 'Nitěnka obecná (Tubifex) je:',
-        options: [
-            'Mořský mnohoštětinatec',
-            'Suchozemská pijavice',
-            'Sladkovodní máloštětinatec a bioindikátor znečištění',
-            'Sladkovodní pijavice parazitující na rybách'
-        ],
-        correct: 2
-    },
-    {
-        id: 28,
-        type: 'boolean',
-        question: 'Máloštětinatci se vyvíjejí přímým vývojem bez larválního stádia.',
-        correct: true
-    },
-    {
-        id: 30,
-        type: 'multiple',
-        question: 'Největší známý kroužkovec je:',
-        options: [
-            'Žížala obecná (Lumbricus terrestris) – až 30 cm',
-            'Obří australská žížala (Megascolides australis) – až 3 metry',
-            'Nereidka (Nereis) – až 50 cm',
-            'Pijavka koňská (Haemopis) – až 1 metr'
-        ],
-        correct: 1
-    },
-    {
-        id: 31,
-        type: 'boolean',
-        question: 'Pijavice lékařská je chráněný druh (CITES).',
-        correct: true
-    },
-    {
-        id: 32,
-        type: 'multiple',
-        question: 'Chobotnatka rybí (Piscicola geometra) je:',
-        options: [
-            'Pijavice parazitující na rybách',
-            'Dravý mnohoštětinatec',
-            'Sladkovodní máloštětinatec',
-            'Mořský rournatec'
+            'Dvanáctník, lačník, kyčelník',
+            'Slepé střevo, tračník, konečník',
+            'Pouze dvanáctník a lačník',
+            'Pouze tračník'
         ],
         correct: 0
     },
     {
-        id: 33,
+        id: 24,
         type: 'multiple',
-        question: 'Coelomová tekutina u žížaly slouží při pohybu jako:',
+        question: 'Klky střevní sliznice slouží k:',
         options: [
-            'Trávicí šťáva',
-            'Krevní náhražka',
-            'Ochranný sliz na povrchu těla',
-            'Hydrostatická kostra, proti které svaly pracují'
+            'Trávení',
+            'Vstřebávání živin',
+            'Tvorbě hlenu',
+            'Pohybu střeva'
         ],
-        correct: 3
+        correct: 1
     },
-    {
-        id: 34,
+        {
+        id: 26,
         type: 'boolean',
-        question: 'Žížaly jsou aktivní přes den a vyhýbají se temnotě.',
-        correct: false
+        question: 'Průchod tráveniny tenkým střevem trvá 4-8 hodin.',
+        correct: true
     },
     {
-        id: 35,
+        id: 27,
         type: 'multiple',
-        question: 'Palolo zelený (Palola viridis) se rozmnožuje tak, že:',
+        question: 'Tlusté střevo je dlouhé:',
         options: [
-            'Samice klade vajíčka do kokonu vytvořeného opaskem',
-            'Dochází k pučení nových jedinců z mateřského organismu',
-            'Zadní část těla plná pohlavních buněk se odlamuje a vyplouvá k hladině',
-            'Larvy se vyvíjejí uvnitř těla matky (živorodost)'
+            '0,5 m',
+            '1,5 m',
+            '3 m',
+            '5 m'
+        ],
+        correct: 1
+    },
+    {
+        id: 28,
+        type: 'multiple',
+        question: 'Červovitý přívěsek je součástí:',
+        options: [
+            'Dvanáctníku',
+            'Lačníku',
+            'Slepého střeva',
+            'Konečníku'
         ],
         correct: 2
+    },
+    {
+        id: 29,
+        type: 'boolean',
+        question: 'Střevní mikroflóra v tlustém střevě produkuje vitamín B12 i vitamín K.',
+        correct: true
+    },
+        {
+        id: 32,
+        type: 'boolean',
+        question: 'HCl v žaludeční šťávě vytváří kyselé prostředí, dezinfikuje a aktivuje pepsinogen.',
+        correct: true
+    },
+    {
+        id: 33,
+        type: 'multiple',
+        question: 'Mucin v žaludeční šťávě:',
+        options: [
+            'Tráví tuky',
+            'Tvoří ochranný hlenovitý povlak',
+            'Tráví bílkoviny',
+            'Neutralizuje kyseliny'
+        ],
+        correct: 1
+    },
+        {
+        id: 35,
+        type: 'boolean',
+        question: 'Trávenina zůstává v žaludku 3-6 hodin.',
+        correct: true
     }
 ]
-
             };
             
             // ========================================
@@ -518,6 +473,11 @@
 
                 if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
                     alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
                     return;
                 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Horniny usazené, vyvřelé a přeměněné</title>
+    <title>Kroužkovci</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -15,7 +15,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useRef } = React;
 
         /* 
         =============================================================================
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,321 +51,307 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Horniny_vup",
+                title: "Kroužkovci",
                 teacherEmail: "hynek@gymberoun.cz",
+                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
-    // ========================================
-    // WEGENEROVA TEORIE A LITOSFÉRICKÉ DESKY (12 otázek)
-    // ========================================
-    {
+        {
         id: 2,
-        type: 'boolean',
-        question: 'Pangea byl název pro prastarý superkontinent.',
-        correct: true
+        type: 'multiple',
+        question: 'Jak se nazývá typ segmentace kroužkovců?',
+        options: [
+            'Metamerní (homonomní) segmentace',
+            'Heteronomní segmentace',
+            'Radiální segmentace',
+            'Bilaterální segmentace'
+        ],
+        correct: 0
     },
     {
         id: 3,
-        type: 'multiple',
-        question: 'Litosférické desky zahrnují:',
-        options: [
-            'Pouze oceánské desky',
-            'Kontinentální desky jako euroasijská a africká',
-            'Oceánské desky jako pacifická a Nazca',
-            'Pouze atmosférické vrstvy'
-        ],
-        correct: [1, 2]
+        type: 'boolean',
+        question: 'Kroužkovci mají pravou tělní dutinu (coelom).',
+        correct: true
     },
     {
         id: 4,
         type: 'multiple',
-        question: 'Jaká je rychlost pohybu litosférických desek?',
+        question: 'Jaký typ oběhové soustavy mají kroužkovci?',
         options: [
-            '2-16 mm/rok',
-            '2-16 cm/rok',
-            '2-16 m/rok',
-            '2-16 km/rok'
+            'Uzavřenou cévní soustavu',
+            'Otevřenou cévní soustavu',
+            'Nemají cévní soustavu',
+            'Lymfatický systém'
         ],
-        correct: 1
+        correct: 0
     },
     {
         id: 5,
+        type: 'multiple',
+        question: 'Vylučovací orgány kroužkovců se nazývají:',
+        options: [
+            'Protonefridie',
+            'Malpighické trubice',
+            'Nefrony',
+            'Metanefridie'
+        ],
+        correct: 3
+    },
+    {
+        id: 6,
         type: 'boolean',
-        question: 'Konvekční proudění magmatu způsobuje pohyb litosférických desek.',
-        correct: true
+        question: 'Krev kroužkovců obsahuje hemoglobin, který jí dodává modrou barvu.',
+        correct: false
     },
     {
         id: 7,
         type: 'multiple',
-        question: 'V subdukčních zónách:',
+        question: 'Nervovou soustavu kroužkovců tvoří:',
         options: [
-            'Desky od sebe vzdalují',
-            'Těžší deska se podsouvá pod lehčí',
-            'Zemská kůra zaniká (je znovu roztavena)',
-            'Vytváří se nová kůra'
+            'Rozptýlená nervová síť',
+            'Nadhltanová zauzlina, podhltanová zauzlina a břišní nervový provazec',
+            'Pouze mozková ganglia',
+            'Trubicová nervová soustava'
         ],
-        correct: [1, 2]
+        correct: 1
     },
     {
         id: 8,
+        type: 'multiple',
+        question: 'Parapodia jsou:',
+        options: [
+            'Přísavky na těle pijavic',
+            'Ochranné schránky rournatců',
+            'Párové postranní výběžky segmentů s množstvím štětin',
+            'Vylučovací orgány kroužkovců'
+        ],
+        correct: 2
+    },
+    {
+        id: 9,
         type: 'boolean',
-        question: 'Himálaje vznikly kolizí dvou pevninských litosférických desek.',
+        question: 'Mnohoštětinatci (Polychaeta) žijí převážně v moři.',
         correct: true
     },
     {
         id: 10,
         type: 'multiple',
-        question: 'Šelf je:',
+        question: 'Která třída kroužkovců má na každém segmentu pouze 4 páry štětin?',
         options: [
-            'Hlubokomořský příkop',
-            'Středooceánský hřbet',
-            'Mělká část moře u pobřeží kontinentu',
-            'Ostrovní sopečný oblouk'
-        ],
-        correct: 2
-    },
-    {
-        id: 11,
-        type: 'boolean',
-        question: 'Nejmladší oceánská kůra se nachází v blízkosti středooceánských hřbetů.',
-        correct: true
-    },
-    // ========================================
-    // USAZENÉ HORNINY (12 otázek)
-    // ========================================
-    {
-        id: 13,
-        type: 'multiple',
-        question: 'Usazené horniny vznikají:',
-        options: [
-            'Tuhnutím magmatu',
-            'Rozkladem starších hornin',
-            'Usazením transportovaného materiálu',
-            'Pouze sopečnou činností'
-        ],
-        correct: [1, 2]
-    },
-    {
-        id: 14,
-        type: 'boolean',
-        question: 'Těleso usazených hornin se nazývá vrstva.',
-        correct: true
-    },
-    {
-        id: 15,
-        type: 'multiple',
-        question: 'Spraše jsou:',
-        options: [
-            'Horké minerální prameny',
-            'Nezpevněné usazeniny naváté větrem',
-            'Hlubokomořské usazeniny',
-            'Na nich se tvoří úrodné půdy - černozemě'
-        ],
-        correct: [1]
-    },
-    {
-        id: 16,
-        type: 'multiple',
-        question: 'Podle stupně zpevnění se jílové sedimenty člení na:',
-        options: [
-            'Jíly, jílovce, jílové břidlice',
-            'Pískovce, prachovce, jílovce',
-            'Vápenec, pískovec, jílovec',
-            'Spraš, hlína, jíl'
+            'Máloštětinatci (Oligochaeta)',
+            'Mnohoštětinatci (Polychaeta)',
+            'Pijavice (Hirudinea)',
+            'Žádná – všechny mají stejný počet'
         ],
         correct: 0
     },
     {
-        id: 17,
+        id: 11,
+        type: 'multiple',
+        question: 'Opasek (clitellum) u žížaly slouží k:',
+        options: [
+            'Dýchání',
+            'Pohybu v půdě',
+            'Vylučování odpadních látek',
+            'Tvorbě kokonu pro vajíčka'
+        ],
+        correct: 3
+    },
+    {
+        id: 12,
         type: 'boolean',
-        question: 'Jílové břidlice jsou snadno rozplavitelné ve vodě.',
+        question: 'Máloštětinatci jsou gonochoristé.',
         correct: false
     },
     {
+        id: 13,
+        type: 'multiple',
+        question: 'Opasek žížaly obecné se nachází na segmentech:',
+        options: [
+            '1–5',
+            '10–15',
+            '32–37',
+            '100–110'
+        ],
+        correct: 2
+    },
+    {
+        id: 14,
+        type: 'multiple',
+        question: 'Kolik párů pulzujících cév („srdcí") má žížala?',
+        options: [
+            '1 pár',
+            '3 páry',
+            '10 párů',
+            '5 párů'
+        ],
+        correct: 3
+    },
+    {
+        id: 15,
+        type: 'boolean',
+        question: 'Hřbetní céva u žížaly vede krev směrem dopředu.',
+        correct: true
+    },
+     {
         id: 18,
         type: 'multiple',
-        question: 'Hlavní nerostnou složkou vápenců je:',
+        question: 'Pijavice se od ostatních kroužkovců liší mimo jiné tím, že:',
         options: [
-            'Křemen',
-            'Živec',
-            'Kalcit',
-            'Slída'
+            'Mají parapodia',
+            'Jsou gonochoristé (odděleného pohlaví)',
+            'Nemají žádné štětiny a mají dvě přísavky',
+            'Mají otevřenou cévní soustavu'
         ],
         correct: 2
     },
     {
         id: 19,
         type: 'multiple',
-        question: 'Vápence vznikají převážně:',
+        question: 'Hirudin obsažený ve slinách pijavice lékařské je:',
         options: [
-            'Zvětráváním žuly',
-            'Z usazených schránek mořských organismů',
-            'Z koster prvoků',
-            'Přeměnou jílů'
+            'Antibiotikum – ničí bakterie',
+            'Antikoagulant – zabraňuje srážení krve',
+            'Hormon – reguluje krevní tlak',
+            'Toxin – ochromuje kořist'
         ],
-        correct: [1]
+        correct: 1
     },
     {
         id: 20,
         type: 'boolean',
-        question: 'Rašelina vzniká hromaděním zbytků odumřelých rostlin při nedostatku vzduchu.',
-        correct: true
+        question: 'Pijavka koňská (Haemopis sanguisuga) saje krev teplokrevných živočichů.',
+        correct: false
     },
     {
         id: 21,
         type: 'multiple',
-        question: 'Které uhlí je nejvíce prouhelněné?',
+        question: 'Žížala obecná dorůstá délky:',
         options: [
-            'Hnědé uhlí',
-            'Černé uhlí',
-            'Antracit',
-            'Rašelina'
+            '1–3 cm',
+            '50–80 cm',
+            '100–150 cm',
+            '10–30 cm'
         ],
-        correct: 2
+        correct: 3
     },
     {
         id: 22,
-        type: 'boolean',
-        question: 'Hnědé uhlí pochází z prvohor.',
-        correct: false
+        type: 'multiple',
+        question: 'V kvalitní půdě může žít až:',
+        options: [
+            '10 žížal na m²',
+            '400 žížal na m²',
+            '50 žížal na m²',
+            '5 000 žížal na m²'
+        ],
+        correct: 1
     },
     {
         id: 23,
-        type: 'multiple',
-        question: 'Ropa vznikla převážně z:',
-        options: [
-            'Zbytků lesních stromů',
-            'Mikroorganismů',
-            'Zbytků drobných živočichů na dně moří',
-            'Usazených minerálů'
-        ],
-        correct: [1, 2]
+        type: 'boolean',
+        question: 'Peristaltický pohyb žížaly je umožněn střídavým stahováním kruhovitých a podélných svalů.',
+        correct: true
     },
-    {
-        id: 24,
-        type: 'multiple',
-        question: 'Slínovce jsou:',
-        options: [
-            'Vyvřelé horniny s obsahem železa',
-            'Jílovce s vápenitou příměsí',
-            'Používají se jako stavební kámen',
-            'Pískovce s jílovou příměsí'
-        ],
-        correct: [1, 2]
-    },
-
-    // ========================================
-    // VYVŘELÉ HORNINY (11 otázek)
-    // ========================================
-    {
+     {
         id: 25,
-        type: 'multiple',
-        question: 'Kolik procent zemské kůry tvoří vyvřelé horniny?',
-        options: [
-            '25%',
-            '50%',
-            '75%',
-            '95%'
-        ],
-        correct: 2
+        type: 'boolean',
+        question: 'Mnohoštětinatci jsou hermafroditi.',
+        correct: false
     },
     {
         id: 26,
-        type: 'boolean',
-        question: 'Vyvřelým horninám se také říká magmatické horniny.',
-        correct: true
+        type: 'multiple',
+        question: 'Larva mnohoštětinatců se nazývá:',
+        options: [
+            'Nauplius',
+            'Veliger',
+            'Planula',
+            'Trochofora'
+        ],
+        correct: 3
     },
     {
         id: 27,
         type: 'multiple',
-        question: 'Vyvřelé horniny můžeme dělit podle místa vzniku na:',
+        question: 'Nitěnka obecná (Tubifex) je:',
         options: [
-            'Hlubinné, výlevné a žilné',
-            'Organogenní, úlomkovité a chemické',
-            'Křemičité, vápenaté a jílové',
-            'Tvrdé, měkké a střední'
+            'Mořský mnohoštětinatec',
+            'Suchozemská pijavice',
+            'Sladkovodní máloštětinatec a bioindikátor znečištění',
+            'Sladkovodní pijavice parazitující na rybách'
         ],
-        correct: 0
+        correct: 2
     },
     {
         id: 28,
-        type: 'multiple',
-        question: 'Žula (granit):',
-        options: [
-            'Je výlevná hornina',
-            'Je hlubinná hornina',
-            'Je středně až hrubozrnná',
-            'Je žilná hornina'
-        ],
-        correct: [1, 2]
-    },
-    {
-        id: 29,
         type: 'boolean',
-        question: 'Žulu tvoří tři minerály: křemen, živec a slída.',
+        question: 'Máloštětinatci se vyvíjejí přímým vývojem bez larválního stádia.',
         correct: true
     },
     {
         id: 30,
         type: 'multiple',
-        question: 'Čedič patří mezi horniny:',
+        question: 'Největší známý kroužkovec je:',
         options: [
-            'Hlubinné',
-            'Výlevné',
-            'Žilné',
-            'Přeměněné'
+            'Žížala obecná (Lumbricus terrestris) – až 30 cm',
+            'Obří australská žížala (Megascolides australis) – až 3 metry',
+            'Nereidka (Nereis) – až 50 cm',
+            'Pijavka koňská (Haemopis) – až 1 metr'
         ],
         correct: 1
     },
     {
         id: 31,
         type: 'boolean',
-        question: 'Milešovka je hora tvořená čedičem.',
-        correct: false
+        question: 'Pijavice lékařská je chráněný druh (CITES).',
+        correct: true
     },
     {
         id: 32,
         type: 'multiple',
-        question: 'Pegmatit:',
+        question: 'Chobotnatka rybí (Piscicola geometra) je:',
         options: [
-            'Je čedičová hornina',
-            'Má podobné složení jako žula',
-            'Je žilná hornina',
-            'Je usazená hornina'
+            'Pijavice parazitující na rybách',
+            'Dravý mnohoštětinatec',
+            'Sladkovodní máloštětinatec',
+            'Mořský rournatec'
         ],
-        correct: [1, 2]
+        correct: 0
     },
     {
         id: 33,
         type: 'multiple',
-        question: 'Sloupcová odlučnost je typická pro:',
+        question: 'Coelomová tekutina u žížaly slouží při pohybu jako:',
         options: [
-            'Žulu',
-            'Čedič',
-            'Gabro',
-            'Pegmatit'
+            'Trávicí šťáva',
+            'Krevní náhražka',
+            'Ochranný sliz na povrchu těla',
+            'Hydrostatická kostra, proti které svaly pracují'
         ],
-        correct: 1
+        correct: 3
     },
     {
         id: 34,
         type: 'boolean',
-        question: 'Batolity a masivy jsou největší tělesa vyvřelých hornin v zemské kůře.',
-        correct: true
+        question: 'Žížaly jsou aktivní přes den a vyhýbají se temnotě.',
+        correct: false
     },
     {
         id: 35,
         type: 'multiple',
-        question: 'České středohoří je typické výskytem horniny:',
+        question: 'Palolo zelený (Palola viridis) se rozmnožuje tak, že:',
         options: [
-            'Žula',
-            'Vápenec',
-            'Čedič a znělec',
-            'Pískovec'
+            'Samice klade vajíčka do kokonu vytvořeného opaskem',
+            'Dochází k pučení nových jedinců z mateřského organismu',
+            'Zadní část těla plná pohlavních buněk se odlamuje a vyplouvá k hladině',
+            'Larvy se vyvíjejí uvnitř těla matky (živorodost)'
         ],
         correct: 2
     }
 ]
+
             };
             
             // ========================================
@@ -377,7 +367,24 @@
                 return shuffled;
             };
 
-            const [questions, setQuestions] = useState(() => shuffleArray(QUIZ_CONFIG.questions));
+            // 🎲 Zamíchání otázek + odpovědí
+            const [questions, setQuestions] = useState(() => {
+                const shuffledQuestions = shuffleArray(QUIZ_CONFIG.questions);
+                // Pro každou otázku typu 'multiple' zamíchat i odpovědi
+                return shuffledQuestions.map(q => {
+                    if (q.type === 'multiple') {
+                        const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+                        const shuffledOptions = shuffleArray(optionsWithIndex);
+                        return {
+                            ...q,
+                            options: shuffledOptions.map(o => o.text),
+                            correct: shuffledOptions.findIndex(o => o.originalIndex === q.correct)
+                        };
+                    }
+                    return q;
+                });
+            });
+            
             const [currentQuestion, setCurrentQuestion] = useState(0);
             const [answers, setAnswers] = useState({});
             const [showResults, setShowResults] = useState(false);
@@ -387,25 +394,85 @@
             const [emailSent, setEmailSent] = useState(false);
             const [quizCompleted, setQuizCompleted] = useState(false);
             
-            // ⏱️ STOPKY - nové state proměnné
+            // ⏱️ ČASOVAČ - nové state proměnné
+            const totalTimeLimit = QUIZ_CONFIG.timePerQuestion * questions.length;
+            const [timeLeft, setTimeLeft] = useState(totalTimeLimit);
             const [startTime] = useState(Date.now());
-            const [elapsedTime, setElapsedTime] = useState(0);
+            const timeExpiredRef = useRef(false);
+            
+            // 🔍 DETEKCE PŘEPÍNÁNÍ OKEN
+            const [windowSwitches, setWindowSwitches] = useState(0);
 
-            // ⏱️ STOPKY - spuštění časovače
+            // ⏱️ ČASOVAČ - odpočítávání
             useEffect(() => {
+                if (showResults || quizCompleted) return;
+
                 const timer = setInterval(() => {
-                    setElapsedTime(Date.now() - startTime);
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    const remaining = totalTimeLimit - elapsed;
+                    
+                    if (remaining <= 0 && !timeExpiredRef.current) {
+                        timeExpiredRef.current = true;
+                        setTimeLeft(0);
+                        setShowResults(true);
+                    } else {
+                        setTimeLeft(Math.max(0, remaining));
+                    }
                 }, 1000);
 
                 return () => clearInterval(timer);
-            }, [startTime]);
+            }, [startTime, totalTimeLimit, showResults, quizCompleted]);
+
+            // 🔍 DETEKCE PŘEPÍNÁNÍ OKEN
+            useEffect(() => {
+                if (showResults || quizCompleted) return;
+
+                const handleVisibilityChange = () => {
+                    if (document.hidden) {
+                        setWindowSwitches(prev => prev + 1);
+                    }
+                };
+
+                const handleBlur = () => {
+                    setWindowSwitches(prev => prev + 1);
+                };
+
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                window.addEventListener('blur', handleBlur);
+
+                return () => {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    window.removeEventListener('blur', handleBlur);
+                };
+            }, [showResults, quizCompleted]);
+
+            // 🔒 ZÁKAZ KOPÍROVÁNÍ TEXTU
+            useEffect(() => {
+                const preventCopy = (e) => e.preventDefault();
+                const preventContextMenu = (e) => e.preventDefault();
+
+                document.addEventListener('copy', preventCopy);
+                document.addEventListener('cut', preventCopy);
+                document.addEventListener('contextmenu', preventContextMenu);
+
+                return () => {
+                    document.removeEventListener('copy', preventCopy);
+                    document.removeEventListener('cut', preventCopy);
+                    document.removeEventListener('contextmenu', preventContextMenu);
+                };
+            }, []);
 
             // Formátování času pro zobrazení
-            const formatTime = (milliseconds) => {
-                const totalSeconds = Math.floor(milliseconds / 1000);
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
-                return `${minutes} minut ${seconds} sekund`;
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins} minut ${secs} sekund`;
+            };
+
+            // Zjištění skutečného času strávení
+            const getElapsedTime = () => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                return Math.min(elapsed, totalTimeLimit);
             };
 
             // Kontrola, jestli student už kvíz vyplnil
@@ -458,13 +525,19 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
                 const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
-                const timeSpent = formatTime(elapsedTime); // ⏱️ Čas do e-mailu
+                const elapsedSeconds = getElapsedTime();
+                const timeSpent = formatTime(elapsedSeconds);
                 
                 // NEJDŘÍVE označit kvíz jako dokončený
                 const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
@@ -472,7 +545,8 @@
                     name: fullName,
                     date: new Date().toISOString(),
                     score: `${score}/${questions.length}`,
-                    time: timeSpent
+                    time: timeSpent,
+                    windowSwitches: windowSwitches
                 };
                 localStorage.setItem(completedKey, JSON.stringify(completionData));
                 
@@ -505,7 +579,8 @@
                     percentage: `${percentage}%`,
                     grade: grade,
                     date: new Date().toLocaleDateString('cs-CZ'),
-                    time: timeSpent, // ⏱️ Čas v e-mailu
+                    time: timeSpent,
+                    window_switches: windowSwitches, // 🔍 Počet přepnutí oken
                     answers_details: answersDetails
                 };
 
@@ -555,6 +630,11 @@
                                                 <strong>Čas:</strong> {completionData.time}
                                             </p>
                                         )}
+                                        {completionData.windowSwitches !== undefined && completionData.windowSwitches > 0 && (
+                                            <p className="text-gray-700 mb-2">
+                                                <strong>Přepnutí oken:</strong> {completionData.windowSwitches}×
+                                            </p>
+                                        )}
                                         <p className="text-gray-700">
                                             <strong>Datum:</strong> {new Date(completionData.date).toLocaleString('cs-CZ')}
                                         </p>
@@ -572,6 +652,9 @@
             if (showResults) {
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
+                const elapsedSeconds = getElapsedTime();
+                const timeSpent = formatTime(elapsedSeconds);
+                const wasTimeExpired = timeExpiredRef.current;
                 
                 return (
                     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
@@ -581,11 +664,33 @@
                             </h1>
                             
                             {/* ⏱️ ZOBRAZENÍ ČASU */}
-                            <div className="bg-blue-100 border-2 border-blue-400 rounded-lg p-4 mb-6 text-center">
-                                <div className="text-2xl font-bold text-blue-800">
-                                    ⏱️ Čas: {formatTime(elapsedTime)}
+                            <div className={`border-2 rounded-lg p-4 mb-4 text-center ${wasTimeExpired ? 'bg-red-100 border-red-400' : 'bg-blue-100 border-blue-400'}`}>
+                                <div className={`text-2xl font-bold ${wasTimeExpired ? 'text-red-800' : 'text-blue-800'}`}>
+                                    {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
                                 </div>
+                                {wasTimeExpired && (() => {
+                                    const unansweredCount = questions.length - Object.keys(answers).length;
+                                    return (
+                                        <p className="text-red-700 text-sm mt-2">
+                                            Kvíz byl automaticky ukončen po {formatTime(totalTimeLimit)}. Nevyplněné otázky jsou hodnoceny 0 body.
+                                            <br />
+                                            <strong>Nezodpovězených otázek: {unansweredCount}</strong>
+                                        </p>
+                                    );
+                                })()}
                             </div>
+
+                            {/* 🔍 ZOBRAZENÍ PŘEPNUTÍ OKEN */}
+                            {windowSwitches > 0 && (
+                                <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-6 text-center">
+                                    <div className="text-xl font-bold text-orange-800">
+                                        ⚠️ Přepnutí oken: {windowSwitches}×
+                                    </div>
+                                    <p className="text-orange-700 text-sm mt-2">
+                                        Během kvízu jsi {windowSwitches}× přepnul na jinou záložku nebo okno. Tato informace bude odeslána učiteli.
+                                    </p>
+                                </div>
+                            )}
                             
                             <div className="text-center mb-8">
                                 <div className="text-6xl font-bold text-indigo-600 mb-2">
@@ -613,7 +718,10 @@
                                 <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
                                     <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
                                     <p className="text-gray-600 text-sm mb-4">
-                                        Vyplň své jméno a příjmení. Výsledky budou automaticky odeslány učiteli.
+                                        {wasTimeExpired 
+                                            ? 'Čas vypršel. Pro odeslání výsledků vyplň své jméno a příjmení.'
+                                            : 'Vyplň své jméno a příjmení. Výsledky budou automaticky odeslány učiteli.'
+                                        }
                                     </p>
                                     <div className="grid grid-cols-2 gap-3 mb-3">
                                         <input
@@ -634,7 +742,7 @@
                                         />
                                     </div>
                                     <button
-                                        onClick={sendResultsEmail}
+                                        onClick={() => sendResultsEmail()}
                                         disabled={isSending}
                                         className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                                     >
@@ -649,7 +757,7 @@
                                     <p className="text-green-800 font-semibold text-lg mb-2">
                                         Výsledky byly úspěšně odeslány učiteli!
                                     </p>
-                                    <p className="text-gray-700 text-base">
+                                    <p className="text-gray-800 font-bold text-2xl mt-4">
                                         Nyní můžeš zavřít prohlížeč.
                                     </p>
                                 </div>
@@ -713,6 +821,22 @@
 
             const q = questions[currentQuestion];
             const isAnswered = answers[currentQuestion] !== undefined;
+            
+            // Výpočet barev podle zbývajícího času
+            const isTimeCritical = timeLeft <= 120; // 2 minuty nebo méně
+            const isTimeVeryLow = timeLeft <= 60; // 1 minuta nebo méně
+            
+            const timerColor = isTimeVeryLow 
+                ? 'bg-red-100 border-red-500' 
+                : isTimeCritical 
+                    ? 'bg-orange-100 border-orange-400' 
+                    : 'bg-blue-100 border-blue-400';
+                    
+            const timerTextColor = isTimeVeryLow 
+                ? 'text-red-800' 
+                : isTimeCritical 
+                    ? 'text-orange-800' 
+                    : 'text-blue-800';
 
             return (
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
@@ -727,11 +851,16 @@
                                 </span>
                             </div>
                             
-                            {/* ⏱️ ZOBRAZENÍ STOPEK */}
-                            <div className="bg-blue-100 border-2 border-blue-400 rounded-lg p-3 mb-4 text-center">
-                                <div className="text-xl font-bold text-blue-800">
-                                    ⏱️ Čas: {formatTime(elapsedTime)}
+                            {/* ⏱️ ZOBRAZENÍ ČASOVAČE */}
+                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
+                                <div className={`text-xl font-bold ${timerTextColor}`}>
+                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
                                 </div>
+                                {isTimeCritical && (
+                                    <p className={`text-sm mt-1 ${timerTextColor}`}>
+                                        {isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}
+                                    </p>
+                                )}
                             </div>
                             
                             <div className="w-full bg-gray-200 rounded-full h-2">

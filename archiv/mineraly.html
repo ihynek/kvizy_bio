@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Srdce a cévní soustava</title>
+    <title>Kvíz: Minerály</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,210 +51,409 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Srdce a cévní soustava",
+                title: "Minerály",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 12, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Malý (plicní) oběh začíná v:',
+        question: 'Mineralogie je vědní obor, který se zabývá:',
         options: [
-            'Levé komoře',
-            'Pravé komoře',
-            'Levé síni',
-            'Pravé síni'
+            'Studiem rostlin',
+            'Studiem minerálů',
+            'Studiem živočichů',
+            'Studiem půdy'
         ],
         correct: 1
     },
     {
         id: 2,
         type: 'boolean',
-        question: 'Vrátnicový oběh vede krev z trávicí soustavy přímo do dolní duté žíly.',
-        correct: false
+        question: 'Minerál musí mít přírodní původ a pevnou strukturu.',
+        correct: true
     },
     {
         id: 3,
         type: 'multiple',
-        question: 'Normální systolický krevní tlak je v rozmezí:',
+        question: 'Mohsova stupnice tvrdosti má rozsah:',
         options: [
-            '120-140 torrů',
-            '60-75 torrů',
-            '150-190 torrů',
-            '190-225 torrů'
-        ],
-        correct: 0
-    },
-    {
-        id: 4,
-        type: 'boolean',
-        question: 'Stěny vlásečnic tvoří jen jedna vrstva endotelových buněk.',
-        correct: true
-    },
-    {
-        id: 5,
-        type: 'multiple',
-        question: 'Hmotnost srdce je asi:',
-        options: [
-            '200 g',
-            '300 g',
-            '400 g',
-            '500 g'
+            '1-5',
+            '1-10',
+            '1-15',
+            '1-20'
         ],
         correct: 1
     },
     {
-        id: 6,
-        type: 'boolean',
-        question: 'Mezi pravou síní a pravou komorou je chlopeň dvojcípá.',
-        correct: false
-    },
-    {
-        id: 7,
+        id: 4,
         type: 'multiple',
-        question: 'Který útvar je "časovačem rytmu" srdeční činnosti?',
+        question: 'Nejtvrdší minerál na Mohsově stupnici je:',
         options: [
-            'Uzlík síňokomorový',
-            'Hisův svazek',
-            'Uzlík sinusový',
-            'Purkyňova vlákna'
+            'Korund',
+            'Křemen',
+            'Diamant',
+            'Topaz'
         ],
         correct: 2
     },
     {
+        id: 5,
+        type: 'boolean',
+        question: 'Mastek má na Mohsově stupnici tvrdost 1.',
+        correct: true
+    },
+    {
+        id: 6,
+        type: 'multiple',
+        question: 'Vryp minerálu je:',
+        options: [
+            'Barva minerálu',
+            'Barva nerostného prášku',
+            'Lesk minerálu',
+            'Tvrdost minerálu'
+        ],
+        correct: 1
+    },
+    {
+        id: 7,
+        type: 'multiple',
+        question: 'Štěpnost minerálu popisuje:',
+        options: [
+            'Barvu minerálu',
+            'Způsob lámání podél určitých ploch',
+            'Lesk minerálu',
+            'Hustotu minerálu'
+        ],
+        correct: 1
+    },
+    {
         id: 8,
         type: 'boolean',
-        question: 'Průměrná hodnota klidové tepové frekvence je 70-80/min.',
+        question: 'Vryp je lepší diagnostický prostředek než barva minerálu.',
         correct: true
     },
     {
         id: 9,
         type: 'multiple',
-        question: 'Největší lymfatický orgán v těle je:',
+        question: 'Lasturnatý lom je typický pro minerál:',
         options: [
-            'Brzlík',
-            'Mandle',
-            'Lymfatická uzlina',
-            'Slezina'
+            'Halit',
+            'Slídu',
+            'Obsidián',
+            'Kalcit'
         ],
-        correct: 3
+        correct: 2
+    },
+    {
+        id: 10,
+        type: 'multiple',
+        question: 'Drúza je:',
+        options: [
+            'Samostatný krystal',
+            'Shluk krystalů',
+            'Amorfní minerál',
+            'Tekutý minerál'
+        ],
+        correct: 1
     },
     {
         id: 11,
-        type: 'multiple',
-        question: 'Nejčastější příčinou úmrtí v České republice jsou:',
-        options: [
-            'Kardiovaskulární onemocnění',
-            'Nádorová onemocnění',
-            'Úrazy',
-            'Infekční nemoci'
-        ],
-        correct: 0
+        type: 'boolean',
+        question: 'Geoda je dutina vyplněná krystaly.',
+        correct: true
     },
     {
         id: 12,
-        type: 'boolean',
-        question: 'Angina pectoris seprojevuje bolestí na hrudi při zátěži, která ustupuje po odpočinku.',
-        correct: true
+        type: 'multiple',
+        question: 'Amorfní minerály:',
+        options: [
+            'Mají dokonalé krystaly',
+            'Krystaly netvoří',
+            'Tvoří pouze drúzy',
+            'Vznikají jen v geodách'
+        ],
+        correct: 1
     },
     {
         id: 13,
         type: 'multiple',
-        question: 'Infarkt myokardu vzniká:',
+        question: 'Minerály vznikají z magmatu procesem:',
         options: [
-            'Zvýšeným krevním tlakem',
-            'Akutním uzávěrem koronární tepny',
-            'Zánětem srdeční svaloviny',
-            'Vadou srdeční chlopně'
+            'Zvětrávání',
+            'Krystalizace',
+            'Sedimentace',
+            'Oxidace'
         ],
         correct: 1
     },
-       {
+    {
+        id: 14,
+        type: 'boolean',
+        question: 'Čím pomaleji magma chladne, tím větší vznikají krystaly.',
+        correct: true
+    },
+    {
         id: 15,
         type: 'multiple',
-        question: 'Hypertenze je definována jako krevní tlak:',
+        question: 'Při hlubinném tuhnutí magmatu vznikají:',
         options: [
-            'Nad 100/60 mmHg',
-            'Nad 120/80 mmHg',
-            'Nad 140/90 mmHg',
-            'Nad 160/100 mmHg'
+            'Drobné krystaly',
+            'Žádné krystaly',
+            'Velké, dobře vyvinuté krystaly',
+            'Pouze amorfní minerály'
         ],
         correct: 2
     },
     {
         id: 16,
+        type: 'multiple',
+        question: 'Obsidián je:',
+        options: [
+            'Hornina s velkými krystaly',
+            'Metamorfovaná hornina',
+            'Vulkanické sklo',
+            'Sedimentární hornina'
+        ],
+        correct: 2
+    },
+    {
+        id: 17,
         type: 'boolean',
-        question: 'Ateroskleróza postihuje především malé vlásečnice.',
-        correct: false
+        question: 'Láva chladne rychleji než magma v hlubinách.',
+        correct: true
+    },
+    {
+        id: 18,
+        type: 'multiple',
+        question: 'Hydrotermální žíly vznikají:',
+        options: [
+            'Tuhnutím magmatu',
+            'Srážením z horkých vodních roztoků',
+            'Zvětráváním hornin',
+            'Sedimentací'
+        ],
+        correct: 1
+    },
+    {
+        id: 19,
+        type: 'multiple',
+        question: 'Lesk minerálu vzniká:',
+        options: [
+            'Průchodem světla minerálem',
+            'Odrazem světla od povrchu',
+            'Lomem světla',
+            'Absorpcí světla'
+        ],
+        correct: 1
     },
     {
         id: 20,
         type: 'boolean',
-        question: 'Fibrilace síní zvyšuje riziko tromboembolických komplikací.',
+        question: 'V hydrotermálních žilách často nacházíme rudy kovů.',
         correct: true
     },
     {
         id: 21,
         type: 'multiple',
-        question: 'Bradykardie je definována jako srdeční frekvence:',
+        question: 'Metamorfóza minerálů probíhá:',
         options: [
-            'Pod 50/min',
-            'Pod 60/min',
-            'Pod 70/min',
-            'Pod 80/min'
+            'Roztavením horniny',
+            'Za vysokých teplot a tlaků bez roztavení',
+            'Rychlým ochlazením',
+            'Rozpuštěním ve vodě'
         ],
         correct: 1
     },
     {
         id: 22,
+        type: 'multiple',
+        question: 'Diamant vzniká z grafitu působením:',
+        options: [
+            'Nízké teploty',
+            'Nízkého tlaku',
+            'Extrémního tlaku a teploty',
+            'Rozpuštění ve vodě'
+        ],
+        correct: 2
+    },
+    {
+        id: 23,
         type: 'boolean',
-        question: 'Tachykardie je srdeční frekvence nad 100/min.',
+        question: 'Grafit a diamant jsou oba tvořeny uhlíkem.',
         correct: true
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'Mramor vzniká metamorfózou:',
+        options: [
+            'Žuly',
+            'Vápence',
+            'Pískovce',
+            'Jílovce'
+        ],
+        correct: 1
     },
     {
         id: 25,
         type: 'multiple',
-        question: 'Varixy dolních končetin postihují přibližně:',
+        question: 'Stalaktity v jeskyních vznikají:',
         options: [
-            '10% dospělé populace',
-            '20% dospělé populace',
-            '30% dospělé populace',
-            '50% dospělé populace'
+            'Tuhnutím magmatu',
+            'Metamorfózou',
+            'Srážením kalcitu z vody',
+            'Zvětráváním'
         ],
         correct: 2
     },
-        {
+    {
+        id: 26,
+        type: 'boolean',
+        question: 'Halit je sůl kamenná.',
+        correct: true
+    },
+    {
         id: 27,
         type: 'multiple',
-        question: 'Jaký podíl cévních mozkových příhod tvoří ischemická forma?',
+        question: 'Rozsypová ložiska se třídí podle:',
         options: [
-            '50%',
-            '60%',
-            '70%',
-            '80%'
+            'Barvy',
+            'Hustoty',
+            'Tvrdosti',
+            'Lesku'
         ],
-        correct: 3
+        correct: 1
     },
-       {
-        id: 29,
+    {
+        id: 28,
         type: 'multiple',
-        question: 'Kouření zvyšuje riziko ischemické choroby srdeční:',
+        question: 'Kaolin vzniká zvětráváním:',
         options: [
-            '2-4×',
-            '5-6×',
-            '7-8×',
-            '10×'
+            'Křemene',
+            'Živců',
+            'Slíd',
+            'Kalcitu'
         ],
-        correct: 0
+        correct: 1
+    },
+    {
+        id: 29,
+        type: 'boolean',
+        question: 'Křemen patří mezi nejběžnější minerály zemské kůry.',
+        correct: true
     },
     {
         id: 30,
+        type: 'multiple',
+        question: 'K fyzikálním vlastnostem minerálů patří:',
+        options: [
+            'Pouze barva',
+            'Tvrdost, hustota a štěpnost',
+            'Pouze lesk',
+            'Rozpustnost ve vodě'
+        ],
+        correct: 1
+    },
+    {
+        id: 31,
+        type: 'multiple',
+        question: 'Minerál, který je průhledný:',
+        options: [
+            'Neprochází jím světlo',
+            'Umožňuje vidět předměty skrz něj',
+            'Má kovový lesk',
+            'Má tmavou barvu'
+        ],
+        correct: 1
+    },
+    {
+        id: 32,
         type: 'boolean',
-        question: 'Doporučená týdenní doba aerobní aktivity pro prevenci kardiovaskulárních onemocnění je minimálně 150 minut.',
+        question: 'Pyrit je známý jako "kočičí zlato" pro svůj zlatavý lesk.',
+        correct: true
+    },
+    {
+        id: 33,
+        type: 'multiple',
+        question: 'Hornina je:',
+        options: [
+            'Jediný minerál',
+            'Směs více minerálů',
+            'Tekutý materiál',
+            'Plyn'
+        ],
+        correct: 1
+    },
+    {
+        id: 34,
+        type: 'multiple',
+        question: 'Žula se skládá hlavně z minerálů:',
+        options: [
+            'Pouze z křemene',
+            'Z křemene, živců a slíd',
+            'Pouze z kalcitu',
+            'Z halitu a sádrovce'
+        ],
+        correct: 1
+    },
+    {
+        id: 35,
+        type: 'boolean',
+        question: 'Pegmatity obsahují krystaly s velkými rozměry.',
+        correct: true
+    },
+    {
+        id: 36,
+        type: 'multiple',
+        question: 'K optickým vlastnostem minerálů nepatří:',
+        options: [
+            'Barva',
+            'Lesk',
+            'Hustota',
+            'Vryp'
+        ],
+        correct: 2
+    },
+    {
+        id: 37,
+        type: 'multiple',
+        question: 'Při výlevném tuhnutí magmatu vznikají:',
+        options: [
+            'Velké krystaly',
+            'Drobné krystaly nebo vulkanické sklo',
+            'Pouze sedimentární minerály',
+            'Metamorfované horniny'
+        ],
+        correct: 1
+    },
+    {
+        id: 38,
+        type: 'boolean',
+        question: 'Fluorit vzniká v závěrečných fázích krystalizace magmatu.',
+        correct: true
+    },
+    {
+        id: 39,
+        type: 'multiple',
+        question: 'Sádrovec patří mezi minerály vzniklé:',
+        options: [
+            'Z magmatu',
+            'Metamorfózou',
+            'Sedimentací',
+            'Zvětráváním živců'
+        ],
+        correct: 2
+    },
+    {
+        id: 40,
+        type: 'boolean',
+        question: 'Systematická mineralogie zkoumá společenstva minerálů na jednotlivých lokalitách.',
         correct: true
     }
 ]
+
             };
             
             // ========================================
@@ -421,6 +624,11 @@
 
                 if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
                     alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
                     return;
                 }
 

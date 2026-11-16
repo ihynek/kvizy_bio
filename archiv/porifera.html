@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Minerály</title>
+    <title>Kvíz: Porifera</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,405 +51,195 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Minerály",
+                title: "Porifera",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 12, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 19, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Mineralogie je vědní obor, který se zabývá:',
+        question: 'Proč jsou houbovci považováni za nejprimitivnější mnohobuněčné organismy?',
         options: [
-            'Studiem rostlin',
-            'Studiem minerálů',
-            'Studiem živočichů',
-            'Studiem půdy'
+            'Nemají pravé tkáně ani orgány',
+            'Žijí pouze ve sladké vodě',
+            'Mají pouze jeden typ buněk',
+            'Rozmnožují se pouze nepohlavně'
         ],
-        correct: 1
+        correct: 0
     },
     {
         id: 2,
         type: 'boolean',
-        question: 'Minerál musí mít přírodní původ a pevnou strukturu.',
-        correct: true
+        question: 'Houbovci mají buňky uspořádané do pravých tkání.',
+        correct: false
     },
-    {
-        id: 3,
-        type: 'multiple',
-        question: 'Mohsova stupnice tvrdosti má rozsah:',
-        options: [
-            '1-5',
-            '1-10',
-            '1-15',
-            '1-20'
-        ],
-        correct: 1
-    },
-    {
+     {
         id: 4,
-        type: 'multiple',
-        question: 'Nejtvrdší minerál na Mohsově stupnici je:',
-        options: [
-            'Korund',
-            'Křemen',
-            'Diamant',
-            'Topaz'
-        ],
-        correct: 2
+        type: 'boolean',
+        question: 'Houbovci žijí přisedlým způsobem života.',
+        correct: true
     },
     {
         id: 5,
-        type: 'boolean',
-        question: 'Mastek má na Mohsově stupnici tvrdost 1.',
-        correct: true
+        type: 'multiple',
+        question: 'Který z následujících NENÍ základní typ stavby těla houbovců?',
+        options: [
+            'Askon',
+            'Planula',
+            'Sykon',
+            'Leukon'
+        ],
+        correct: 1
     },
     {
         id: 6,
-        type: 'multiple',
-        question: 'Vryp minerálu je:',
-        options: [
-            'Barva minerálu',
-            'Barva nerostného prášku',
-            'Lesk minerálu',
-            'Tvrdost minerálu'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Osculum je vyvrhovací otvor, kterým voda opouští tělo houbovce.',
+        correct: true
     },
     {
         id: 7,
         type: 'multiple',
-        question: 'Štěpnost minerálu popisuje:',
+        question: 'Co jsou ostia?',
         options: [
-            'Barvu minerálu',
-            'Způsob lámání podél určitých ploch',
-            'Lesk minerálu',
-            'Hustotu minerálu'
+            'Buňky produkující spikule',
+            'Larvální stadia houbovců',
+            'Rozmnožovací orgány',
+            'Malé póry pro vstup vody do těla'
         ],
-        correct: 1
+        correct: 3
     },
-    {
-        id: 8,
-        type: 'boolean',
-        question: 'Vryp je lepší diagnostický prostředek než barva minerálu.',
-        correct: true
-    },
-    {
+     {
         id: 9,
         type: 'multiple',
-        question: 'Lasturnatý lom je typický pro minerál:',
+        question: 'Co je mezoglea (mesohyl)?',
         options: [
-            'Halit',
-            'Slídu',
-            'Obsidián',
-            'Kalcit'
+            'Rosolovitá hmota mezi ektodermem a entodermem',
+            'Vnější ochranná vrstva',
+            'Trávicí dutina',
+            'Typ rozmnožovací buňky'
         ],
-        correct: 2
+        correct: 0
     },
     {
         id: 10,
-        type: 'multiple',
-        question: 'Drúza je:',
-        options: [
-            'Samostatný krystal',
-            'Shluk krystalů',
-            'Amorfní minerál',
-            'Tekutý minerál'
-        ],
-        correct: 1
-    },
-    {
-        id: 11,
         type: 'boolean',
-        question: 'Geoda je dutina vyplněná krystaly.',
+        question: 'Choanocyty (límečkové buňky) mají bičík, kterým vytvářejí proud vody a zachycují potravu.',
         correct: true
     },
-    {
+        {
         id: 12,
-        type: 'multiple',
-        question: 'Amorfní minerály:',
-        options: [
-            'Mají dokonalé krystaly',
-            'Krystaly netvoří',
-            'Tvoří pouze drúzy',
-            'Vznikají jen v geodách'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Archeocyty (amébocyty) jsou totipotentní buňky, které se mohou přeměnit v jiné typy buněk.',
+        correct: true
     },
     {
         id: 13,
         type: 'multiple',
-        question: 'Minerály vznikají z magmatu procesem:',
+        question: 'Které buňky tvoří minerální skelet (spikule) houbovců?',
         options: [
-            'Zvětrávání',
-            'Krystalizace',
-            'Sedimentace',
-            'Oxidace'
+            'Choanocyty',
+            'Sklerocyty',
+            'Pinacocyty',
+            'Porocyty'
         ],
         correct: 1
     },
-    {
-        id: 14,
-        type: 'boolean',
-        question: 'Čím pomaleji magma chladne, tím větší vznikají krystaly.',
-        correct: true
-    },
-    {
+     {
         id: 15,
         type: 'multiple',
-        question: 'Při hlubinném tuhnutí magmatu vznikají:',
+        question: 'Jaký je správný směr proudění vody v těle houbovce?',
         options: [
-            'Drobné krystaly',
-            'Žádné krystaly',
-            'Velké, dobře vyvinuté krystaly',
-            'Pouze amorfní minerály'
+            'Z oscula do ostií',
+            'Z ostií přes tělo ven osculem',
+            'Voda neproudí, houbovec ji aktivně nasává ústy',
+            'Voda proudí oběma směry střídavě'
         ],
-        correct: 2
+        correct: 1
     },
     {
         id: 16,
-        type: 'multiple',
-        question: 'Obsidián je:',
-        options: [
-            'Hornina s velkými krystaly',
-            'Metamorfovaná hornina',
-            'Vulkanické sklo',
-            'Sedimentární hornina'
-        ],
-        correct: 2
-    },
-    {
-        id: 17,
         type: 'boolean',
-        question: 'Láva chladne rychleji než magma v hlubinách.',
+        question: 'Houbovci získávají potravu filtrací drobných částic z proudící vody.',
         correct: true
     },
     {
-        id: 18,
+        id: 17,
         type: 'multiple',
-        question: 'Hydrotermální žíly vznikají:',
+        question: 'Jak houbovci dýchají a vylučují odpadní látky?',
         options: [
-            'Tuhnutím magmatu',
-            'Srážením z horkých vodních roztoků',
-            'Zvětráváním hornin',
-            'Sedimentací'
+            'Pomocí specializovaných orgánů',
+            'Pomocí žaber',
+            'Dýchání neprobíhá, jsou anaerobní',
+            'Difúzí přes povrch těla'
         ],
-        correct: 1
+        correct: 3
     },
-    {
+     {
         id: 19,
         type: 'multiple',
-        question: 'Lesk minerálu vzniká:',
+        question: 'Z jakých materiálů může být tvořen skelet houbovců?',
         options: [
-            'Průchodem světla minerálem',
-            'Odrazem světla od povrchu',
-            'Lomem světla',
-            'Absorpcí světla'
+            'Pouze z vápence',
+            'Pouze z oxidu křemičitého',
+            'Z uhličitanu vápenatého, oxidu křemičitého nebo sponginu',
+            'Pouze ze sponginu'
         ],
-        correct: 1
+        correct: 2
     },
     {
         id: 20,
         type: 'boolean',
-        question: 'V hydrotermálních žilách často nacházíme rudy kovů.',
+        question: 'Spikule jsou jehlicovité útvary tvořící oporu těla houbovců.',
         correct: true
     },
-    {
-        id: 21,
-        type: 'multiple',
-        question: 'Metamorfóza minerálů probíhá:',
-        options: [
-            'Roztavením horniny',
-            'Za vysokých teplot a tlaků bez roztavení',
-            'Rychlým ochlazením',
-            'Rozpuštěním ve vodě'
-        ],
-        correct: 1
-    },
-    {
+     {
         id: 22,
-        type: 'multiple',
-        question: 'Diamant vzniká z grafitu působením:',
-        options: [
-            'Nízké teploty',
-            'Nízkého tlaku',
-            'Extrémního tlaku a teploty',
-            'Rozpuštění ve vodě'
-        ],
-        correct: 2
-    },
-    {
-        id: 23,
         type: 'boolean',
-        question: 'Grafit a diamant jsou oba tvořeny uhlíkem.',
+        question: 'Spongin je organická bílkovina tvořící skelet rohovitých hub.',
         correct: true
     },
-    {
+      {
         id: 24,
-        type: 'multiple',
-        question: 'Mramor vzniká metamorfózou:',
-        options: [
-            'Žuly',
-            'Vápence',
-            'Pískovce',
-            'Jílovce'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Larvální stadium houbovců se nazývá parenchymula nebo amfiblastula.',
+        correct: true
     },
     {
         id: 25,
         type: 'multiple',
-        question: 'Stalaktity v jeskyních vznikají:',
+        question: 'Co jsou gemmule?',
         options: [
-            'Tuhnutím magmatu',
-            'Metamorfózou',
-            'Srážením kalcitu z vody',
-            'Zvětráváním'
+            'Pohlavní buňky',
+            'Larvální stadia',
+            'Útvary sloužící k přežití nepříznivých podmínek',
+            'Typ spikule'
         ],
         correct: 2
     },
-    {
-        id: 26,
-        type: 'boolean',
-        question: 'Halit je sůl kamenná.',
-        correct: true
-    },
-    {
-        id: 27,
-        type: 'multiple',
-        question: 'Rozsypová ložiska se třídí podle:',
-        options: [
-            'Barvy',
-            'Hustoty',
-            'Tvrdosti',
-            'Lesku'
-        ],
-        correct: 1
-    },
-    {
+     {
         id: 28,
-        type: 'multiple',
-        question: 'Kaolin vzniká zvětráváním:',
-        options: [
-            'Křemene',
-            'Živců',
-            'Slíd',
-            'Kalcitu'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Houbovci se dělí do tříd především podle typu a složení skeletu.',
+        correct: true
     },
     {
         id: 29,
-        type: 'boolean',
-        question: 'Křemen patří mezi nejběžnější minerály zemské kůry.',
-        correct: true
+        type: 'multiple',
+        question: 'Jaký ekologický význam mají houbovci v mořských ekosystémech?',
+        options: [
+            'Jsou hlavními predátory',
+            'Produkují většinu kyslíku v oceánech',
+            'Jsou hlavní potravou velryb',
+            'Filtrují vodu a poskytují úkryt jiným organismům'
+        ],
+        correct: 3
     },
     {
         id: 30,
-        type: 'multiple',
-        question: 'K fyzikálním vlastnostem minerálů patří:',
-        options: [
-            'Pouze barva',
-            'Tvrdost, hustota a štěpnost',
-            'Pouze lesk',
-            'Rozpustnost ve vodě'
-        ],
-        correct: 1
-    },
-    {
-        id: 31,
-        type: 'multiple',
-        question: 'Minerál, který je průhledný:',
-        options: [
-            'Neprochází jím světlo',
-            'Umožňuje vidět předměty skrz něj',
-            'Má kovový lesk',
-            'Má tmavou barvu'
-        ],
-        correct: 1
-    },
-    {
-        id: 32,
         type: 'boolean',
-        question: 'Pyrit je známý jako "kočičí zlato" pro svůj zlatavý lesk.',
-        correct: true
-    },
-    {
-        id: 33,
-        type: 'multiple',
-        question: 'Hornina je:',
-        options: [
-            'Jediný minerál',
-            'Směs více minerálů',
-            'Tekutý materiál',
-            'Plyn'
-        ],
-        correct: 1
-    },
-    {
-        id: 34,
-        type: 'multiple',
-        question: 'Žula se skládá hlavně z minerálů:',
-        options: [
-            'Pouze z křemene',
-            'Z křemene, živců a slíd',
-            'Pouze z kalcitu',
-            'Z halitu a sádrovce'
-        ],
-        correct: 1
-    },
-    {
-        id: 35,
-        type: 'boolean',
-        question: 'Pegmatity obsahují krystaly s velkými rozměry.',
-        correct: true
-    },
-    {
-        id: 36,
-        type: 'multiple',
-        question: 'K optickým vlastnostem minerálů nepatří:',
-        options: [
-            'Barva',
-            'Lesk',
-            'Hustota',
-            'Vryp'
-        ],
-        correct: 2
-    },
-    {
-        id: 37,
-        type: 'multiple',
-        question: 'Při výlevném tuhnutí magmatu vznikají:',
-        options: [
-            'Velké krystaly',
-            'Drobné krystaly nebo vulkanické sklo',
-            'Pouze sedimentární minerály',
-            'Metamorfované horniny'
-        ],
-        correct: 1
-    },
-    {
-        id: 38,
-        type: 'boolean',
-        question: 'Fluorit vzniká v závěrečných fázích krystalizace magmatu.',
-        correct: true
-    },
-    {
-        id: 39,
-        type: 'multiple',
-        question: 'Sádrovec patří mezi minerály vzniklé:',
-        options: [
-            'Z magmatu',
-            'Metamorfózou',
-            'Sedimentací',
-            'Zvětráváním živců'
-        ],
-        correct: 2
-    },
-    {
-        id: 40,
-        type: 'boolean',
-        question: 'Systematická mineralogie zkoumá společenstva minerálů na jednotlivých lokalitách.',
+        question: 'Některé druhy houbovců (mycí houby) se využívají člověkem.',
         correct: true
     }
 ]
@@ -620,6 +414,11 @@
 
                 if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
                     alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
                     return;
                 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Porifera</title>
+    <title>Kvíz: Dýchací soustava člověka</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,195 +51,171 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Porifera",
+                title: "Dýchací soustava člověka",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 19, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Proč jsou houbovci považováni za nejprimitivnější mnohobuněčné organismy?',
+        question: 'Sliznice průdušnice a průdušek je tvořena:',
         options: [
-            'Nemají pravé tkáně ani orgány',
-            'Žijí pouze ve sladké vodě',
-            'Mají pouze jeden typ buněk',
-            'Rozmnožují se pouze nepohlavně'
+            'Dlaždicovým epitelem',
+            'Řasinkovým epitelem',
+            'Jednovrstevným plochým epitelem',
+            'Kubickým epitelem'
         ],
-        correct: 0
+        correct: 1
     },
     {
         id: 2,
         type: 'boolean',
-        question: 'Houbovci mají buňky uspořádané do pravých tkání.',
-        correct: false
-    },
-     {
-        id: 4,
-        type: 'boolean',
-        question: 'Houbovci žijí přisedlým způsobem života.',
+        question: 'Nosní dutina má funkci filtrace, zvlhčení a oteplení vzduchu.',
         correct: true
+    },
+    {
+        id: 3,
+        type: 'multiple',
+        question: 'Dechový objem (množství vzduchu vyměněného při jednom klidovém dechu) činí přibližně:',
+        options: [
+            '0,15 l',
+            '0,5 l',
+            '1,5 l',
+            '2,5 l'
+        ],
+        correct: 1
     },
     {
         id: 5,
         type: 'multiple',
-        question: 'Který z následujících NENÍ základní typ stavby těla houbovců?',
+        question: 'Eustachova trubice spojuje:',
         options: [
-            'Askon',
-            'Planula',
-            'Sykon',
-            'Leukon'
+            'Dutinu nosní a hrtan',
+            'Nosohltan a střední ucho',
+            'Hltan a hrtan',
+            'Dutinu ústní a nosohltan'
         ],
         correct: 1
     },
     {
         id: 6,
         type: 'boolean',
-        question: 'Osculum je vyvrhovací otvor, kterým voda opouští tělo houbovce.',
+        question: 'Příklopka hrtanová (epiglotis) při polykání uzavírá hrtan.',
         correct: true
     },
     {
         id: 7,
         type: 'multiple',
-        question: 'Co jsou ostia?',
+        question: 'Chrupavka štítná se lidově nazývá:',
         options: [
-            'Buňky produkující spikule',
-            'Larvální stadia houbovců',
-            'Rozmnožovací orgány',
-            'Malé póry pro vstup vody do těla'
+            'Jazylka',
+            'Příklopka',
+            'Ohryzek (Adamovo jablko)',
+            'Prstencová chrupavka'
         ],
-        correct: 3
-    },
-     {
-        id: 9,
-        type: 'multiple',
-        question: 'Co je mezoglea (mesohyl)?',
-        options: [
-            'Rosolovitá hmota mezi ektodermem a entodermem',
-            'Vnější ochranná vrstva',
-            'Trávicí dutina',
-            'Typ rozmnožovací buňky'
-        ],
-        correct: 0
+        correct: 2
     },
     {
+        id: 8,
+        type: 'boolean',
+        question: 'Zvuk vzniká rozechvíváním hlasivkových vazů vydechovaným vzduchem.',
+        correct: true
+    },
+        {
         id: 10,
         type: 'boolean',
-        question: 'Choanocyty (límečkové buňky) mají bičík, kterým vytvářejí proud vody a zachycují potravu.',
+        question: 'Průdušnici vyztužují podkovovité chrupavky.',
         correct: true
     },
         {
         id: 12,
         type: 'boolean',
-        question: 'Archeocyty (amébocyty) jsou totipotentní buňky, které se mohou přeměnit v jiné typy buněk.',
-        correct: true
+        question: 'Levá plíce má 3 laloky, pravá plíce má 2 laloky.',
+        correct: false
     },
-    {
-        id: 13,
-        type: 'multiple',
-        question: 'Které buňky tvoří minerální skelet (spikule) houbovců?',
-        options: [
-            'Choanocyty',
-            'Sklerocyty',
-            'Pinacocyty',
-            'Porocyty'
-        ],
-        correct: 1
-    },
-     {
+        {
         id: 15,
         type: 'multiple',
-        question: 'Jaký je správný směr proudění vody v těle houbovce?',
+        question: 'Stěna plicních sklípků (alveolů) je tvořena:',
         options: [
-            'Z oscula do ostií',
-            'Z ostií přes tělo ven osculem',
-            'Voda neproudí, houbovec ji aktivně nasává ústy',
-            'Voda proudí oběma směry střídavě'
+            'Víceřadým epitelem',
+            'Jednovrstevným respiračním epitelem',
+            'Hladkou svalovinou',
+            'Chrupavčitou tkání'
+        ],
+        correct: 1
+    },
+        {
+        id: 17,
+        type: 'multiple',
+        question: 'Vazivová blána na povrchu plic se nazývá:',
+        options: [
+            'Pohrudnice',
+            'Poplicnice',
+            'Mezihrudí',
+            'Bránice'
         ],
         correct: 1
     },
     {
-        id: 16,
+        id: 18,
         type: 'boolean',
-        question: 'Houbovci získávají potravu filtrací drobných částic z proudící vody.',
-        correct: true
+        question: 'V pohrudniční štěrbině je přetlak, který usnadňuje pohyby při dýchání.',
+        correct: false
     },
     {
-        id: 17,
-        type: 'multiple',
-        question: 'Jak houbovci dýchají a vylučují odpadní látky?',
-        options: [
-            'Pomocí specializovaných orgánů',
-            'Pomocí žaber',
-            'Dýchání neprobíhá, jsou anaerobní',
-            'Difúzí přes povrch těla'
-        ],
-        correct: 3
-    },
-     {
         id: 19,
         type: 'multiple',
-        question: 'Z jakých materiálů může být tvořen skelet houbovců?',
+        question: 'Nádech (inspirium) je:',
         options: [
-            'Pouze z vápence',
-            'Pouze z oxidu křemičitého',
-            'Z uhličitanu vápenatého, oxidu křemičitého nebo sponginu',
-            'Pouze ze sponginu'
+            'Pasivní děj – uvolnění svalů',
+            'Aktivní děj – stah dýchacích svalů',
+            'Reflexní děj bez účasti svalů',
+            'Děj řízený pouze vůlí'
         ],
-        correct: 2
+        correct: 1
     },
     {
         id: 20,
         type: 'boolean',
-        question: 'Spikule jsou jehlicovité útvary tvořící oporu těla houbovců.',
+        question: 'Při vdechu se bránice pohybuje směrem dolů.',
         correct: true
     },
-     {
-        id: 22,
-        type: 'boolean',
-        question: 'Spongin je organická bílkovina tvořící skelet rohovitých hub.',
-        correct: true
-    },
-      {
-        id: 24,
-        type: 'boolean',
-        question: 'Larvální stadium houbovců se nazývá parenchymula nebo amfiblastula.',
-        correct: true
-    },
-    {
-        id: 25,
+        {
+        id: 23,
         type: 'multiple',
-        question: 'Co jsou gemmule?',
+        question: 'Vitální kapacita plic u mužů činí přibližně:',
         options: [
-            'Pohlavní buňky',
-            'Larvální stadia',
-            'Útvary sloužící k přežití nepříznivých podmínek',
-            'Typ spikule'
+            '2,5 l',
+            '3,2 l',
+            '4,2 l',
+            '5,5 l'
         ],
         correct: 2
     },
-     {
-        id: 28,
+    {
+        id: 24,
         type: 'boolean',
-        question: 'Houbovci se dělí do tříd především podle typu a složení skeletu.',
+        question: 'Dechová frekvence u dospělého člověka v klidu je 16–18 dechů za minutu.',
         correct: true
     },
-    {
-        id: 29,
+        {
+        id: 27,
         type: 'multiple',
-        question: 'Jaký ekologický význam mají houbovci v mořských ekosystémech?',
+        question: 'Tuberkulózu způsobuje:',
         options: [
-            'Jsou hlavními predátory',
-            'Produkují většinu kyslíku v oceánech',
-            'Jsou hlavní potravou velryb',
-            'Filtrují vodu a poskytují úkryt jiným organismům'
+            'Virus',
+            'Bakterie Mycobacterium tuberculosis',
+            'Plíseň',
+            'Alergen'
         ],
-        correct: 3
+        correct: 1
     },
-    {
+       {
         id: 30,
         type: 'boolean',
-        question: 'Některé druhy houbovců (mycí houby) se využívají člověkem.',
+        question: 'Pneumotorax vzniká proniknutím vzduchu do pohrudniční štěrbiny a vyrovnáním tlaku.',
         correct: true
     }
 ]
@@ -410,6 +390,11 @@
 
                 if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
                     alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
                     return;
                 }
 

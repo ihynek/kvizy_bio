@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz – Ostnokožci (Echinodermata)</title>
+    <title>Mendelovy zákony</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -15,6 +15,10 @@
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
+
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
 
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",
@@ -29,356 +33,46 @@
         const MuscleQuiz = () => {
 
             const QUIZ_CONFIG = {
-                title: "Ostnokožci (Echinodermata)",
-                teacherEmail: "ivan.hynek@gymberoun.cz",
-                timePerQuestion: 15,
+                title: "Mendelovy zákony",
+                teacherEmail: "hynek@gymberoun.cz",
+                timePerQuestion: 30,
 
                 questions: [
                     // ── ANO / NE (5) ──────────────────────────────────────────
-                    {
-                        id: 1,
-                        type: 'boolean',
-                        question: 'Ostnokožci jsou jednou z nejstarších živočišných skupin – jejich zkameněliny jsou hojné již ve starších prvohorách (ordovik, silur, devon).',
-                        correct: true
-                    },
-                    {
-                        id: 2,
-                        type: 'boolean',
-                        question: 'Kamenný kanálek ambulakrální soustavy propojuje madreporit přímo s radiálními (paprsčitými) kanálky vedoucími do ramen.',
-                        correct: false
-                    },
-                    {
-                        id: 3,
-                        type: 'boolean',
-                        question: 'Sumýši (Holothuroidea) patří do podkmene Pelmatozoa – jsou přisedlí stejně jako lilijice.',
-                        correct: false
-                    },
-                    {
-                        id: 4,
-                        type: 'boolean',
-                        question: 'U druhoústých živočichů se ústní otvor prolamuje druhotně, zatímco blastopór (původní otvor gastruly) se stává řitním otvorem nebo zcela zaniká.',
-                        correct: true
-                    },
-                    {
-                        id: 5,
-                        type: 'boolean',
-                        question: 'Ambulakrální nožky (panožky) se prodlužují tlakem vody přečerpané z ampulek – jde tedy o hydraulický mechanismus pohybu.',
-                        correct: true
-                    },
+                    { id: 1,  type: 'boolean', question: 'Při úplné dominanci je fenotypový štěpný poměr F₂ generace (Aa × Aa) 3 : 1.', correct: true },
+                    { id: 2,  type: 'boolean', question: 'Při neúplné dominanci má heterozygot stejný fenotyp jako jeden z rodičů.', correct: false },
+                    { id: 3,  type: 'boolean', question: 'Kodominance nastává, když se oba alely v heterozygotu projevují současně a plně – příkladem je krevní skupina AB (I\u1D2C I\u1D2E).', correct: true },
+                    { id: 4,  type: 'boolean', question: 'Genotypový štěpný poměr F₂ při monohybridním křížení (Aa × Aa) je 1 : 2 : 1.', correct: true },
+                    { id: 5,  type: 'boolean', question: 'Při dihybridním křížení AaBb × AaBb (oba geny s úplnou dominancí) je fenotypový štěpný poměr 9 : 3 : 3 : 1.', correct: true },
 
-                    // ── VÝBĚR ODPOVĚDI (20) ───────────────────────────────────
-                    {
-                        id: 6,
-                        type: 'multiple',
-                        question: 'Co jsou Tiedemannova tělíska a kde se nacházejí?',
-                        options: [
-                            'Světločivné orgány na koncích ramen hvězdic detekující intenzitu světla',
-                            'Žláznaté váčky na okružním kanálku ambulakrální soustavy s imunitní a filtrační funkcí',
-                            'Vápenatá tělíska v tělní stěně sumýšů nahrazující redukovaný krunýř',
-                            'Specializované ampulky ježovek umožňující pohyb po svislých površích'
-                        ],
-                        correct: 1
-                    },
-                    {
-                        id: 7,
-                        type: 'multiple',
-                        question: 'Která třída ostnokožců má největší rozpětí velikosti těla – od 2 cm do 2 m délky?',
-                        options: [
-                            'Hvězdice (Asteroidea)',
-                            'Ježovky (Echinoidea)',
-                            'Lilijice (Crinoidea)',
-                            'Sumýši (Holothuroidea)'
-                        ],
-                        correct: 3
-                    },
-                    {
-                        id: 8,
-                        type: 'multiple',
-                        question: 'Co jsou papulae u hvězdic a jakou plní funkci?',
-                        options: [
-                            'Výchlipky pokožky sloužící jako kožní žábry pro výměnu plynů s mořskou vodou',
-                            'Vápenité výrůstky tvořící pevný exoskelet na hřbetní straně těla',
-                            'Kleštičkovité výrůstky chránící povrch těla před přisedáním parazitů',
-                            'Specializované panožky na špičkách ramen umožňující zachytávání potravy'
-                        ],
-                        correct: 0
-                    },
-                    {
-                        id: 9,
-                        type: 'multiple',
-                        question: 'Která hvězdice způsobuje rozsáhlé škody na korálových útesech Tichého oceánu při přemnožení?',
-                        options: [
-                            'Asterias rubens (hvězdice růžová)',
-                            'Crossaster papposus (hvězdice sluneční)',
-                            'Pisaster ochraceus (hvězdice okrová)',
-                            'Acanthaster planci (hvězdice trnová koruna)'
-                        ],
-                        correct: 3
-                    },
-                    {
-                        id: 10,
-                        type: 'multiple',
-                        question: 'Okružní kanálek (ring canal) ambulakrální soustavy:',
-                        options: [
-                            'Je totožný s kamenným kanálkem – jde o dvě různá pojmenování stejné struktury',
-                            'Přímo spojuje madreporit s panožkami bez dalšího větvení',
-                            'Plní výhradně vylučovací funkci – odvádí metabolické odpadní látky z těla do moře',
-                            'Obklopuje jícen v centrální části těla a je zdrojem pěti radiálních kanálků mířících do ramen'
-                        ],
-                        correct: 3
-                    },
-                    {
-                        id: 11,
-                        type: 'multiple',
-                        question: 'Jak se nazývá jev, při němž sumýš při ohrožení predátorem vypuzuje z těla vnitřní orgány?',
-                        options: [
-                            'Autotomie ramene',
-                            'Eviscerace (evisceration)',
-                            'Madreporace',
-                            'Pedicelace'
-                        ],
-                        correct: 1
-                    },
-                    {
-                        id: 12,
-                        type: 'multiple',
-                        question: 'Nepravidelné ježovky (Irregularia, např. Echinocardium cordatum) se od pravidelných liší:',
-                        options: [
-                            'Absencí Aristotelovy lucerny a druhotně získanou dvoustrannou souměrností uzpůsobenou k zahrabávání do sedimentu',
-                            'Přítomností 10 ambulakrálních pásů místo standardních 5',
-                            'Úplnou absencí vápenatého krunýře – mají pouze měkký tělní pokryv',
-                            'Absencí ambulakrálních panožek – pohybují se výhradně vlněním těla'
-                        ],
-                        correct: 0
-                    },
-                    {
-                        id: 13,
-                        type: 'multiple',
-                        question: 'Ve které geologické éře dosáhly lilijice největší druhové rozmanitosti?',
-                        options: [
-                            'Kenozoikum – třetihory (miocén a pliocén)',
-                            'Druhohory – triasové moře po velkém vymírání na konci permu',
-                            'Prvohory – zejména ordovik, silur a devon, kdy tvořily husté podmořské lesy',
-                            'Archaikum – jsou nejstaršími živočichy vůbec, starší než trilobiti'
-                        ],
-                        correct: 2
-                    },
-                    {
-                        id: 14,
-                        type: 'multiple',
-                        question: 'Co jsou pedicelarie a u které kombinace tříd ostnokožců se vyskytují?',
-                        options: [
-                            'Přísavné panožky specializované na lov potravy – vyskytují se u hvězdic a hadic',
-                            'Drobné kleštičkovité výrůstky sloužící k obraně a čištění – typické pro hvězdice a ježovky',
-                            'Vápenité výběžky tvořící ochranné ostny – přítomné u všech pěti tříd ostnokožců',
-                            'Světločivné smyslové orgány na koncích ramen – přítomné u hvězdic, hadic a ježovek'
-                        ],
-                        correct: 1
-                    },
-                    {
-                        id: 15,
-                        type: 'multiple',
-                        question: 'Hemální soustava ostnokožců:',
-                        options: [
-                            'Je totožná s ambulakrální soustavou – naplněna mořskou vodou a plní stejné funkce',
-                            'Je uzavřenou oběhovou soustavou s centrálním srdcem zásobující tkáně kyslíkem',
-                            'Je soustava propojená s ambulakrální a coelomovou dutinou – zajišťuje výživu tkání',
-                            'Je redukovatelná soustava přítomná pouze u primitivních tříd (lilijice, sumýši)'
-                        ],
-                        correct: 2
-                    },
-                    {
-                        id: 16,
-                        type: 'multiple',
-                        question: 'Jaký ekologický vztah mají hvězdice (rod Pisaster) ke společenstvům mořského pobřeží?',
-                        options: [
-                            'Jsou klíčovým druhem (keystone species) – regulují populace mlžů a jejich odstranění vede k monokultuře slávek',
-                            'Jsou výhradně parazitičtí na korálech – jejich přítomnost indikuje zdravý korálový útes',
-                            'Jsou producenti – fotosyntetizují pomocí symbiotických řas v pokožce ramen',
-                            'Jsou dekompozitoré – rozkládají uhynulé organismy a vracejí živiny do ekosystému'
-                        ],
-                        correct: 0
-                    },
-                    {
-                        id: 17,
-                        type: 'multiple',
-                        question: 'Která kombinace znaků jednoznačně identifikuje třídu Hadice (Ophiuroidea)?',
-                        options: [
-                            'Kompaktní vápenatý krunýř + 5 ambulakrálních pásů s panožkami + Aristotelova lucerna',
-                            'Přisedlý způsob života + stopka (stvol) + výrazně větvená ramena zachytávající plankton',
-                            'Ostře oddělený centrální terč od tenkých stáčivých ramen + pohyb vlněním ramen + ambulakra bez pohybové funkce',
-                            'Protáhlé válcovité tělo + vodní plíce + schopnost eviscerace'
-                        ],
-                        correct: 2
-                    },
-                    {
-                        id: 18,
-                        type: 'multiple',
-                        question: 'Jak se nazývá žvýkací ústrojí ježovek tvořené 40 vápenatými prvky s 5 zuby?',
-                        options: [
-                            'Madreporová lucerna',
-                            'Radiální krunýř',
-                            'Tiedemannovo tělísko',
-                            'Aristotelova lucerna'
-                        ],
-                        correct: 3
-                    },
-                    {
-                        id: 19,
-                        type: 'multiple',
-                        question: 'Jak hvězdice tráví kořist (mlže, korýše)?',
-                        options: [
-                            'Paralyzují kořist jedem z pedicelárií a pak ji polknou celou',
-                            'Vychrlí vychlípitelný žaludek ven přes ústa, obalí kořist a tráví ji mimotělně',
-                            'Pomocí Aristotelovy lucerny rozkousají schránky mlžů a korýšů',
-                            'Filtrují vodu ambulakrálními nožkami a zachytávají planktické organismy'
-                        ],
-                        correct: 1
-                    },
-                    {
-                        id: 20,
-                        type: 'multiple',
-                        question: 'Která třída ostnokožců má protáhlé válcovité tělo a druhotně přechází ke dvoustranné souměrnosti?',
-                        options: [
-                            'Hvězdice (Asteroidea)',
-                            'Hadice (Ophiuroidea)',
-                            'Sumýši (Holothuroidea)',
-                            'Ježovky (Echinoidea)'
-                        ],
-                        correct: 2
-                    },
-                    {
-                        id: 21,
-                        type: 'multiple',
-                        question: 'Jak se nazývá larva hvězdic (Asteroidea)?',
-                        options: [
-                            'Pluteus',
-                            'Nauplius',
-                            'Trochofora',
-                            'Bipinnaria'
-                        ],
-                        correct: 3
-                    },
-                    {
-                        id: 22,
-                        type: 'multiple',
-                        question: 'Jak sumýši dýchají?',
-                        options: [
-                            'Výhradně přes pokožku (kutánní dýchání) bez specializovaných orgánů',
-                            'Žábrami podobnými rybím žábrám na stranách těla',
-                            'Vodními plícemi – výběžky kloaky, do nichž je přečerpávána voda',
-                            'Spirálami (tracheami) podobně jako členovci'
-                        ],
-                        correct: 2
-                    },
-                    {
-                        id: 23,
-                        type: 'multiple',
-                        question: 'Ke které systematické skupině patří lilijice (Crinoidea)?',
-                        options: [
-                            'Podkmen Eleutherozoa (volnoživci)',
-                            'Podkmen Pelmatozoa (stvolovci)',
-                            'Podkmen Echinozoa',
-                            'Podkmen Asterozoa'
-                        ],
-                        correct: 1
-                    },
-                    {
-                        id: 24,
-                        type: 'multiple',
-                        question: 'Tělní pokryv ostnokožců tvoří:',
-                        options: [
-                            'Pokožka (epidermis) a mezodermální vrstva vyztužená uhličitanem vápenatým',
-                            'Pouze pokožka (epidermis) bez dalšího vyztužení',
-                            'Chitinovitá kutikula tvořená ektodermálními buňkami',
-                            'Třívrstevná schránka: epidermis, dermis a hypodermis s vápenatými krystaly'
-                        ],
-                        correct: 0
-                    },
-                    {
-                        id: 25,
-                        type: 'multiple',
-                        question: 'Která tvrzení o larvách ostnokožců jsou správná?',
-                        options: [
-                            'Larvy jsou dvoustranně souměrné; paprsčitou souměrnost získávají teprve metamorfózou',
-                            'Larvy jsou paprsčitě souměrné – pentamerii mají od prvního stádia',
-                            'Larvy ostnokožců se líhnou přímo jako miniaturní dospělci bez metamorfózy',
-                            'Larva ježovek se nazývá bipinnaria a larva hvězdic pluteus'
-                        ],
-                        correct: 0
-                    },
+                    // ── MULTIPLE CHOICE (20) ──────────────────────────────────
+                    { id: 6,  type: 'multiple', question: 'Červená begónie (RR) je zkřížena s bílou begónií (rr). Potomci F₁ jsou všichni růžoví. O jaký typ dědičnosti se jedná?', options: ['Úplná dominance', 'Kodominance', 'Neúplná dominance', 'Epistáze'], correct: 2 },
+                    { id: 7,  type: 'multiple', question: 'Dvě růžové begónie (Rr × Rr) jsou zkříženy – platí neúplná dominance. Jaký fenotypový poměr bude v F₂?', options: ['3 červené : 1 bílá', '1 červená : 2 růžové : 1 bílá', '1 červená : 1 bílá', 'Všechny růžové'], correct: 1 },
+                    { id: 8,  type: 'multiple', question: 'Krevní skupina AB u člověka vzniká díky:', options: ['Úplné dominanci alely Iᴬ nad Iᴮ', 'Neúplné dominanci – Iᴬ a Iᴮ vytvářejí intermediární antigen', 'Kodominanci alel Iᴬ a Iᴮ', 'Mutaci genu pro krevní skupiny'], correct: 2 },
+                    { id: 9,  type: 'multiple', question: 'Jaký genotyp má člověk s krevní skupinou 0?', options: ['Iᴬ I⁰', 'Iᴬ Iᴮ', 'I⁰ I⁰', 'Iᴮ I⁰'], correct: 2 },
+                    { id: 10, type: 'multiple', question: 'Matka má krevní skupinu A (Iᴬ I⁰), otec skupinu B (Iᴮ I⁰). Jaké krevní skupiny mohou mít jejich děti?', options: ['Jen AB a 0', 'A, B, AB nebo 0', 'Jen A nebo B', 'Jen AB'], correct: 1 },
+                    { id: 11, type: 'multiple', question: 'Při testovacím křížení heterozygota (Aa × aa) – jaký fenotypový poměr vznikne při úplné dominanci?', options: ['3 : 1', '1 : 2 : 1', '1 : 1', 'Všichni dominantního fenotypu'], correct: 2 },
+                    { id: 12, type: 'multiple', question: 'Mendel křížil hrách s kulatými semeny (RR) s hrachem s vrásčitými semeny (rr). Jaký byl fenotypový poměr v F₂ generaci?', options: ['1 kulaté : 1 vrásčité', '1 : 2 : 1', '3 kulatá : 1 vrásčité', 'Všechna kulatá'], correct: 2 },
+                    { id: 13, type: 'multiple', question: 'Flox: BB = tmavě fialový, Bb = světle fialový, bb = bílý (neúplná dominance). Rodiče Bb × bb. Jaký fenotypový poměr potomků?', options: ['3 tmavě fialové : 1 bílý', '1 světle fialový : 1 bílý', '1 : 2 : 1', 'Všechny světle fialové'], correct: 1 },
+                    { id: 14, type: 'multiple', question: 'U nosičů srpkovité anémie (HbᴬHbˢ) se v krvi nacházejí jak normální, tak srpkovité červené krvinky – oba alely jsou aktivní. O jaký typ dědičnosti se jedná?', options: ['Neúplná dominance – intermediární fenotyp', 'Kodominance – oba alely se projevují plně', 'Úplná dominance alely Hbᴬ', 'Recesivní dědičnost alely HbS'], correct: 1 },
+                    { id: 15, type: 'multiple', question: 'Jaký fenotypový poměr vznikne při dihybridním křížení AaBb × AaBb (oba geny s úplnou dominancí)?', options: ['1 : 2 : 1', '9 : 3 : 3 : 1', '3 : 1', '1 : 1 : 1 : 1'], correct: 1 },
+                    { id: 16, type: 'multiple', question: 'Při monohybridním křížení AA × aa je celá F₁ generace:', options: ['Vždy AA', 'Vždy Aa', '1 AA : 1 aa', '3 AA : 1 aa'], correct: 1 },
+                    { id: 17, type: 'multiple', question: 'Otec má krevní skupinu A (genotyp Iᴬ Iᴬ), matka skupinu 0 (I⁰ I⁰). Jaká bude krevní skupina všech jejich dětí?', options: ['A nebo 0', 'Pouze A', 'A nebo B', 'Pouze AB'], correct: 1 },
+                    { id: 18, type: 'multiple', question: 'Co vyjadřuje fenotypový štěpný poměr v F₂ generaci?', options: ['Poměr různých genotypů v potomcích', 'Poměr různých viditelných projevů (fenotypů) v potomcích', 'Poměr alel v celé populaci', 'Počet gamet vzniklých při meióze'], correct: 1 },
+                    { id: 19, type: 'multiple', question: 'Skot: RR = červený, rr = bílý, Rr = žíhaný roan (neúplná dominance). Křížení Rr × Rr. Jaký fenotypový poměr potomků?', options: ['3 červení : 1 bílý', '1 červený : 1 bílý', '1 červený : 2 žíhaní : 1 bílý', 'Všichni žíhaní'], correct: 2 },
+                    { id: 20, type: 'multiple', question: 'Dva rodiče s krevní skupinou A (oba Iᴬ I⁰) mají dítě s krevní skupinou 0. Jaká je pravděpodobnost, že jejich další dítě bude mít krevní skupinu 0?', options: ['0 %', '25 %', '50 %', '75 %'], correct: 1 },
+                    { id: 21, type: 'multiple', question: 'Při křížení dvou heterozygotů (Aa × Aa) při úplné dominanci – jak se liší genotypový a fenotypový poměr F₂?', options: ['Genotypový 3 : 1, fenotypový 1 : 2 : 1', 'Genotypový 1 : 2 : 1, fenotypový 3 : 1', 'Oba jsou 1 : 2 : 1', 'Oba jsou 3 : 1'], correct: 1 },
+                    { id: 22, type: 'multiple', question: 'Co říká 1. Mendelův zákon (zákon uniformity)?', options: ['Geny pro různé znaky se dědí nezávisle na sobě', 'Potomci F₁ z křížení dvou čistých linií jsou uniformní – všichni stejného fenotypu', 'V F₂ generaci dochází ke štěpení v poměru 3 : 1', 'Každá gameta nese jednu alelu každého genu'], correct: 1 },
+                    { id: 23, type: 'multiple', question: 'Japonské křepelky: BB = tmavě hnědá, Bb = světle hnědá, bb = bílá (neúplná dominance). Rodiče BB × Bb. Jaký fenotypový poměr potomků?', options: ['3 tmavě hnědé : 1 bílá', '1 tmavě hnědá : 1 světle hnědá', '1 : 2 : 1', 'Všechny tmavě hnědé'], correct: 1 },
+                    { id: 24, type: 'multiple', question: 'Při dihybridním křížení AaBb × AaBb (obě úplná dominance) – kolik různých fenotypů může vzniknout?', options: ['2', '4', '9', '16'], correct: 1 },
+                    { id: 25, type: 'multiple', question: 'Mendelovy experimenty s hrachem vedly k platnosti 3. zákona (nezávislé kombinace), protože:', options: ['Hrách je diploidní organismus', 'Sledované geny ležely na různých chromozomech (nebo byly dostatečně vzdálené)', 'Hrách má krátkou generační dobu', 'Hrách se rozmnožuje výhradně pohlavně'], correct: 1 },
 
-                    // ── CHECKBOX (5) ──────────────────────────────────────────
-                    {
-                        id: 26,
-                        type: 'checkbox',
-                        question: 'Která tvrzení o ambulakrální soustavě ostnokožců jsou správná?',
-                        options: [
-                            'Voda do soustavy vstupuje přes madreporit a kamenným kanálkem se dostává do okružního kanálku.',
-                            'Ampulky jsou svalové váčky, jejichž stah přečerpá vodu do panožky a ta se prodlouží.',
-                            'Ambulakrální soustava je přítomna i u strunatců – jde o společný znak všech druhoústých.',
-                            'Soustava zajišťuje pohyb, dýchání, rozvod látek i vylučování odpadních produktů.',
-                            'Voda v soustavě je čerpána hemálním srdcem, nikoli svalovými ampulkami.',
-                            'Radiální kanálky vedou z okružního kanálku do ramen, kde se větví k ampulkám.'
-                        ],
-                        correct: [0, 1, 3, 5]
-                    },
-                    {
-                        id: 27,
-                        type: 'checkbox',
-                        question: 'Které znaky jsou charakteristické pro kmen Ostnokožci (Echinodermata)?',
-                        options: [
-                            'Žijí výhradně v mořském prostředí.',
-                            'Tělo dospělců je paprsčitě souměrné (pentamerie), ale jde o druhotně získaný znak.',
-                            'Tělní pokryv je vyztužen vápenatými destičkami nebo ostny z uhličitanu vápenatého.',
-                            'Mají dobře vyvinutý mozek a párové smyslové orgány (oči, tykadla).',
-                            'Patří mezi prvoústé živočichy – blastopór se u nich stává ústním otvorem.',
-                            'Larvy jsou dvoustranně souměrné – paprsčitou souměrnost získávají až metamorfózou.'
-                        ],
-                        correct: [0, 1, 2, 5]
-                    },
-                    {
-                        id: 28,
-                        type: 'checkbox',
-                        question: 'Která tvrzení o třídě Ježovky (Echinoidea) jsou správná?',
-                        options: [
-                            'Vápenatá výztuž tvoří kompaktní pevný krunýř (test) z navzájem spojených destiček.',
-                            'V ústech mají Aristotelovu lucernu – komplexní žvýkací ústrojí s 5 zuby.',
-                            'Na povrchu krunýře je 5 ambulakrálních pásů s panožkami pro pohyb.',
-                            'Jsou výhradně přisedlé – pohybovat se nemohou a celý život setrvají na jednom místě.',
-                            'Aristotelova lucerna slouží k filtraci mořské vody, nikoli ke zpracování tuhé potravy.',
-                            'Ježovky dýchají výhradně vodními plícemi – výběžky kloaky stejně jako sumýši.'
-                        ],
-                        correct: [0, 1, 2]
-                    },
-                    {
-                        id: 29,
-                        type: 'checkbox',
-                        question: 'Která tvrzení detailně srovnávají hvězdice (Asteroidea) a hadice (Ophiuroidea)?',
-                        options: [
-                            'Hvězdice mají tělní terč plynule přecházející do ramen; u hadic je terč ostře oddělen od tenkých stáčivých ramen.',
-                            'U obou tříd plní ambulakrální panožky klíčovou pohybovou funkci.',
-                            'Hvězdice jsou dravci živící se mlži a korýši; hadice se živí spíše drobnou potravou a organickým odpadem.',
-                            'U hadic ambulakrální soustava neplní pohybovou funkci – k pohybu slouží aktivní vlnění ramen.',
-                            'Obě třídy jsou přisedlé – pohybují se pouze příležitostně při hledání potravy.',
-                            'Hvězdice mají kožní žábry (papulae) pro dýchání; u hadic dýchání zajišťuje ambulakrální soustava.'
-                        ],
-                        correct: [0, 2, 3, 5]
-                    },
-                    {
-                        id: 30,
-                        type: 'checkbox',
-                        question: 'Která tvrzení o fylogenezi a ekologii ostnokožců jsou správná?',
-                        options: [
-                            'Ostnokožci jsou druhoústí (Deuterostomia) – patří do stejné vývojové linie jako strunatci.',
-                            'Předkové ostnokožců byli dvoustranně souměrní – pentamerie vznikla sekundárně jako adaptace bentického života.',
-                            'Ostnokožci jsou nejbližšími příbuznými členovců – sdílejí společnou vývojovou linii prvoústých.',
-                            'V Barrandienu (střední Čechy) jsou hojné zkameněliny lilijic a ježovek z prvohor a druhohory.',
-                            'Ambulakrální soustava vznikla nezávisle v různých vývojových liniích ostnokožců.',
-                            'Sumýši (trepang) jsou konzumováni jako potrava – zejména v jihovýchodní Asii a Tichomořské oblasti.'
-                        ],
-                        correct: [0, 1, 3, 5]
-                    }
+                    // ── CHECKBOX (5) ─────────────────────────────────────────
+                    { id: 26, type: 'checkbox', question: 'Která tvrzení o neúplné dominanci jsou správná?', options: ['Heterozygot má intermediární fenotyp odlišný od obou rodičů.', 'Fenotypový poměr F₂ (Rr × Rr) je 3 : 1 – stejně jako při úplné dominanci.', 'Genotypový poměr F₂ (Rr × Rr) je 1 : 2 : 1 – stejný jako při úplné dominanci.', 'Příkladem je zbarvení skotu roan (Rr = žíhaný červenobílý).', 'Při neúplné dominanci nelze fenotypem rozlišit heterozygota od dominantního homozygota.', 'Fenotypový i genotypový poměr F₂ splývají v 1 : 2 : 1 – na rozdíl od úplné dominance.'], correct: [0, 2, 3, 5] },
+                    { id: 27, type: 'checkbox', question: 'Která tvrzení o kodominanci jsou správná?', options: ['Oba alely jsou v heterozygotu plně vyjádřeny současně.', 'Heterozygot má fenotyp shodný s jedním z rodičů – dominantní alela potlačí recesivní.', 'Příkladem je krevní skupina AB (Iᴬ Iᴮ) – erytrocyty nesou antigen A i antigen B zároveň.', 'U nosičů srpkovité anémie (HbᴬHbˢ) jsou přítomny oba typy hemoglobinu – projevují se oba alely.', 'Kodominance je totéž jako neúplná dominance – oba termíny jsou zaměnitelné.', 'Křížení Iᴬ Iᴮ × I⁰ I⁰ dá potomky výhradně s krevní skupinou A nebo B v poměru 1 : 1.'], correct: [0, 2, 3, 5] },
+                    { id: 28, type: 'checkbox', question: 'Která tvrzení o 2. Mendelově zákoně (zákon segregace) jsou správná?', options: ['Alely genu se při tvorbě gamet oddělují – každá gameta nese pouze jednu alelu z každého genového páru.', '2. zákon říká, že geny pro různé znaky se dědí nezávisle – to je náplní 3. zákona.', 'Zákon se projevuje fenotypovým poměrem 3 : 1 v F₂ při úplné dominanci.', 'Zákon je podmíněn oddělováním homologních chromozomů při meióze I.', 'Zákon segregace jako první formuloval Thomas Morgan, nikoli Mendel.', 'Zákon segregace platí i při neúplné dominanci – mění se jen fenotypový projev, ne segregace samotná.'], correct: [0, 2, 3, 5] },
+                    { id: 29, type: 'checkbox', question: 'Muž s krevní skupinou AB (Iᴬ Iᴮ) a žena s krevní skupinou 0 (I⁰ I⁰). Která tvrzení o jejich potomcích jsou správná?', options: ['Žádné dítě nemůže mít krevní skupinu AB.', 'Každé dítě bude mít krevní skupinu A nebo B.', 'Pravděpodobnost krevní skupiny 0 je 25 %.', 'Pravděpodobnost krevní skupiny A je 50 %.', 'Potomci mohou mít genotyp Iᴬ Iᴮ nebo I⁰ I⁰.', 'Genotypy potomků budou výhradně Iᴬ I⁰ nebo Iᴮ I⁰.'], correct: [0, 1, 3, 5] },
+                    { id: 30, type: 'checkbox', question: 'Která tvrzení o štěpných poměrech jsou správná?', options: ['Genotypový poměr 1 : 2 : 1 nastává v F₂ monohybridního křížení (Aa × Aa) vždy – bez ohledu na typ dominance.', 'Fenotypový poměr 3 : 1 platí v F₂ i při neúplné dominanci – heterozygot má shodný fenotyp s dominantním homozygotem.', 'Testovací křížení (Aa × aa) při úplné dominanci dává fenotypový poměr 1 : 1.', 'Fenotypový poměr 9 : 3 : 3 : 1 vzniká při dihybridním křížení AaBb × AaBb (obě úplná dominance).', 'Při neúplné dominanci v F₂ (Rr × Rr) je fenotypový poměr 1 : 2 : 1, nikoli 3 : 1.', 'Genotypový a fenotypový poměr jsou vždy totožné – nezávisí na typu dominance.'], correct: [0, 2, 3, 4] }
                 ]
             };
 
@@ -506,10 +200,15 @@
             // ── ODESLÁNÍ E-MAILU ─────────────────────────────────────────────
             const sendResultsEmail = async () => {
                 if (!studentFirstName.trim() || !studentLastName.trim()) { alert('Prosím vyplň své jméno i příjmení.'); return; }
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
-                const score = calculateScore();
-                const pct   = (score / questions.length * 100).toFixed(1);
-                const grade = pct < 29 ? 5 : pct <= 49 ? 4 : pct <= 79 ? 3 : pct <= 89 ? 2 : 1;
+                const score    = calculateScore();
+                const pct      = (score / questions.length * 100).toFixed(1);
+                const grade    = pct < 29 ? 5 : pct <= 49 ? 4 : pct <= 79 ? 3 : pct <= 89 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const timeSpent = formatTime(getElapsedTime());
 
@@ -553,7 +252,7 @@
                 }
             };
 
-            // ── KVÍZ DOKONČEN (localStorage) ────────────────────────────────
+            // ── RENDER: DOKONČENO DŘÍVE ──────────────────────────────────────
             if (quizCompleted) {
                 const data = JSON.parse(localStorage.getItem(`quiz_completed_${QUIZ_CONFIG.title}`) || '{}');
                 return (
@@ -577,7 +276,7 @@
                 );
             }
 
-            // ── VÝSLEDKY ─────────────────────────────────────────────────────
+            // ── RENDER: VÝSLEDKY ────────────────────────────────────────────
             if (showResults) {
                 const score = calculateScore();
                 const pct   = (score / questions.length * 100).toFixed(1);
@@ -632,7 +331,7 @@
                                 <div className="bg-green-50 border-2 border-green-300 rounded-lg p-6 mb-6 text-center">
                                     <div className="text-4xl mb-2">✓</div>
                                     <p className="text-green-800 font-semibold text-lg mb-2">Výsledky byly úspěšně odeslány učiteli!</p>
-                                    <p className="text-gray-800 font-bold text-2xl mt-4">Nyní můžeš zavřít prohlížeč.</p>
+                                    <p className="text-gray-800 font-bold text-2xl mt-4">Nyní zavři prohlížeč.</p>
                                 </div>
                             )}
 

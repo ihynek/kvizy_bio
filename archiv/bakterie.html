@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Centrální dogma molekulární biologie</title>
+    <title>Kvíz: Bakterie</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,7 +51,7 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Centrální dogma molekulární biologie",
+                title: "Bakterie",
                 teacherEmail: "hynek@gymberoun.cz",
                 timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
@@ -55,175 +59,271 @@
     {
         id: 1,
         type: 'multiple',
-        question: 'Centrální dogma molekulární biologie popisuje tok:',
+        question: 'Která bakterie vytváří metan (CH₄)?',
         options: [
-            'energie v buňce',
-            'látek přes buněčnou membránu',
-            'elektronů v dýchacím řetězci',
-            'genetické informace v buňce'
+            'Metanogenní bakterie',
+            'Lactobacillus',
+            'E. coli',
+            'Streptococcus'
         ],
-        correct: 3
+        correct: 0
     },
     {
         id: 2,
-        type: 'multiple',
-        question: 'Proces přepisu genetické informace z DNA do RNA se nazývá:',
-        options: [
-            'replikace',
-            'translace',
-            'transkripce',
-            'transformace'
-        ],
-        correct: 2
+        type: 'boolean',
+        question: 'Bakterie jsou jednobuněčné prokaryotické organismy.',
+        correct: true
     },
     {
         id: 3,
         type: 'multiple',
-        question: 'Kodon je:',
+        question: 'Co je nitrifikace?',
         options: [
-            'trojice nukleotidů na mRNA kódující jednu aminokyselinu',
-            'trojice nukleotidů na DNA',
-            'jednotlivý nukleotid',
-            'spojení dvou aminokyselin'
+            'Přeměna N₂ na NH₃',
+            'Přeměna NH₃ → NO₂⁻ → NO₃⁻',
+            'Přeměna NO₃⁻ na N₂',
+            'Přeměna CO₂ na glukózu'
         ],
-        correct: 0
+        correct: 1
     },
     {
         id: 4,
-        type: 'multiple',
-        question: 'Translace probíhá:',
-        options: [
-            'v jádře buňky',
-            'na ribozomech',
-            'v mitochondriích',
-            'na buněčné membráně'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Peptidoglykan se nachází pouze v buněčné stěně bakterií.',
+        correct: true
     },
     {
         id: 5,
         type: 'multiple',
-        question: 'Která dusíkatá báze se nachází v RNA, ale nikoli v DNA?',
+        question: 'Co je hlavní funkcí pili?',
         options: [
-            'adenin',
-            'guanin',
-            'cytosin',
-            'uracil'
+            'Pohyb bakterie',
+            'Fotosyntéza',
+            'Přichycení a výměna DNA',
+            'Skladování živin'
         ],
-        correct: 3
+        correct: 2
     },
     {
         id: 6,
-        type: 'multiple',
-        question: 'Replikace DNA probíhá:',
-        options: [
-            'konzervativně',
-            'disperzivně',
-            'semikonzervativně',
-            'náhodně'
-        ],
-        correct: 2
+        type: 'boolean',
+        question: 'Bakterie mají v buňce pravé jádro s DNA.',
+        correct: false
     },
     {
         id: 7,
         type: 'multiple',
-        question: 'Enzym katalyzující syntézu RNA podle předlohy DNA se nazývá:',
+        question: 'Kolik bakterií může teoreticky vzniknout z jedné buňky za 24 hodin při optimálních podmínkách?',
         options: [
-            'RNA polymeráza',
-            'DNA polymeráza',
-            'helikáza',
-            'ligáza'
+            '2¹² bakterií',
+            '2²⁴ bakterií',
+            '2⁴⁸ bakterií',
+            '2⁷² bakterií'
         ],
-        correct: 0
+        correct: 3
     },
     {
         id: 8,
         type: 'boolean',
-        question: 'Centrální dogma molekulární biologie popisuje jednosměrný tok informace: DNA → RNA → protein.',
-        correct: true
-    },
-    {
-        id: 9,
-        type: 'boolean',
-        question: 'Při replikaci vznikají dvě identické molekuly DNA, z nichž každá obsahuje jeden původní a jeden nový řetězec.',
-        correct: true
-    },
-    {
-        id: 10,
-        type: 'boolean',
-        question: 'Transkripce probíhá na ribozomech v cytoplazmě.',
+        question: 'Endospory jsou metabolicky aktivní růstové formy bakterií.',
         correct: false
     },
     {
-        id: 11,
-        type: 'boolean',
-        question: 'Antikodon je trojice nukleotidů na tRNA komplementární ke kodonu na mRNA.',
-        correct: true
-    },
-    {
-        id: 12,
-        type: 'boolean',
-        question: 'V RNA se místo thyminu nachází uracil.',
-        correct: true
-    },
-    {
-        id: 13,
+        id: 9,
         type: 'multiple',
-        question: 'mRNA (mediátorová RNA) má funkci:',
+        question: 'Jaká je velikost bakterií?',
         options: [
-            'přenášet aminokyseliny k ribozomu',
-            'přenášet genetickou informaci z jádra k ribozomům',
-            'tvořit strukturní součást ribozomů',
-            'katalyzovat sestřih pre-mRNA'
+            '0,05-0,5 µm',
+            '0,5-5 µm',
+            '5-50 µm',
+            '50-500 µm'
         ],
         correct: 1
     },
     {
-        id: 14,
+        id: 10,
+        type: 'boolean',
+        question: 'Bakterie E. coli se mohou rozmnožovat binárním dělením každých 20-30 minut.',
+        correct: true
+    },
+    {
+        id: 11,
         type: 'multiple',
-        question: 'tRNA (transferová RNA) má funkci:',
+        question: 'Co jsou plazmidy?',
         options: [
-            'přenášet genetickou informaci z jádra',
-            'tvořit strukturní součást ribozomů',
-            'katalyzovat replikaci DNA',
-            'přenášet aminokyseliny k ribozomu'
+            'Velké lineární DNA molekuly',
+            'Mitochondrie bakterií',
+            'Malé kruhové DNA molekuly',
+            'Ribozomy pro syntézu proteinů'
+        ],
+        correct: 2
+    },
+    {
+        id: 12,
+        type: 'boolean',
+        question: 'Transformace je přenos DNA mezi bakteriemi pomocí bakteriofága.',
+        correct: false
+    },
+    {
+        id: 13,
+        type: 'multiple',
+        question: 'Co je pouzdro (kapsule) u bakterií?',
+        options: [
+            'Struktura pro pohyb',
+            'Organela pro skladování živin',
+            'Organela pro dýchání',
+            'Ochrana před imunitním systémem'
         ],
         correct: 3
+    },
+    {
+        id: 14,
+        type: 'boolean',
+        question: 'Ve stacionární fázi růstové křivky je počet nově vzniklých bakterií stejný jako počet odumírajících.',
+        correct: true
     },
     {
         id: 15,
         type: 'multiple',
-        question: 'Ribozom je tvořen:',
+        question: 'Který tvar NENÍ typický pro bakterie?',
         options: [
-            'pouze proteiny',
-            'pouze DNA',
-            'rRNA a proteiny',
-            'mRNA a lipidy'
+            'Hvězdicovité',
+            'Bacily (tyčinkovité)',
+            'Spirochety (šroubovité)',
+            'Koky (kulovité)'
+        ],
+        correct: 0
+    },
+    {
+        id: 16,
+        type: 'boolean',
+        question: 'Bakterie jsou nejvíce citlivé k antibiotikům během lag fáze.',
+        correct: false
+    },
+    {
+        id: 17,
+        type: 'multiple',
+        question: 'Co je nukleoid?',
+        options: [
+            'Pravé jádro bakterie',
+            'Oblast s kruhovou DNA bez jaderného obalu',
+            'Malá kruhová DNA nezávislá na chromozomu',
+            'Organela pro syntézu proteinů'
+        ],
+        correct: 1
+    },
+    {
+        id: 18,
+        type: 'boolean',
+        question: 'Alexander Fleming objevil penicilin v roce 1928.',
+        correct: true
+    },
+    {
+        id: 19,
+        type: 'multiple',
+        question: 'Jak se nazývají bičíky bakterií?',
+        options: [
+            'Cilie',
+            'Pseudopodie',
+            'Flagely',
+            'Vakuoly'
         ],
         correct: 2
     },
-     {
-        id: 19,
+    {
+        id: 20,
         type: 'boolean',
-        question: 'Genetický kód je degenerovaný – více kodonů může kódovat stejnou aminokyselinu.',
+        question: 'Fixace dusíku znamená přeměnu vzdušného N₂ na amoniak.',
         correct: true
     },
-     {
+    {
         id: 21,
         type: 'multiple',
-        question: 'Stop kodony (UAA, UAG, UGA) při translaci:',
+        question: 'Co NENÍ mechanismem antibiotické rezistence?',
         options: [
-            'kódují speciální aminokyseliny',
-            'urychlují syntézu proteinu',
-            'zahajují translaci',
-            'ukončují syntézu polypeptidového řetězce'
+            'Enzymy ničí antibiotikum',
+            'Změna cílového místa',
+            'Efluxové pumpy vypuzují antibiotikum',
+            'Zvýšená citlivost ribozomů'
         ],
         correct: 3
     },
     {
-        id: 25,
+        id: 22,
         type: 'boolean',
-        question: 'Reverzní transkripce je přepis genetické informace z RNA do DNA a vyskytuje se u některých virů.',
+        question: 'Autokláv sterilizuje při teplotě 100 °C po dobu 15 minut.',
+        correct: false
+    },
+    {
+        id: 23,
+        type: 'multiple',
+        question: 'Při jaké teplotě a tlaku sterilizuje autokláv?',
+        options: [
+            '100 °C, normální tlak',
+            '110 °C, normální tlak',
+            '121 °C, zvýšený tlak',
+            '150 °C, zvýšený tlak'
+        ],
+        correct: 2
+    },
+    {
+        id: 24,
+        type: 'boolean',
+        question: 'Ribozomy v bakteriích jsou typu 70S.',
+        correct: true
+    },
+    {
+        id: 25,
+        type: 'multiple',
+        question: 'Která fáze růstové křivky je charakterizována exponenciálním růstem?',
+        options: [
+            'Lag fáze',
+            'Log fáze',
+            'Stacionární fáze',
+            'Fáze odumírání'
+        ],
+        correct: 1
+    },
+    {
+        id: 26,
+        type: 'boolean',
+        question: 'Konjugace je proces přenosu DNA mezi bakteriemi pomocí pili.',
+        correct: true
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'Co je transformace v bakteriální genetice?',
+        options: [
+            'Příjem DNA z prostředí (mrtvých bakterií)',
+            'Konjugace přes pili',
+            'Přenos DNA bakteriofágem',
+            'Mutace vlastní DNA'
+        ],
+        correct: 0
+    },
+    {
+        id: 28,
+        type: 'boolean',
+        question: 'Efluxové pumpy zvyšují citlivost bakterií na antibiotika.',
+        correct: false
+    },
+    {
+        id: 29,
+        type: 'multiple',
+        question: 'Jak se nazývá horizontální přenos DNA pomocí bakteriofága (viru)?',
+        options: [
+            'Transformace',
+            'Mutace',
+            'Transdukce',
+            'Translace'
+        ],
+        correct: 2
+    },
+    {
+        id: 30,
+        type: 'boolean',
+        question: 'Bacillus anthracis a Clostridium tetani jsou schopny tvořit endospory.',
         correct: true
     }
 ]
@@ -400,11 +500,16 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
-                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const grade = percentage < 33 ? 5 : percentage <= 51 ? 4 : percentage <= 68 ? 3 : percentage <= 84 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);

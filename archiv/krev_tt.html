@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Minerály_1</title>
+    <title>Kvíz: Krev a tělní tekutiny</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -15,7 +15,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect } = React;
 
         /* 
         =============================================================================
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,211 +51,245 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Minerály_1",
+                title: "Svalová soustava člověka",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 12, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Mineralogie je vědní obor, který se zabývá:',
+        question: 'Kolik litrů vody (cca) obsahuje lidské tělo (přepočteno na muže 70 kg)?',
         options: [
-            'Studiem rostlin',
-            'Studiem minerálů',
-            'Studiem živočichů',
-            'Studiem půdy'
+            '35 litrů',
+            '42 litrů',
+            '50 litrů',
+            '60 litrů'
         ],
         correct: 1
     },
     {
         id: 2,
-        type: 'boolean',
-        question: 'Minerál musí mít přírodní původ a pevnou strukturu.',
-        correct: true
+        type: 'multiple',
+        question: 'Jaký je průměrný objem krve v těle dospělého člověka?',
+        options: [
+            '3,5 litru',
+            '4,5 litru',
+            '5,5 litru',
+            '6,5 litru'
+        ],
+        correct: 2
     },
     {
         id: 3,
-        type: 'multiple',
-        question: 'Mohsova stupnice tvrdosti má rozsah:',
-        options: [
-            '1-5',
-            '1-10',
-            '1-15',
-            '1-20'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Ženy mají krve asi o 10% méně než muži.',
+        correct: true
     },
     {
         id: 4,
         type: 'multiple',
-        question: 'Nejtvrdší minerál na Mohsově stupnici je:',
+        question: 'Kolik procent krve tvoří krevní plazma?',
         options: [
-            'Korund',
-            'Křemen',
-            'Diamant',
-            'Topaz'
+            '35%',
+            '45%',
+            '55%',
+            '80%'
         ],
         correct: 2
     },
     {
         id: 5,
-        type: 'boolean',
-        question: 'Mastek má na Mohsově stupnici tvrdost 1.',
-        correct: true
-    },
-    {
-        id: 6,
         type: 'multiple',
-        question: 'Vryp minerálu je:',
+        question: 'Normální pH krve je:',
         options: [
-            'Barva minerálu',
-            'Barva nerostného prášku',
-            'Lesk minerálu',
-            'Tvrdost minerálu'
-        ],
-        correct: 1
-    },
-    {
-        id: 7,
-        type: 'multiple',
-        question: 'Štěpnost minerálu popisuje:',
-        options: [
-            'Barvu minerálu',
-            'Způsob lámání podél určitých ploch',
-            'Lesk minerálu',
-            'Hustotu minerálu'
-        ],
-        correct: 1
-    },
-    {
-        id: 8,
-        type: 'boolean',
-        question: 'Vryp je lepší diagnostický prostředek než barva minerálu.',
-        correct: true
-    },
-    {
-        id: 9,
-        type: 'multiple',
-        question: 'Lasturnatý lom je typický pro minerál:',
-        options: [
-            'Halit',
-            'Slídu',
-            'Obsidián',
-            'Kalcit'
+            '6,4',
+            '7,0',
+            '7,4',
+            '8,0'
         ],
         correct: 2
     },
     {
-        id: 10,
-        type: 'multiple',
-        question: 'Drúza je:',
-        options: [
-            'Samostatný krystal',
-            'Shluk krystalů',
-            'Amorfní minerál',
-            'Tekutý minerál'
-        ],
-        correct: 1
+        id: 6,
+        type: 'boolean',
+        question: 'Červené krvinky jsou jaderné buňky.',
+        correct: false
     },
     {
-        id: 11,
+        id: 7,
+        type: 'multiple',
+        question: 'Počet erytrocytů u muže je:',
+        options: [
+            '3.10¹²/l',
+            '4.10¹²/l',
+            '5.50¹²/l',
+            '6.10¹²/l'
+        ],
+        correct: 2
+    },
+    {
+        id: 9,
         type: 'boolean',
-        question: 'Geoda je dutina vyplněná krystaly.',
+        question: 'Červené krvinky v oběhu přežívají asi 120 dní.',
         correct: true
     },
     {
-        id: 12,
+        id: 10,
         type: 'multiple',
-        question: 'Amorfní minerály:',
+        question: 'Rozpad červených krvinek spojený s uvolňováním hemoglobinu se nazývá:',
         options: [
-            'Mají dokonalé krystaly',
-            'Krystaly netvoří',
-            'Tvoří pouze drúzy',
-            'Vznikají jen v geodách'
+            'Fagocytóza',
+            'Hemolýza',
+            'Hemokoagulace',
+            'Hemofilie'
         ],
         correct: 1
+    },
+    {
+        id: 12,
+        type: 'boolean',
+        question: 'Bílé krvinky jsou schopny améboidního pohybu.',
+        correct: true
     },
     {
         id: 13,
         type: 'multiple',
-        question: 'Minerály vznikají z magmatu procesem:',
+        question: 'Nejpočetnější skupinou granulocytů jsou:',
         options: [
-            'Zvětrávání',
-            'Krystalizace',
-            'Sedimentace',
-            'Oxidace'
+            'Bazofilní (50-70%)',
+            'Eozinofilní (50-70%)',
+            'Neutrofilní (50-70%)',
+            'Všechny stejně'
         ],
-        correct: 1
+        correct: 2
     },
     {
         id: 14,
-        type: 'boolean',
-        question: 'Čím pomaleji magma chladne, tím větší vznikají krystaly.',
-        correct: true
-    },
-    {
-        id: 15,
         type: 'multiple',
-        question: 'Při hlubinném tuhnutí magmatu vznikají:',
+        question: 'Lymfocyty tvoří z celkového počtu leukocytů:',
         options: [
-            'Drobné krystaly',
-            'Žádné krystaly',
-            'Velké, dobře vyvinuté krystaly',
-            'Pouze amorfní minerály'
+            '5-10%',
+            '10-20%',
+            '20-40%',
+            '40-60%'
         ],
         correct: 2
     },
     {
         id: 16,
         type: 'multiple',
-        question: 'Obsidián je:',
+        question: 'Počet trombocytů v krvi je asi:',
         options: [
-            'Hornina s velkými krystaly',
-            'Metamorfovaná hornina',
-            'Vulkanické sklo',
-            'Sedimentární hornina'
+            '150.10⁹/l',
+            '250.10⁹/l',
+            '350.10⁹/l',
+            '450.10⁹/l'
         ],
-        correct: 2
+        correct: 1
     },
     {
         id: 17,
         type: 'boolean',
-        question: 'Láva chladne rychleji než magma v hlubinách.',
-        correct: true
+        question: 'Trombocyty jsou pravé buňky s jádrem buňky.',
+        correct: false
     },
     {
         id: 18,
         type: 'multiple',
-        question: 'Hydrotermální žíly vznikají:',
+        question: 'Krevní skupina 0 má:',
         options: [
-            'Tuhnutím magmatu',
-            'Srážením z horkých vodních roztoků',
-            'Zvětráváním hornin',
-            'Sedimentací'
+            'Aglutinogen A',
+            'Aglutinogen B',
+            'Oba aglutinogeny',
+            'Žádný aglutinogen'
         ],
-        correct: 1
+        correct: 3
     },
     {
-        id: 19,
+        id: 21,
         type: 'multiple',
-        question: 'Lesk minerálu vzniká:',
+        question: 'Malý (plicní) oběh začína v:',
         options: [
-            'Průchodem světla minerálem',
-            'Odrazem světla od povrchu',
-            'Lomem světla',
-            'Absorpcí světla'
+            'Levé komoře',
+            'Pravé komoře',
+            'Levé síni',
+            'Pravé síni'
+        ],
+        correct: 1
+    },
+ {
+        id: 23,
+        type: 'boolean',
+        question: 'Vrátnicový oběh vede krev z trávicí soustavy přímo do dolní duté žíly.',
+        correct: false
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'Optimální systolický tlak by měl být v rozmezí:',
+        options: [
+        '60-75 torrů',
+        '120-140 torrů',
+        '150-190 torrů',
+        '190-225 torrů'
         ],
         correct: 1
     },
     {
-        id: 20,
+        id: 25,
         type: 'boolean',
-        question: 'V hydrotermálních žilách často nacházíme rudy kovů.',
+        question: 'Stěny vlásečnic tvoří jen jedna vrstva endotelových buněk.',
         correct: true
     },
-    ]
-
+    {
+        id: 26,
+        type: 'multiple',
+        question: 'Hmotnost srdce je asi:',
+        options: [
+            '200 g',
+            '300 g',
+            '400 g',
+            '500 g'
+        ],
+        correct: 1
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'Mezi levou síní a levou komorou je:',
+        options: [
+            'Chlopeň trojcípá',
+            'Chlopeň dvojcípá',
+            'Chlopeň poloměsíčitá',
+            'Žádná chlopeň'
+        ],
+        correct: 1
+    },
+    {
+        id: 28,
+        type: 'boolean',
+        question: 'Uzlík sinusový je "časovačem rytmu" srdeční činnosti.',
+        correct: true
+    },
+    {
+        id: 29,
+        type: 'multiple',
+        question: 'Průměrná hodnota klidové tepové frekvence je asi:',
+        options: [
+            '50-60/min',
+            '70-80/min',
+            '90-100/min',
+            '110-120/min'
+        ],
+        correct: 1
+    },
+    {
+        id: 31,
+        type: 'boolean',
+        question: 'Slezina je největší lymfatický orgán.',
+        correct: true
+    } 
+]
             };
             
             // ========================================
@@ -267,24 +305,7 @@
                 return shuffled;
             };
 
-            // 🎲 Zamíchání otázek + odpovědí
-            const [questions, setQuestions] = useState(() => {
-                const shuffledQuestions = shuffleArray(QUIZ_CONFIG.questions);
-                // Pro každou otázku typu 'multiple' zamíchat i odpovědi
-                return shuffledQuestions.map(q => {
-                    if (q.type === 'multiple') {
-                        const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
-                        const shuffledOptions = shuffleArray(optionsWithIndex);
-                        return {
-                            ...q,
-                            options: shuffledOptions.map(o => o.text),
-                            correct: shuffledOptions.findIndex(o => o.originalIndex === q.correct)
-                        };
-                    }
-                    return q;
-                });
-            });
-            
+            const [questions, setQuestions] = useState(() => shuffleArray(QUIZ_CONFIG.questions));
             const [currentQuestion, setCurrentQuestion] = useState(0);
             const [answers, setAnswers] = useState({});
             const [showResults, setShowResults] = useState(false);
@@ -294,85 +315,25 @@
             const [emailSent, setEmailSent] = useState(false);
             const [quizCompleted, setQuizCompleted] = useState(false);
             
-            // ⏱️ ČASOVAČ - nové state proměnné
-            const totalTimeLimit = QUIZ_CONFIG.timePerQuestion * questions.length;
-            const [timeLeft, setTimeLeft] = useState(totalTimeLimit);
+            // ⏱️ STOPKY - nové state proměnné
             const [startTime] = useState(Date.now());
-            const timeExpiredRef = useRef(false);
-            
-            // 🔍 DETEKCE PŘEPÍNÁNÍ OKEN
-            const [windowSwitches, setWindowSwitches] = useState(0);
+            const [elapsedTime, setElapsedTime] = useState(0);
 
-            // ⏱️ ČASOVAČ - odpočítávání
+            // ⏱️ STOPKY - spuštění časovače
             useEffect(() => {
-                if (showResults || quizCompleted) return;
-
                 const timer = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    const remaining = totalTimeLimit - elapsed;
-                    
-                    if (remaining <= 0 && !timeExpiredRef.current) {
-                        timeExpiredRef.current = true;
-                        setTimeLeft(0);
-                        setShowResults(true);
-                    } else {
-                        setTimeLeft(Math.max(0, remaining));
-                    }
+                    setElapsedTime(Date.now() - startTime);
                 }, 1000);
 
                 return () => clearInterval(timer);
-            }, [startTime, totalTimeLimit, showResults, quizCompleted]);
-
-            // 🔍 DETEKCE PŘEPÍNÁNÍ OKEN
-            useEffect(() => {
-                if (showResults || quizCompleted) return;
-
-                const handleVisibilityChange = () => {
-                    if (document.hidden) {
-                        setWindowSwitches(prev => prev + 1);
-                    }
-                };
-
-                const handleBlur = () => {
-                    setWindowSwitches(prev => prev + 1);
-                };
-
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-                window.addEventListener('blur', handleBlur);
-
-                return () => {
-                    document.removeEventListener('visibilitychange', handleVisibilityChange);
-                    window.removeEventListener('blur', handleBlur);
-                };
-            }, [showResults, quizCompleted]);
-
-            // 🔒 ZÁKAZ KOPÍROVÁNÍ TEXTU
-            useEffect(() => {
-                const preventCopy = (e) => e.preventDefault();
-                const preventContextMenu = (e) => e.preventDefault();
-
-                document.addEventListener('copy', preventCopy);
-                document.addEventListener('cut', preventCopy);
-                document.addEventListener('contextmenu', preventContextMenu);
-
-                return () => {
-                    document.removeEventListener('copy', preventCopy);
-                    document.removeEventListener('cut', preventCopy);
-                    document.removeEventListener('contextmenu', preventContextMenu);
-                };
-            }, []);
+            }, [startTime]);
 
             // Formátování času pro zobrazení
-            const formatTime = (seconds) => {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${mins} minut ${secs} sekund`;
-            };
-
-            // Zjištění skutečného času strávení
-            const getElapsedTime = () => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                return Math.min(elapsed, totalTimeLimit);
+            const formatTime = (milliseconds) => {
+                const totalSeconds = Math.floor(milliseconds / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                return `${minutes} minut ${seconds} sekund`;
             };
 
             // Kontrola, jestli student už kvíz vyplnil
@@ -425,14 +386,18 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
                 const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
-                const elapsedSeconds = getElapsedTime();
-                const timeSpent = formatTime(elapsedSeconds);
+                const timeSpent = formatTime(elapsedTime); // ⏱️ Čas do e-mailu
                 
                 // NEJDŘÍVE označit kvíz jako dokončený
                 const completedKey = `quiz_completed_${QUIZ_CONFIG.title}`;
@@ -440,8 +405,7 @@
                     name: fullName,
                     date: new Date().toISOString(),
                     score: `${score}/${questions.length}`,
-                    time: timeSpent,
-                    windowSwitches: windowSwitches
+                    time: timeSpent
                 };
                 localStorage.setItem(completedKey, JSON.stringify(completionData));
                 
@@ -474,8 +438,7 @@
                     percentage: `${percentage}%`,
                     grade: grade,
                     date: new Date().toLocaleDateString('cs-CZ'),
-                    time: timeSpent,
-                    window_switches: windowSwitches, // 🔍 Počet přepnutí oken
+                    time: timeSpent, // ⏱️ Čas v e-mailu
                     answers_details: answersDetails
                 };
 
@@ -525,11 +488,6 @@
                                                 <strong>Čas:</strong> {completionData.time}
                                             </p>
                                         )}
-                                        {completionData.windowSwitches !== undefined && completionData.windowSwitches > 0 && (
-                                            <p className="text-gray-700 mb-2">
-                                                <strong>Přepnutí oken:</strong> {completionData.windowSwitches}×
-                                            </p>
-                                        )}
                                         <p className="text-gray-700">
                                             <strong>Datum:</strong> {new Date(completionData.date).toLocaleString('cs-CZ')}
                                         </p>
@@ -547,9 +505,6 @@
             if (showResults) {
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
-                const elapsedSeconds = getElapsedTime();
-                const timeSpent = formatTime(elapsedSeconds);
-                const wasTimeExpired = timeExpiredRef.current;
                 
                 return (
                     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
@@ -559,33 +514,11 @@
                             </h1>
                             
                             {/* ⏱️ ZOBRAZENÍ ČASU */}
-                            <div className={`border-2 rounded-lg p-4 mb-4 text-center ${wasTimeExpired ? 'bg-red-100 border-red-400' : 'bg-blue-100 border-blue-400'}`}>
-                                <div className={`text-2xl font-bold ${wasTimeExpired ? 'text-red-800' : 'text-blue-800'}`}>
-                                    {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
+                            <div className="bg-blue-100 border-2 border-blue-400 rounded-lg p-4 mb-6 text-center">
+                                <div className="text-2xl font-bold text-blue-800">
+                                    ⏱️ Čas: {formatTime(elapsedTime)}
                                 </div>
-                                {wasTimeExpired && (() => {
-                                    const unansweredCount = questions.length - Object.keys(answers).length;
-                                    return (
-                                        <p className="text-red-700 text-sm mt-2">
-                                            Kvíz byl automaticky ukončen po {formatTime(totalTimeLimit)}. Nevyplněné otázky jsou hodnoceny 0 body.
-                                            <br />
-                                            <strong>Nezodpovězených otázek: {unansweredCount}</strong>
-                                        </p>
-                                    );
-                                })()}
                             </div>
-
-                            {/* 🔍 ZOBRAZENÍ PŘEPNUTÍ OKEN */}
-                            {windowSwitches > 0 && (
-                                <div className="bg-orange-50 border-2 border-orange-400 rounded-lg p-4 mb-6 text-center">
-                                    <div className="text-xl font-bold text-orange-800">
-                                        ⚠️ Přepnutí oken: {windowSwitches}×
-                                    </div>
-                                    <p className="text-orange-700 text-sm mt-2">
-                                        Během kvízu jsi {windowSwitches}× přepnul na jinou záložku nebo okno. Tato informace bude odeslána učiteli.
-                                    </p>
-                                </div>
-                            )}
                             
                             <div className="text-center mb-8">
                                 <div className="text-6xl font-bold text-indigo-600 mb-2">
@@ -613,10 +546,7 @@
                                 <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-6 mb-6">
                                     <h2 className="text-lg font-bold text-gray-800 mb-3">📧 Odeslat výsledky učiteli</h2>
                                     <p className="text-gray-600 text-sm mb-4">
-                                        {wasTimeExpired 
-                                            ? 'Čas vypršel. Pro odeslání výsledků vyplň své jméno a příjmení.'
-                                            : 'Vyplň své jméno a příjmení. Výsledky budou automaticky odeslány učiteli.'
-                                        }
+                                        Vyplň své jméno a příjmení. Výsledky budou automaticky odeslány učiteli.
                                     </p>
                                     <div className="grid grid-cols-2 gap-3 mb-3">
                                         <input
@@ -637,7 +567,7 @@
                                         />
                                     </div>
                                     <button
-                                        onClick={() => sendResultsEmail()}
+                                        onClick={sendResultsEmail}
                                         disabled={isSending}
                                         className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                                     >
@@ -652,7 +582,7 @@
                                     <p className="text-green-800 font-semibold text-lg mb-2">
                                         Výsledky byly úspěšně odeslány učiteli!
                                     </p>
-                                    <p className="text-gray-800 font-bold text-2xl mt-4">
+                                    <p className="text-gray-700 text-base">
                                         Nyní můžeš zavřít prohlížeč.
                                     </p>
                                 </div>
@@ -716,22 +646,6 @@
 
             const q = questions[currentQuestion];
             const isAnswered = answers[currentQuestion] !== undefined;
-            
-            // Výpočet barev podle zbývajícího času
-            const isTimeCritical = timeLeft <= 120; // 2 minuty nebo méně
-            const isTimeVeryLow = timeLeft <= 60; // 1 minuta nebo méně
-            
-            const timerColor = isTimeVeryLow 
-                ? 'bg-red-100 border-red-500' 
-                : isTimeCritical 
-                    ? 'bg-orange-100 border-orange-400' 
-                    : 'bg-blue-100 border-blue-400';
-                    
-            const timerTextColor = isTimeVeryLow 
-                ? 'text-red-800' 
-                : isTimeCritical 
-                    ? 'text-orange-800' 
-                    : 'text-blue-800';
 
             return (
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
@@ -746,16 +660,11 @@
                                 </span>
                             </div>
                             
-                            {/* ⏱️ ZOBRAZENÍ ČASOVAČE */}
-                            <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
-                                <div className={`text-xl font-bold ${timerTextColor}`}>
-                                    {isTimeVeryLow ? '🔴' : isTimeCritical ? '⚠️' : '⏰'} Zbývající čas: {formatTime(timeLeft)}
+                            {/* ⏱️ ZOBRAZENÍ STOPEK */}
+                            <div className="bg-blue-100 border-2 border-blue-400 rounded-lg p-3 mb-4 text-center">
+                                <div className="text-xl font-bold text-blue-800">
+                                    ⏱️ Čas: {formatTime(elapsedTime)}
                                 </div>
-                                {isTimeCritical && (
-                                    <p className={`text-sm mt-1 ${timerTextColor}`}>
-                                        {isTimeVeryLow ? 'Čas téměř vypršel!' : 'Pozor, zbývá málo času!'}
-                                    </p>
-                                )}
                             </div>
                             
                             <div className="w-full bg-gray-200 rounded-full h-2">

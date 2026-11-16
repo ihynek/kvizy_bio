@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Měkkýši (Mollusca)</title>
+    <title>Kvíz: Centrální dogma molekulární biologie</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,434 +51,186 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Měkkýši (Mollusca)",
+                title: "Centrální dogma molekulární biologie",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 19, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Která charakteristika je typická pro všechny měkkýše?',
+        question: 'Centrální dogma molekulární biologie popisuje tok:',
         options: [
-            'Tělo chráněné chitinovou kutikulou',
-            'Tělo měkké, nesegmentované, často chráněné schránkou',
-            'Výhradně vodní způsob života',
-            'Přítomnost exoskeletu z chitinu'
+            'energie v buňce',
+            'látek přes buněčnou membránu',
+            'elektronů v dýchacím řetězci',
+            'genetické informace v buňce'
         ],
-        correct: 1
+        correct: 3
     },
     {
         id: 2,
         type: 'multiple',
-        question: 'Které tři hlavní části tvoří tělo měkkýšů?',
+        question: 'Proces přepisu genetické informace z DNA do RNA se nazývá:',
         options: [
-            'Thorax, abdomen, karapax',
-            'Hlava, hruď, zadeček',
-            'Hlava, útrobní vak, noha',
-            'Předotělí, mezotělí, zadotělí'
+            'replikace',
+            'translace',
+            'transkripce',
+            'transformace'
         ],
         correct: 2
     },
     {
         id: 3,
         type: 'multiple',
-        question: 'Schránka měkkýšů je tvořena převážně:',
+        question: 'Kodon je:',
         options: [
-            'Chitinem',
-            'Křemičitany',
-            'Celulózou',
-            'Uhličitanem vápenatým (CaCO₃)'
-        ],
-        correct: 3
-    },
-    {
-        id: 4,
-        type: 'boolean',
-        question: 'Radula je unikátní struktura měkkýšů sloužící k seškrabávání potravy a je přítomna u všech tříd měkkýšů.',
-        correct: false
-    },
-    {
-        id: 5,
-        type: 'multiple',
-        question: 'Hemolymfa měkkýšů obsahuje:',
-        options: [
-            'Hemocyanin s mědí (modré barvivo)',
-            'Hemoglobin s železem (červené barvivo)',
-            'Chlorofyl',
-            'Cytochrom'
+            'trojice nukleotidů na mRNA kódující jednu aminokyselinu',
+            'trojice nukleotidů na DNA',
+            'jednotlivý nukleotid',
+            'spojení dvou aminokyselin'
         ],
         correct: 0
     },
     {
-        id: 6,
+        id: 4,
         type: 'multiple',
-        question: 'Torze u plžů znamená:',
+        question: 'Translace probíhá:',
         options: [
-            'Zkroucení schránky do spirály',
-            'Ztrátu schránky během vývoje',
-            'Vznik asymetrie nohy',
-            'Otočení útrobního vaku o 180° během vývoje larvy'
+            'v jádře buňky',
+            'na ribozomech',
+            'v mitochondriích',
+            'na buněčné membráně'
+        ],
+        correct: 1
+    },
+    {
+        id: 5,
+        type: 'multiple',
+        question: 'Která dusíkatá báze se nachází v RNA, ale nikoli v DNA?',
+        options: [
+            'adenin',
+            'guanin',
+            'cytosin',
+            'uracil'
         ],
         correct: 3
+    },
+    {
+        id: 6,
+        type: 'multiple',
+        question: 'Replikace DNA probíhá:',
+        options: [
+            'konzervativně',
+            'disperzivně',
+            'semikonzervativně',
+            'náhodně'
+        ],
+        correct: 2
     },
     {
         id: 7,
-        type: 'boolean',
-        question: 'Suchozemští plži dýchají kyslík ze vzduchu pomocí plicního vaku, který vznikl přeměnou pláštové dutiny.',
-        correct: true
+        type: 'multiple',
+        question: 'Enzym katalyzující syntézu RNA podle předlohy DNA se nazývá:',
+        options: [
+            'RNA polymeráza',
+            'DNA polymeráza',
+            'helikáza',
+            'ligáza'
+        ],
+        correct: 0
     },
     {
         id: 8,
-        type: 'multiple',
-        question: 'Hlemýžď zahradní (Helix pomatia) je:',
-        options: [
-            'Invazivní škůdce bez schránky',
-            'Hermafrodit, který je v ČR chráněný zákonem',
-            'Dravý plž s jedovým bodcem',
-            'Vodní plž s žábrami'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Centrální dogma molekulární biologie popisuje jednosměrný tok informace: DNA → RNA → protein.',
+        correct: true
     },
     {
         id: 9,
-        type: 'multiple',
-        question: 'Které přizpůsobení umožňují plžům přežít v příboji?',
-        options: [
-            'Dlouhá chapadla pro uchycení',
-            'Silná přísavná noha a nízká schránka odolná vlnám',
-            'Plicní vak pro dýchání',
-            'Radula pro vrtání do skal'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'Při replikaci vznikají dvě identické molekuly DNA, z nichž každá obsahuje jeden původní a jeden nový řetězec.',
+        correct: true
     },
     {
         id: 10,
-        type: 'multiple',
-        question: 'Homolice (Conus) loví kořist pomocí:',
-        options: [
-            'Silné raduly s mechanickým účinkem',
-            'Lepkavého slizu',
-            'Přísavek na chapadlech',
-            'Jedového bodce s neurotoxinem'
-        ],
-        correct: 3
+        type: 'boolean',
+        question: 'Transkripce probíhá na ribozomech v cytoplazmě.',
+        correct: false
     },
     {
         id: 11,
         type: 'boolean',
-        question: 'Nahožábří plži (Nudibranchia) nemají schránku a některé druhy dokáží ukládat žahavé buňky z kořisti do vlastního těla.',
+        question: 'Antikodon je trojice nukleotidů na tRNA komplementární ke kodonu na mRNA.',
         correct: true
     },
     {
         id: 12,
-        type: 'multiple',
-        question: 'Plzák španělský (Arion vulgaris) způsobuje v ČR problémy, protože:',
-        options: [
-            'Je parazit hospodářských zvířat',
-            'Je invazivní druh, velmi plodný a odolný vůči suchu',
-            'Přenáší nebezpečné nákazy na člověka',
-            'Je chráněný druh, který nelze hubit'
-        ],
-        correct: 1
+        type: 'boolean',
+        question: 'V RNA se místo thyminu nachází uracil.',
+        correct: true
     },
     {
         id: 13,
         type: 'multiple',
-        question: 'Které vodní plži slouží jako mezihostitele parazitů člověka?',
+        question: 'mRNA (mediátorová RNA) má funkci:',
         options: [
-            'Hlemýžď zahradní',
-            'Homolice',
-            'Plzák španělský',
-            'Lymnaea (motolice jaterní) a Biomphalaria (schistosóza)'
+            'přenášet aminokyseliny k ribozomu',
+            'přenášet genetickou informaci z jádra k ribozomům',
+            'tvořit strukturní součást ribozomů',
+            'katalyzovat sestřih pre-mRNA'
         ],
-        correct: 3
+        correct: 1
     },
     {
         id: 14,
         type: 'multiple',
-        question: 'Perleť používaná pro výrobu šperků pochází z:',
+        question: 'tRNA (transferová RNA) má funkci:',
         options: [
-            'Vnější organické vrstvy schránky (periostrakum)',
-            'Ztužené slizové žlázy',
-            'Vápenaté kůstky v plášti',
-            'Vnitřní vrstvy schránky (hypostrakum)'
+            'přenášet genetickou informaci z jádra',
+            'tvořit strukturní součást ribozomů',
+            'katalyzovat replikaci DNA',
+            'přenášet aminokyseliny k ribozomu'
         ],
         correct: 3
     },
     {
         id: 15,
         type: 'multiple',
-        question: 'Eric Kandel získal Nobelovu cenu za výzkum paměti na:',
+        question: 'Ribozom je tvořen:',
         options: [
-            'Mořském plži Aplysia',
-            'Hlemýždi zahradním',
-            'Homolici',
-            'Octomilce'
-        ],
-        correct: 0
-    },
-    {
-        id: 16,
-        type: 'multiple',
-        question: 'Která charakteristika je typická pro všechny mlže?',
-        options: [
-            'Vysoce rozvinutá hlava se smyslovými orgány',
-            'Schránka tvořená dvěma vápenatými klapkami',
-            'Radula sloužící k příjmu potravy',
-            'Tryskový pohyb pomocí nálevky'
-        ],
-        correct: 1
-    },
-    {
-        id: 17,
-        type: 'boolean',
-        question: 'Ligament u mlžů je pružná struktura spojující dvě klapky schránky.',
-        correct: true
-    },
-    {
-        id: 18,
-        type: 'multiple',
-        question: 'Filtrační výživa mlžů probíhá tak, že:',
-        options: [
-            'Radula seškrabává řasy z kamenů',
-            'Toxiny paralyzují kořist',
-            'Řasinky na žábrách vytváří proud vody a částice jsou zachyceny slizem',
-            'Byssová vlákna zachycují plankton'
+            'pouze proteiny',
+            'pouze DNA',
+            'rRNA a proteiny',
+            'mRNA a lipidy'
         ],
         correct: 2
     },
-    {
+     {
         id: 19,
-        type: 'multiple',
-        question: 'Žábry mlžů plní dvojí funkci:',
-        options: [
-            'Dýchání a filtrace potravy',
-            'Dýchání a pohyb',
-            'Filtrace a rozmnožování',
-            'Pohyb a reprodukce'
-        ],
-        correct: 0
-    },
-    {
-        id: 20,
-        type: 'multiple',
-        question: 'Krystalický styl ve žaludku mlžů:',
-        options: [
-            'Je vápěnatá podpůrná struktura',
-            'Slouží k filtraci vody',
-            'Vytváří byssová vlákna',
-            'Rotuje a produkuje trávicí enzymy'
-        ],
-        correct: 3
-    },
-    {
-        id: 21,
         type: 'boolean',
-        question: 'Jeden mlž může přefiltrovat 40-100 litrů vody denně, čímž významně přispívá k čištění vody.',
+        question: 'Genetický kód je degenerovaný – více kodonů může kódovat stejnou aminokyselinu.',
         correct: true
     },
-    {
-        id: 22,
+     {
+        id: 21,
         type: 'multiple',
-        question: 'Slávka jedlá (Mytilus edulis) se upevňuje na podklad pomocí:',
+        question: 'Stop kodony (UAA, UAG, UGA) při translaci:',
         options: [
-            'Byssových vláken',
-            'Cementování levou klapkou',
-            'Přísavné nohy',
-            'Vrtáním do horniny'
+            'kódují speciální aminokyseliny',
+            'urychlují syntézu proteinu',
+            'zahajují translaci',
+            'ukončují syntézu polypeptidového řetězce'
         ],
-        correct: 0
-    },
-    {
-        id: 23,
-        type: 'multiple',
-        question: 'Která tvrzení o ústřici jedlé (Ostrea edulis) jsou pravdivá?',
-        options: [
-            'Je hermafrodit se střídáním pohlaví',
-            'Je volně pohyblivá po mořském dně',
-            'Roste velmi rychle (konzumní za 3 měsíce)',
-            'Má schránku ze tří klapek'
-        ],
-        correct: 0
-    },
-    {
-        id: 24,
-        type: 'multiple',
-        question: 'Glochidium u sladkovodních mlžů je:',
-        options: [
-            'Vývojové stadium v planktonu jako u mořských mlžů',
-            'Speciální parazitická larva s háčky, která parazituje na rybách',
-            'Dospělý samec připravený k rozmnožování',
-            'Trávicí enzym v krystalickém stylu'
-        ],
-        correct: 1
+        correct: 3
     },
     {
         id: 25,
-        type: 'multiple',
-        question: 'Lodní červotoč (Teredo navalis) způsobuje škody tím, že:',
-        options: [
-            'Přenáší nebezpečné nákazy na ryby',
-            'Vytváří toxiny paralyzující nervový systém',
-            'Filtruje vodu příliš rychle',
-            'Vrtá do dřeva pomocí schránky a živí se dřevem'
-        ],
-        correct: 3
-    },
-    {
-        id: 26,
         type: 'boolean',
-        question: 'Perlorodka říční (Margaritifera margaritifera) je kriticky ohrožená a může se dožít 100-200 let.',
+        question: 'Reverzní transkripce je přepis genetické informace z RNA do DNA a vyskytuje se u některých virů.',
         correct: true
-    },
-    {
-        id: 27,
-        type: 'multiple',
-        question: 'Perlorodka říční je ohrožená kvůli:',
-        options: [
-            'Přemnožení predátorů',
-            'Znečištění vod a úbytku hostitelských lososovitých ryb',
-            'Příliš rychlému rozmnožování',
-            'Konkurenci s invazními druhy plžů'
-        ],
-        correct: 1
-    },
-    {
-        id: 28,
-        type: 'multiple',
-        question: 'Ming, slávka druhu Arctica islandica, byla významná tím, že:',
-        options: [
-            'Vytvořila největší perlu v historii',
-            'Byla první uměle pěstovaná slávka',
-            'Objevila nový druh symbiotických bakterií',
-            'Byla nejstarší známý živočich (507 let)'
-        ],
-        correct: 3
-    },
-    {
-        id: 29,
-        type: 'multiple',
-        question: 'Perly vznikají tak, že:',
-        options: [
-            'Schránka se vrství jen v mládí mlže',
-            'Plášť obaluje cizorodou částici vrstvami perleti',
-            'Krystalický styl mineralizuje a vytváří perlu',
-            'Glochidium se přemění na perlu'
-        ],
-        correct: 1
-    },
-    {
-        id: 30,
-        type: 'boolean',
-        question: 'Mlži jsou využíváni jako bioindikátory, protože akumulují toxiny z vody a nemohou uniknout ze znečištěné lokality.',
-        correct: true
-    },
-    {
-        id: 31,
-        type: 'multiple',
-        question: 'Název Cephalopoda znamená:',
-        options: [
-            'Velká hlava',
-            'Hlavonoží - noha přeměněna v chapadla vycházející z hlavy',
-            'Chápavé rameno',
-            'Osmiramenní'
-        ],
-        correct: 1
-    },
-    {
-        id: 32,
-        type: 'multiple',
-        question: 'Která tvrzení o hlavonožcích jsou pravdivá?',
-        options: [
-            'Všichni mají vnější spirálovou schránku',
-            'Jsou to nejinteligentnější bezobratlí s uzavřenou oběhovou soustavou',
-            'Pohybují se pomocí byssových vláken',
-            'Filtrují plankton jako mlži'
-        ],
-        correct: 1
-    },
-    {
-        id: 33,
-        type: 'multiple',
-        question: 'Počet chapadel je:',
-        options: [
-            'U všech hlavonožců stejný (10 ramen)',
-            'Chobotnice: 8, Olihně a sépie: 10, Loděnka: asi 90',
-            'Chobotnice: 6, Olihně: 8, Loděnka: 4',
-            'Počet se mění s věkem jedince'
-        ],
-        correct: 1
-    },
-    {
-        id: 34,
-        type: 'boolean',
-        question: 'Přísavky na chapadlech hlavonožců obsahují chemoreceptory (chuť) a mechanoreceptory (dotek).',
-        correct: true
-    },
-    {
-        id: 35,
-        type: 'multiple',
-        question: 'Tryskový pohyb hlavonožců funguje tak, že:',
-        options: [
-            'Chapadla fungují jako vesla',
-            'Schránka se naplní vodou a vytvoří vztlak',
-            'Byssová vlákna se stáhnou',
-            'Plášť nasaje vodu, uzavře se a rychle stáhne - voda vytryskne nálevkou'
-        ],
-        correct: 3
-    },
-    {
-        id: 36,
-        type: 'multiple',
-        question: 'Schránka je u hlavonožců upravena takto:',
-        options: [
-            'Všichni mají vnější spirálovou schránku',
-            'Loděnka: vnější schránka, Sépie: vnitřní "kost", Olihně: pero, Chobotnice: bez schránky',
-            'Všichni hlavonožci schránku ztratili',
-            'Schránka se tvoří pouze v období rozmnožování'
-        ],
-        correct: 1
-    },
-    {
-        id: 37,
-        type: 'boolean',
-        question: 'Mozek chobotnice má asi 500 milionů neuronů a 2/3 neuronů je umístěno v chapadlech.',
-        correct: true
-    },
-    {
-        id: 38,
-        type: 'multiple',
-        question: 'Oči hlavonožců:',
-        options: [
-            'Jsou jednoduché bez čočky',
-            'Jsou podobné očím obratlovců, ale nemají slepou skvrnu',
-            'Nerozlišují barvy',
-            'Fungují jen při naprosté tmě'
-        ],
-        correct: 1
-    },
-    {
-        id: 39,
-        type: 'boolean',
-        question: 'Inkoust (sepia) u hlavonožců obsahuje melanin a slouží k obraně - vytváří kouřovou clonu a může paralyzovat čichové receptory predátorů.',
-        correct: true
-    },
-    {
-        id: 40,
-        type: 'multiple',
-        question: 'Inteligence hlavonožců se projevuje tím, že:',
-        options: [
-            'Mají pouze instinktivní chování bez učení',
-            'Mají paměť, řeší problémy a používají nástroje',
-            'Jejich inteligence je stejná jako u primátů',
-            'Nemohou se učit ze zkušenosti'
-        ],
-        correct: 1
     }
 ]
-
-
             };
             
             // ========================================
@@ -585,19 +341,6 @@
                 };
             }, []);
 
-            // 🚪 VAROVÁNÍ PŘI ZAVŘENÍ STRÁNKY
-            useEffect(() => {
-                const handleBeforeUnload = (e) => {
-                    if (!showResults && !quizCompleted && Object.keys(answers).length > 0) {
-                        e.preventDefault();
-                        e.returnValue = '';
-                        return '';
-                    }
-                };
-                window.addEventListener('beforeunload', handleBeforeUnload);
-                return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-            }, [showResults, quizCompleted, answers]);
-
             // Formátování času pro zobrazení
             const formatTime = (seconds) => {
                 const mins = Math.floor(seconds / 60);
@@ -658,6 +401,11 @@
 
                 if (EMAILJS_CONFIG.publicKey === "DOPLŇ-SEM-PUBLIC-KEY") {
                     alert('EmailJS není správně nakonfigurován. Zkontroluj EMAILJS_CONFIG v kódu.');
+                    return;
+                }
+
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
                     return;
                 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Svalová soustava</title>
+    <title>Kvíz: Minerály_2</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -41,317 +45,216 @@
         =============================================================================
         */
 
-        const SvalyQuiz = () => {
+        const MuscleQuiz = () => {
             // ========================================
             // NASTAVENÍ KVÍZU - TADY MĚNÍŠ OBSAH
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Svalová soustava",
+                title: "Minerály_2",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 12, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
-            {
-                "id": 1,
-                "type": "boolean",
-                "question": "Červená svalová vlákna obsahují mnoho mitochondrií a glukózu spalují přednostně aerobně.",
-                "correct": true
-            },
-            {
-                "id": 2,
-                "type": "boolean",
-                "question": "Krejčovský sval je nejmohutnějším svalem lidského těla.",
-                "correct": false
-            },
-            {
-                "id": 3,
-                "type": "boolean",
-                "question": "Mimické svaly se často upínají jen jedním koncem na kost, druhým do podkoží, a nemají svalovou povázku.",
-                "correct": true
-            },
-            {
-                "id": 4,
-                "type": "boolean",
-                "question": "Duchennovou svalovou dystrofií jsou častěji postiženy ženy, protože mají dva chromozomy X.",
-                "correct": false
-            },
-            {
-                "id": 5,
-                "type": "multiple",
-                "question": "Základní jednotkou, do které jsou v příčně pruhované svalovině uspořádány aktin a myozin, je:",
-                "options": [
-                    "myofibrila",
-                    "sarkomera",
-                    "syncytium",
-                    "svalový snopeček"
-                ],
-                "correct": 1
-            },
-            {
-                "id": 6,
-                "type": "multiple",
-                "question": "Malá zásoba hotového ATP ve svalových vláknech vydrží přibližně:",
-                "options": [
-                    "2 sekundy",
-                    "15 sekund",
-                    "90 sekund",
-                    "20 minut"
-                ],
-                "correct": 0
-            },
-            {
-                "id": 7,
-                "type": "multiple",
-                "question": "Kreatin-fosfát slouží ve svalu k:",
-                "options": [
-                    "přenosu kyslíku z krve do vláken",
-                    "odvádění laktátu do jater",
-                    "rychlé obnově ATP z ADP",
-                    "transportu mastných kyselin do mitochondrií"
-                ],
-                "correct": 2
-            },
-            {
-                "id": 8,
-                "type": "multiple",
-                "question": "Chemickým přenašečem mezi motorickým neuronem a svalovou buňkou je:",
-                "options": [
-                    "kreatinin",
-                    "myoglobin",
-                    "adrenalin",
-                    "acetylcholin"
-                ],
-                "correct": 3
-            },
-            {
-                "id": 9,
-                "type": "multiple",
-                "question": "Vápenaté kationty se při zahájení svalového stahu uvolňují z:",
-                "options": [
-                    "sarkoplazmatického retikula",
-                    "jádra svalové buňky",
-                    "mitochondrií",
-                    "váčků v zakončení neuronu"
-                ],
-                "correct": 0
-            },
-            {
-                "id": 10,
-                "type": "multiple",
-                "question": "Laktát vzniká ve svalu při:",
-                "options": [
-                    "aerobním štěpení glukózy",
-                    "odbourávání tuků v mitochondriích",
-                    "anaerobním štěpení glukózy",
-                    "štěpení kreatin-fosfátu"
-                ],
-                "correct": 2
-            },
-            {
-                "id": 11,
-                "type": "multiple",
-                "question": "Myoglobin se od hemoglobinu liší tím, že:",
-                "options": [
-                    "má jen jednu hemovou jednotku a větší afinitu ke kyslíku",
-                    "má více hemových jednotek a menší afinitu ke kyslíku",
-                    "kyslík vůbec neváže",
-                    "se nachází v krvi, nikoli ve svalech"
-                ],
-                "correct": 0
-            },
-            {
-                "id": 12,
-                "type": "multiple",
-                "question": "Výraz „hitting the wall“ ve vytrvalostních sportech označuje stav, kdy:",
-                "options": [
-                    "se přetrhne Achillova šlacha",
-                    "se ve svalech nahromadí kreatinin",
-                    "dojde ke křeči z nedostatku hořčíku",
-                    "se vyčerpají zásoby glykogenu a převládne rozklad lipidů"
-                ],
-                "correct": 3
-            },
-            {
-                "id": 13,
-                "type": "multiple",
-                "question": "Při nedostatku hořečnatých kationtů mohou vznikat:",
-                "options": [
-                    "svalové dystrofie",
-                    "břišní kýly",
-                    "svalové křeče",
-                    "záněty úponů šlach"
-                ],
-                "correct": 2
-            },
-            {
-                "id": 14,
-                "type": "multiple",
-                "question": "Svaly, které pracují proti sobě (např. dvojhlavý a trojhlavý sval pažní), označujeme jako:",
-                "options": [
-                    "synergisty",
-                    "antagonisty",
-                    "adduktory",
-                    "sfinktery"
-                ],
-                "correct": 1
-            },
-            {
-                "id": 15,
-                "type": "multiple",
-                "question": "Nejmohutnějším svalem krku je:",
-                "options": [
-                    "platyzma",
-                    "trapézový sval",
-                    "zevní sval žvýkací",
-                    "kývač hlavy"
-                ],
-                "correct": 3
-            },
-            {
-                "id": 16,
-                "type": "multiple",
-                "question": "Pro nadechování slouží kromě bránice:",
-                "options": [
-                    "vnitřní mezižeberní svaly",
-                    "zevní mezižeberní svaly",
-                    "přímé svaly břišní",
-                    "svaly pánevního dna"
-                ],
-                "correct": 1
-            },
-            {
-                "id": 17,
-                "type": "multiple",
-                "question": "Hamstringy jsou svaly, které leží:",
-                "options": [
-                    "na zadní straně stehna",
-                    "na přední straně stehna",
-                    "na vnitřní straně stehna",
-                    "v lýtku"
-                ],
-                "correct": 0
-            },
-            {
-                "id": 18,
-                "type": "multiple",
-                "question": "Trojhlavý sval lýtkový při kontrakci:",
-                "options": [
-                    "uvádí nohu „do fajfky“",
-                    "natahuje nohu v kolenním kloubu",
-                    "propíná špičku nohy (plantární flexe)",
-                    "přitahuje stehno ke střední ose těla"
-                ],
-                "correct": 2
-            },
-            {
-                "id": 19,
-                "type": "multiple",
-                "question": "Čéška vzniká ve šlaše:",
-                "options": [
-                    "dvojhlavého svalu stehenního",
-                    "krejčovského svalu",
-                    "trojhlavého svalu lýtkového",
-                    "čtyřhlavého svalu stehenního"
-                ],
-                "correct": 3
-            },
-            {
-                "id": 20,
-                "type": "multiple",
-                "question": "Mutace genu pro myostatin (tzv. Herkulův gen) způsobuje:",
-                "options": [
-                    "postupné nahrazování svalů tukem",
-                    "velkou masu svalové tkáně",
-                    "poškození mitochondriální DNA",
-                    "povolení svalů pánevního dna"
-                ],
-                "correct": 1
-            },
-            {
-                "id": 21,
-                "type": "multiple",
-                "question": "Syndrom karpálního tunelu vzniká útlakem:",
-                "options": [
-                    "Achillovy šlachy",
-                    "úponů natahovačů předloktí",
-                    "motorického nervu v lýtku",
-                    "středového nervu v oblasti zápěstí"
-                ],
-                "correct": 3
-            },
-            {
-                "id": 22,
-                "type": "checkbox",
-                "question": "Která tvrzení platí pro bílá svalová vlákna?",
-                "options": [
-                    "obsahují mnoho myoglobinu",
-                    "glukózu štěpí anaerobně",
-                    "vzniká v nich laktát",
-                    "jsou typická pro svaly vytrvalců",
-                    "podají okamžitý velký, ale krátkodobý výkon",
-                    "tvoří vzpřimovač páteře"
-                ],
-                "correct": [
-                    1,
-                    2,
-                    4
-                ]
-            },
-            {
-                "id": 23,
-                "type": "checkbox",
-                "question": "Které svaly patří mezi mimické?",
-                "options": [
-                    "zevní sval žvýkací",
-                    "kruhový sval ústní",
-                    "spánkový sval",
-                    "sval smíchový",
-                    "čelní sval",
-                    "kývač hlavy"
-                ],
-                "correct": [
-                    1,
-                    3,
-                    4
-                ]
-            },
-            {
-                "id": 24,
-                "type": "checkbox",
-                "question": "Které svaly patří k dolní končetině?",
-                "options": [
-                    "krejčovský sval",
-                    "deltový sval",
-                    "bedrokyčlostehenní sval",
-                    "široký zádový sval",
-                    "přední sval pilovitý",
-                    "trubačský sval"
-                ],
-                "correct": [
-                    0,
-                    2
-                ]
-            },
-            {
-                "id": 25,
-                "type": "checkbox",
-                "question": "Co se děje během svalového stahu?",
-                "options": [
-                    "ze sarkoplazmatického retikula se uvolní Ca²⁺",
-                    "z mitochondrií se uvolní myoglobin",
-                    "sodno-draselná pumpa přestane spotřebovávat ATP",
-                    "acetylcholin se naváže na receptor svalového vlákna",
-                    "vápník zakryje vazebná místa na aktinu",
-                    "myozin se ohne a přisune aktinové vlákno"
-                ],
-                "correct": [
-                    0,
-                    3,
-                    5
-                ]
-            }
-    ]
+    {
+        id: 21,
+        type: 'multiple',
+        question: 'Metamorfóza minerálů probíhá:',
+        options: [
+            'Roztavením horniny',
+            'Za vysokých teplot a tlaků bez roztavení',
+            'Rychlým ochlazením',
+            'Rozpuštěním ve vodě'
+        ],
+        correct: 1
+    },
+    {
+        id: 22,
+        type: 'multiple',
+        question: 'Diamant vzniká z grafitu působením:',
+        options: [
+            'Nízké teploty',
+            'Nízkého tlaku',
+            'Extrémního tlaku a teploty',
+            'Rozpuštění ve vodě'
+        ],
+        correct: 2
+    },
+    {
+        id: 23,
+        type: 'boolean',
+        question: 'Grafit a diamant jsou oba tvořeny uhlíkem.',
+        correct: true
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'Mramor vzniká metamorfózou:',
+        options: [
+            'Žuly',
+            'Vápence',
+            'Pískovce',
+            'Jílovce'
+        ],
+        correct: 1
+    },
+    {
+        id: 25,
+        type: 'multiple',
+        question: 'Stalaktity v jeskyních vznikají:',
+        options: [
+            'Tuhnutím magmatu',
+            'Metamorfózou',
+            'Srážením kalcitu z vody',
+            'Zvětráváním'
+        ],
+        correct: 2
+    },
+    {
+        id: 26,
+        type: 'boolean',
+        question: 'Halit je sůl kamenná.',
+        correct: true
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'Rozsypová ložiska se třídí podle:',
+        options: [
+            'Barvy',
+            'Hustoty',
+            'Tvrdosti',
+            'Lesku'
+        ],
+        correct: 1
+    },
+    {
+        id: 28,
+        type: 'multiple',
+        question: 'Kaolin vzniká zvětráváním:',
+        options: [
+            'Křemene',
+            'Živců',
+            'Slíd',
+            'Kalcitu'
+        ],
+        correct: 1
+    },
+    {
+        id: 29,
+        type: 'boolean',
+        question: 'Křemen patří mezi nejběžnější minerály zemské kůry.',
+        correct: true
+    },
+    {
+        id: 30,
+        type: 'multiple',
+        question: 'K fyzikálním vlastnostem minerálů patří:',
+        options: [
+            'Pouze barva',
+            'Tvrdost, hustota a štěpnost',
+            'Pouze lesk',
+            'Rozpustnost ve vodě'
+        ],
+        correct: 1
+    },
+    {
+        id: 31,
+        type: 'multiple',
+        question: 'Minerál, který je průhledný:',
+        options: [
+            'Neprochází jím světlo',
+            'Umožňuje vidět předměty skrz něj',
+            'Má kovový lesk',
+            'Má tmavou barvu'
+        ],
+        correct: 1
+    },
+    {
+        id: 32,
+        type: 'boolean',
+        question: 'Pyrit je známý jako "kočičí zlato" pro svůj zlatavý lesk.',
+        correct: true
+    },
+    {
+        id: 33,
+        type: 'multiple',
+        question: 'Hornina je:',
+        options: [
+            'Jediný minerál',
+            'Směs více minerálů',
+            'Tekutý materiál',
+            'Plyn'
+        ],
+        correct: 1
+    },
+    {
+        id: 34,
+        type: 'multiple',
+        question: 'Žula se skládá hlavně z minerálů:',
+        options: [
+            'Pouze z křemene',
+            'Z křemene, živců a slíd',
+            'Pouze z kalcitu',
+            'Z halitu a sádrovce'
+        ],
+        correct: 1
+    },
+    {
+        id: 35,
+        type: 'boolean',
+        question: 'Pegmatity obsahují krystaly s velkými rozměry.',
+        correct: true
+    },
+    {
+        id: 36,
+        type: 'multiple',
+        question: 'K optickým vlastnostem minerálů nepatří:',
+        options: [
+            'Barva',
+            'Lesk',
+            'Hustota',
+            'Vryp'
+        ],
+        correct: 2
+    },
+    {
+        id: 37,
+        type: 'multiple',
+        question: 'Při výlevném tuhnutí magmatu vznikají:',
+        options: [
+            'Velké krystaly',
+            'Drobné krystaly nebo vulkanické sklo',
+            'Pouze sedimentární minerály',
+            'Metamorfované horniny'
+        ],
+        correct: 1
+    },
+    {
+        id: 38,
+        type: 'boolean',
+        question: 'Fluorit vzniká v závěrečných fázích krystalizace magmatu.',
+        correct: true
+    },
+    {
+        id: 39,
+        type: 'multiple',
+        question: 'Sádrovec patří mezi minerály vzniklé:',
+        options: [
+            'Z magmatu',
+            'Metamorfózou',
+            'Sedimentací',
+            'Zvětráváním živců'
+        ],
+        correct: 2
+    },
+    {
+        id: 40,
+        type: 'boolean',
+        question: 'Systematická mineralogie zkoumá společenstva minerálů na jednotlivých lokalitách.',
+        correct: true
+    }
+]
 
             };
             
@@ -380,15 +283,6 @@
                             ...q,
                             options: shuffledOptions.map(o => o.text),
                             correct: shuffledOptions.findIndex(o => o.originalIndex === q.correct)
-                        };
-                    }
-                    if (q.type === 'checkbox') {
-                        const optionsWithIndex = q.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
-                        const shuffledOptions = shuffleArray(optionsWithIndex);
-                        return {
-                            ...q,
-                            options: shuffledOptions.map(o => o.text),
-                            correct: q.correct.map(c => shuffledOptions.findIndex(o => o.originalIndex === c)).sort((a, b) => a - b)
                         };
                     }
                     return q;
@@ -472,19 +366,6 @@
                 };
             }, []);
 
-            // 🚪 VAROVÁNÍ PŘI ZAVŘENÍ STRÁNKY
-            useEffect(() => {
-                const handleBeforeUnload = (e) => {
-                    if (!showResults && !quizCompleted && Object.keys(answers).length > 0) {
-                        e.preventDefault();
-                        e.returnValue = '';
-                        return '';
-                    }
-                };
-                window.addEventListener('beforeunload', handleBeforeUnload);
-                return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-            }, [showResults, quizCompleted, answers]);
-
             // Formátování času pro zobrazení
             const formatTime = (seconds) => {
                 const mins = Math.floor(seconds / 60);
@@ -525,64 +406,16 @@
                 }
             };
 
-            const handleFirst = () => setCurrentQuestion(0);
-            const handleLast = () => setCurrentQuestion(questions.length - 1);
-
-            // ========================================
-            // BODOVÁNÍ – shodné s velkými testy
-            //   ANO/NE a výběr jedné možnosti ...... 1 bod
-            //   zaškrtávací otázka ................. +1 za správně označenou možnost,
-            //                                        −1 za chybně označenou možnost
-            //                                        (může vyjít i záporně)
-            //   celkový součet ..................... nikdy neklesne pod 0
-            // ========================================
-
-            // Maximální počet bodů za otázku
-            const maxBodu = (q) => (q.type === 'checkbox' ? q.correct.length : 1);
-
-            // Body, které student za otázku skutečně získal (u checkboxu i záporné)
-            const bodyZaOtazku = (q, userAnswer) => {
-                if (q.type === 'checkbox') {
-                    const ua = Array.isArray(userAnswer) ? userAnswer : [];
-                    const spravne = ua.filter(i => q.correct.includes(i)).length;
-                    const chybne  = ua.filter(i => !q.correct.includes(i)).length;
-                    return spravne - chybne;
-                }
-                return userAnswer === q.correct ? 1 : 0;
-            };
-
-            // Úplně správně (zelený rámeček a ✓ v přehledu)
-            const isAnswerCorrect = (q, userAnswer) => bodyZaOtazku(q, userAnswer) === maxBodu(q);
-
-            const isQuestionAnswered = (q, userAnswer) => {
-                if (q.type === 'checkbox') return Array.isArray(userAnswer) && userAnswer.length > 0;
-                return userAnswer !== undefined;
-            };
-
-            // Známka podle stejné stupnice jako ve velkých testech
-            const urciZnamku = (procenta) => {
-                if (procenta <  40) return 5;
-                if (procenta <= 54) return 4;
-                if (procenta <= 74) return 3;
-                if (procenta <= 89) return 2;
-                return 1;
-            };
-
-            const maxBoduCelkem = questions.reduce((s, q) => s + maxBodu(q), 0);
-
-            // Součet bodů za celý kvíz, zdola omezený nulou
             const calculateScore = () => {
                 let score = 0;
-                questions.forEach((q, index) => { score += bodyZaOtazku(q, answers[index]); });
-                return Math.max(0, score);
-            };
-
-            const toggleCheckbox = (optionIndex) => {
-                const current = Array.isArray(answers[currentQuestion]) ? answers[currentQuestion] : [];
-                const next = current.includes(optionIndex)
-                    ? current.filter(i => i !== optionIndex)
-                    : [...current, optionIndex].sort((a, b) => a - b);
-                setAnswers({ ...answers, [currentQuestion]: next });
+                questions.forEach((q, index) => {
+                    if (q.type === 'boolean') {
+                        if (answers[index] === q.correct) score++;
+                    } else if (q.type === 'multiple') {
+                        if (answers[index] === q.correct) score++;
+                    }
+                });
+                return score;
             };
 
             const sendResultsEmail = async () => {
@@ -596,12 +429,16 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
-                const procentaCislo = maxBoduCelkem > 0 ? (score / maxBoduCelkem * 100) : 0;
-                const percentage = procentaCislo.toFixed(1);
-                const grade = urciZnamku(procentaCislo);
+                const percentage = (score / questions.length * 100).toFixed(1);
+                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
@@ -611,7 +448,7 @@
                 const completionData = {
                     name: fullName,
                     date: new Date().toISOString(),
-                    score: `${score}/${maxBoduCelkem} bodů`,
+                    score: `${score}/${questions.length}`,
                     time: timeSpent,
                     windowSwitches: windowSwitches
                 };
@@ -621,32 +458,28 @@
                 let answersDetails = '';
                 questions.forEach((q, index) => {
                     const userAnswer = answers[index];
-                    const isCorrect = isAnswerCorrect(q, userAnswer);
-                    const b = bodyZaOtazku(q, userAnswer);
-
+                    const isCorrect = q.type === 'boolean' 
+                        ? userAnswer === q.correct 
+                        : userAnswer === q.correct;
+                    
                     answersDetails += `${index + 1}. ${q.question}\n`;
                     
                     if (q.type === 'multiple') {
-                        answersDetails += `Student: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
-                        answersDetails += `Správně: ${q.options[q.correct]}\n`;
+                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? q.options[userAnswer] : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správná odpověď: ${q.options[q.correct]}\n`;
                     } else if (q.type === 'boolean') {
-                        answersDetails += `Student: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
-                        answersDetails += `Správně: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
-                    } else if (q.type === 'checkbox') {
-                        const ua = Array.isArray(userAnswer) ? userAnswer : [];
-                        answersDetails += `Student: ${ua.length > 0 ? ua.map(i => q.options[i]).join(', ') : 'Bez odpovědi'}\n`;
-                        answersDetails += `Správně: ${q.correct.map(i => q.options[i]).join(', ')}\n`;
+                        answersDetails += `   Odpověď studenta: ${userAnswer !== undefined ? (userAnswer ? 'Pravda' : 'Nepravda') : 'Bez odpovědi'}\n`;
+                        answersDetails += `   Správná odpověď: ${q.correct ? 'Pravda' : 'Nepravda'}\n`;
                     }
                     
-                    const znacka = isCorrect ? '✓' : (b > 0 ? '~' : '✗');
-                    answersDetails += `Výsledek: ${znacka} ${b} z ${maxBodu(q)} b.\n\n`;
+                    answersDetails += `   Výsledek: ${isCorrect ? '✓ Správně' : '✗ Špatně'}\n\n`;
                 });
 
                 const templateParams = {
                     to_email: QUIZ_CONFIG.teacherEmail,
                     student_name: fullName,
                     quiz_title: QUIZ_CONFIG.title,
-                    score: `${score}/${maxBoduCelkem} bodů`,
+                    score: `${score}/${questions.length}`,
                     percentage: `${percentage}%`,
                     grade: grade,
                     date: new Date().toLocaleDateString('cs-CZ'),
@@ -722,9 +555,7 @@
 
             if (showResults) {
                 const score = calculateScore();
-                const procentaCislo = maxBoduCelkem > 0 ? (score / maxBoduCelkem * 100) : 0;
-                const percentage = procentaCislo.toFixed(1);
-                const znamka = urciZnamku(procentaCislo);
+                const percentage = (score / questions.length * 100).toFixed(1);
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
                 const wasTimeExpired = timeExpiredRef.current;
@@ -742,7 +573,7 @@
                                     {wasTimeExpired ? '⏰ Čas vypršel!' : `⏱️ Čas: ${timeSpent}`}
                                 </div>
                                 {wasTimeExpired && (() => {
-                                    const unansweredCount = questions.filter((qq, i) => !isQuestionAnswered(qq, answers[i])).length;
+                                    const unansweredCount = questions.length - Object.keys(answers).length;
                                     return (
                                         <p className="text-red-700 text-sm mt-2">
                                             Kvíz byl automaticky ukončen po {formatTime(totalTimeLimit)}. Nevyplněné otázky jsou hodnoceny 0 body.
@@ -767,19 +598,23 @@
                             
                             <div className="text-center mb-8">
                                 <div className="text-6xl font-bold text-indigo-600 mb-2">
-                                    {score} / {maxBoduCelkem}
+                                    {score} / {questions.length}
                                 </div>
                                 <div className="text-2xl text-gray-700">
-                                    {percentage}% &nbsp;·&nbsp; bodů
+                                    {percentage}%
                                 </div>
                                 <div className="mt-4 text-lg font-semibold">
-                                    <span className={
-                                        znamka === 5 ? 'text-red-600'
-                                        : znamka === 4 ? 'text-orange-600'
-                                        : znamka === 3 ? 'text-yellow-600'
-                                        : znamka === 2 ? 'text-blue-600'
-                                        : 'text-green-600'
-                                    }>Celkové hodnocení: {znamka}</span>
+                                    {percentage < 29 ? (
+                                        <span className="text-red-600">Celkové hodnocení: 5</span>
+                                    ) : percentage <= 49 ? (
+                                        <span className="text-orange-600">Celkové hodnocení: 4</span>
+                                    ) : percentage <= 79 ? (
+                                        <span className="text-yellow-600">Celkové hodnocení: 3</span>
+                                    ) : percentage <= 89 ? (
+                                        <span className="text-blue-600">Celkové hodnocení: 2</span>
+                                    ) : (
+                                        <span className="text-green-600">Celkové hodnocení: 1</span>
+                                    )}
                                 </div>
                             </div>
 
@@ -836,14 +671,12 @@
                                 <h2 className="text-xl font-bold text-gray-800 mb-4">Přehled odpovědí:</h2>
                                 {questions.map((q, index) => {
                                     const userAnswer = answers[index];
-                                    const isCorrect = isAnswerCorrect(q, userAnswer);
-                                    const b = bodyZaOtazku(q, userAnswer);
-                                    const ramecek = isCorrect
-                                        ? 'bg-green-50 border-green-300'
-                                        : (b > 0 ? 'bg-orange-50 border-orange-300' : 'bg-red-50 border-red-300');
-
+                                    const isCorrect = q.type === 'boolean' 
+                                        ? userAnswer === q.correct 
+                                        : userAnswer === q.correct;
+                                    
                                     return (
-                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${ramecek}`}>
+                                        <div key={q.id} className={`p-4 rounded-lg border-2 ${isCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
                                             <div className="flex items-start gap-2">
                                                 <span className="font-bold text-gray-700">{index + 1}.</span>
                                                 <div className="flex-1">
@@ -876,38 +709,9 @@
                                                             )}
                                                         </>
                                                     )}
-                                                    {q.type === 'checkbox' && (() => {
-                                                        const ua = Array.isArray(userAnswer) ? userAnswer : [];
-                                                        return (
-                                                            <>
-                                                                <p className="text-sm text-gray-600 mb-1">Tvá odpověď:</p>
-                                                                {ua.length === 0 ? (
-                                                                    <p className="text-sm text-gray-500 italic mb-1">Bez odpovědi</p>
-                                                                ) : (
-                                                                    <ul className="text-sm mb-1">
-                                                                        {ua.map(i => (
-                                                                            <li key={i} className={q.correct.includes(i) ? 'text-green-700 font-semibold' : 'text-red-700 font-semibold'}>
-                                                                                {q.correct.includes(i) ? '🟢 +1' : '🔴 −1'} &nbsp;{q.options[i]}
-                                                                            </li>
-                                                                        ))}
-                                                                    </ul>
-                                                                )}
-                                                                {!isCorrect && (
-                                                                    <p className="text-sm text-green-700 font-semibold">
-                                                                        Správně mělo být: {q.correct.map(i => q.options[i]).join(' · ')}
-                                                                    </p>
-                                                                )}
-                                                            </>
-                                                        );
-                                                    })()}
                                                 </div>
-                                                <span className="text-right flex-shrink-0">
-                                                    <span className="text-2xl block">
-                                                        {isCorrect ? '✓' : (b > 0 ? '~' : '✗')}
-                                                    </span>
-                                                    <span className={`text-sm font-bold ${b > 0 ? 'text-green-700' : b < 0 ? 'text-red-700' : 'text-gray-500'}`}>
-                                                        {b} / {maxBodu(q)} b.
-                                                    </span>
+                                                <span className="text-2xl">
+                                                    {isCorrect ? '✓' : '✗'}
                                                 </span>
                                             </div>
                                         </div>
@@ -920,10 +724,7 @@
             }
 
             const q = questions[currentQuestion];
-            const isAnswered = isQuestionAnswered(q, answers[currentQuestion]);
-            // Zaškrtávací otázku je možné přeskočit – při záporných bodech je to
-            // legitimní volba a formuláře ve velkém testu to umožňují také.
-            const lzePokracovat = q.type === 'checkbox' ? true : isAnswered;
+            const isAnswered = answers[currentQuestion] !== undefined;
             
             // Výpočet barev podle zbývajícího času
             const isTimeCritical = timeLeft <= 120; // 2 minuty nebo méně
@@ -953,13 +754,7 @@
                                     {currentQuestion + 1} / {questions.length}
                                 </span>
                             </div>
-
-                            {/* 📏 PRAVIDLA BODOVÁNÍ – stejná jako ve velkých testech */}
-                            <div className="bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 mb-4 text-sm text-gray-700">
-                                Celkem <strong>{maxBoduCelkem} bodů</strong>. Otázky ANO/NE a s jednou správnou odpovědí za 1 bod.
-                                U zaškrtávacích otázek <strong>+1</strong> za správně a <strong>−1</strong> za chybně označenou možnost; celkový součet neklesne pod nulu.
-                            </div>
-
+                            
                             {/* ⏱️ ZOBRAZENÍ ČASOVAČE */}
                             <div className={`border-2 rounded-lg p-3 mb-4 text-center ${timerColor}`}>
                                 <div className={`text-xl font-bold ${timerTextColor}`}>
@@ -1003,34 +798,6 @@
                                 </div>
                             )}
 
-                            {q.type === 'checkbox' && (
-                                <div className="space-y-3">
-                                    <p className="text-sm font-semibold text-orange-700 bg-orange-50 border border-orange-300 rounded-lg px-3 py-2">
-                                        Více správných odpovědí ({q.correct.length} z 6). Za každou správně označenou možnost <strong>+1 bod</strong>, za každou chybně označenou <strong>−1 bod</strong>.
-                                        Tipovat se nevyplatí – když si nejsi jistý, raději možnost neoznačuj.
-                                    </p>
-                                    {q.options.map((option, index) => {
-                                        const checked = Array.isArray(answers[currentQuestion]) && answers[currentQuestion].includes(index);
-                                        return (
-                                            <button
-                                                key={index}
-                                                onClick={() => toggleCheckbox(index)}
-                                                className={`w-full text-left p-4 rounded-lg border-2 transition flex items-start gap-3 ${
-                                                    checked
-                                                        ? 'border-indigo-600 bg-indigo-50'
-                                                        : 'border-gray-300 hover:border-indigo-400 hover:bg-gray-50'
-                                                }`}
-                                            >
-                                                <span className={`mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center text-xs font-bold ${
-                                                    checked ? 'bg-indigo-600 border-indigo-600 text-white' : 'border-gray-400 bg-white'
-                                                }`}>{checked ? '✓' : ''}</span>
-                                                <span><span className="font-semibold text-gray-700">{String.fromCharCode(65 + index)}.</span> {option}</span>
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-                            )}
-
                             {q.type === 'boolean' && (
                                 <div className="space-y-3">
                                     <button
@@ -1057,14 +824,7 @@
                             )}
                         </div>
 
-                        <div className="flex gap-2 sm:gap-3">
-                            <button
-                                onClick={handleFirst}
-                                title="Na začátek"
-                                className="px-4 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                ⇤
-                            </button>
+                        <div className="flex gap-4">
                             <button
                                 onClick={handlePrevious}
                                 disabled={currentQuestion === 0}
@@ -1074,30 +834,14 @@
                             </button>
                             <button
                                 onClick={handleNext}
-                                disabled={!lzePokracovat}
+                                disabled={!isAnswered}
                                 className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {currentQuestion === questions.length - 1 ? 'Dokončit' : 'Další →'}
                             </button>
-                            <button
-                                onClick={handleLast}
-                                title="Na konec"
-                                className="px-4 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                ⇥
-                            </button>
                         </div>
 
-                        {(() => {
-                            const unanswered = questions.filter((qq, i) => !isQuestionAnswered(qq, answers[i])).length;
-                            return unanswered > 0 ? (
-                                <p className="text-center text-gray-500 text-sm mt-3">
-                                    Nezodpovězených otázek: <strong>{unanswered}</strong>
-                                </p>
-                            ) : null;
-                        })()}
-
-                        {!lzePokracovat && (
+                        {!isAnswered && (
                             <p className="text-center text-gray-500 text-sm mt-4">
                                 Pro pokračování vyber odpověď
                             </p>
@@ -1108,7 +852,7 @@
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<SvalyQuiz />);
+        root.render(<MuscleQuiz />);
     </script>
 </body>
 </html>

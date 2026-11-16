@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kvíz: Srdce a cévní soustava_b</title>
+    <title>Kvíz: Nervová soustava</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -24,6 +24,10 @@
         */
 
         // TADY DOPLŇ SVÉ EMAILJS ÚDAJE:
+        // ARCHIV – odesílání výsledků je vypnuté.
+        // Zpět se zapne přepsáním na true.
+        const ODESILANI_ZAPNUTO = false;
+
         const EMAILJS_CONFIG = {
             publicKey: "3b0esMCXl9fZX1QHi",      // z Account -> General
             serviceId: "service_t5uuqhn",      // z Email Services
@@ -47,208 +51,322 @@
             // ========================================
             
             const QUIZ_CONFIG = {
-                title: "Srdce a cévní soustava_b",
+                title: "Nervová soustava",
                 teacherEmail: "hynek@gymberoun.cz",
-                timePerQuestion: 15, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
+                timePerQuestion: 20, // ⏱️ SEKUND NA OTÁZKU (můžeš změnit na 20, 40, atd.)
                 
                 questions: [
     {
         id: 1,
         type: 'multiple',
-        question: 'Malý (plicní) oběh začíná v:',
+        question: 'Co je neuron?',
         options: [
-            'Levé komoře',
-            'Pravé komoře',
-            'Levé síni',
-            'Pravé síni'
-        ],
-        correct: 1
-    },
-    {
-        id: 2,
-        type: 'boolean',
-        question: 'Vrátnicový oběh vede krev z trávicí soustavy přímo do dolní duté žíly.',
-        correct: false
-    },
-    {
-        id: 3,
-        type: 'multiple',
-        question: 'Normální systolický krevní tlak je v rozmezí:',
-        options: [
-            '120-140 torrů',
-            '60-75 torrů',
-            '150-190 torrů',
-            '190-225 torrů'
+            'Nervová buňka se svými výběžky',
+            'Pouze tělo nervové buňky',
+            'Svazek nervových vláken',
+            'Ochranná vrstva kolem nervů'
         ],
         correct: 0
     },
     {
-        id: 4,
+        id: 2,
         type: 'boolean',
-        question: 'Stěny vlásečnic tvoří jen jedna vrstva endotelových buněk.',
+        question: 'Dendrity jsou vstupní část neuronu, která přijímá signály z jiných neuronů.',
         correct: true
     },
     {
-        id: 5,
+        id: 3,
         type: 'multiple',
-        question: 'Hmotnost srdce je asi:',
+        question: 'Kolik axonů vychází z jednoho neuronu?',
         options: [
-            '200 g',
-            '300 g',
-            '400 g',
-            '500 g'
+            'Dva',
+            'Více než tři',
+            'Pouze jeden',
+            'Záleží na typu neuronu'
+        ],
+        correct: 2
+    },
+    {
+        id: 4,
+        type: 'multiple',
+        question: 'Která buňka tvoří myelinovou pochvu v periferním nervovém systému?',
+        options: [
+            'Oligodendrocyt',
+            'Astrocyt',
+            'Mikroglie',
+            'Schwannova buňka'
+        ],
+        correct: 3
+    },
+        {
+        id: 6,
+        type: 'multiple',
+        question: 'Kolik míšních nervů má člověk?',
+        options: [
+            '12 párů',
+            '31 párů',
+            '24 párů',
+            '40 párů'
         ],
         correct: 1
     },
     {
-        id: 6,
-        type: 'boolean',
-        question: 'Mezi pravou síní a pravou komorou je chlopeň dvojcípá.',
-        correct: false
-    },
-    {
         id: 7,
         type: 'multiple',
-        question: 'Který útvar je "časovačem rytmu" srdeční činnosti?',
+        question: 'Kolik hlavových (mozkových) nervů má člověk?',
         options: [
-            'Uzlík síňokomorový',
-            'Hisův svazek',
-            'Uzlík sinusový',
-            'Purkyňova vlákna'
+            '10 párů',
+            '31 párů',
+            '12 párů',
+            '15 párů'
         ],
         correct: 2
     },
     {
         id: 8,
         type: 'boolean',
-        question: 'Průměrná hodnota klidové tepové frekvence je 70-80/min.',
+        question: 'V klidovém stavu se v neuronu hromadí draslík (K⁺), zatímco sodík (Na⁺) je více vně buňky.',
         correct: true
     },
     {
         id: 9,
         type: 'multiple',
-        question: 'Největší lymfatický orgán v těle je:',
+        question: 'Jaký je princip fungování akčního potenciálu?',
         options: [
-            'Brzlík',
-            'Mandle',
-            'Lymfatická uzlina',
-            'Slezina'
-        ],
-        correct: 3
-    },
-    {
-        id: 11,
-        type: 'multiple',
-        question: 'Nejčastější příčinou úmrtí v České republice jsou:',
-        options: [
-            'Kardiovaskulární onemocnění',
-            'Nádorová onemocnění',
-            'Úrazy',
-            'Infekční nemoci'
+            'Vše nebo nic',
+            'Postupné zesilování',
+            'Lineární nárůst',
+            'Náhodná aktivace'
         ],
         correct: 0
     },
     {
-        id: 12,
+        id: 10,
+        type: 'multiple',
+        question: 'Co je myelinová pochva?',
+        options: [
+            'Obal většiny nervových vláken',
+            'Vnitřní část axonu',
+            'Typ nervové buňky',
+            'Ochranná vrstva mozku'
+        ],
+        correct: 0
+    },
+            {
+        id: 13,
+        type: 'multiple',
+        question: 'Jak rychlé je vedení akčního potenciálu po nemyelinizovaných vláknech?',
+        options: [
+            '0,5-2 m/s',
+            '50-120 m/s',
+            '10-20 m/s',
+            '200-300 m/s'
+        ],
+        correct: 0
+    },
+    {
+        id: 14,
         type: 'boolean',
-        question: 'Angina pectoris seprojevuje bolestí na hrudi při zátěži, která ustupuje po odpočinku.',
+        question: 'Ranvierovy zářezy jsou místa na myelinizovaném vlákně, kde akční potenciál "přeskakuje".',
         correct: true
     },
     {
-        id: 13,
-        type: 'multiple',
-        question: 'Infarkt myokardu vzniká:',
-        options: [
-            'Zvýšeným krevním tlakem',
-            'Akutním uzávěrem koronární tepny',
-            'Zánětem srdeční svaloviny',
-            'Vadou srdeční chlopně'
-        ],
-        correct: 1
-    },
-       {
         id: 15,
         type: 'multiple',
-        question: 'Hypertenze je definována jako krevní tlak:',
+        question: 'Jak široká je synaptická štěrbina?',
         options: [
-            'Nad 100/60 mmHg',
-            'Nad 120/80 mmHg',
-            'Nad 140/90 mmHg',
-            'Nad 160/100 mmHg'
+            'Cca 200 nm',
+            'Cca 2 μm',
+            'Cca 20 nm',
+            'Cca 0,2 mm'
         ],
         correct: 2
     },
-    {
-        id: 16,
+       {
+        id: 17,
         type: 'boolean',
-        question: 'Ateroskleróza postihuje především malé vlásečnice.',
-        correct: false
-    },
-    {
-        id: 20,
-        type: 'boolean',
-        question: 'Fibrilace síní zvyšuje riziko tromboembolických komplikací.',
+        question: 'Acetylcholin je důležitý neurotransmiter pro svalovou kontrakci a paměť.',
         correct: true
     },
-    {
-        id: 21,
+       {
+        id: 19,
         type: 'multiple',
-        question: 'Bradykardie je definována jako srdeční frekvence:',
+        question: 'Který neurotransmiter je excitační (budivý)?',
         options: [
-            'Pod 50/min',
-            'Pod 60/min',
-            'Pod 70/min',
-            'Pod 80/min'
-        ],
-        correct: 1
-    },
-    {
-        id: 22,
-        type: 'boolean',
-        question: 'Tachykardie je srdeční frekvence nad 100/min.',
-        correct: true
-    },
-    {
-        id: 25,
-        type: 'multiple',
-        question: 'Varixy dolních končetin postihují přibližně:',
-        options: [
-            '10% dospělé populace',
-            '20% dospělé populace',
-            '30% dospělé populace',
-            '50% dospělé populace'
+            'GABA',
+            'Serotonin',
+            'Glutamát',
+            'Endorfiny'
         ],
         correct: 2
     },
         {
-        id: 27,
+        id: 21,
         type: 'multiple',
-        question: 'Jaký podíl cévních mozkových příhod tvoří ischemická forma?',
+        question: 'Která je nejzevnější vrstva mozkových plen (meningů)?',
         options: [
-            '50%',
-            '60%',
-            '70%',
-            '80%'
-        ],
-        correct: 3
-    },
-       {
-        id: 29,
-        type: 'multiple',
-        question: 'Kouření zvyšuje riziko ischemické choroby srdeční:',
-        options: [
-            '2-4×',
-            '5-6×',
-            '7-8×',
-            '10×'
+            'Tvrdá plena (dura mater)',
+            'Pavučnice (arachnoidea)',
+            'Omozečnice (pia mater)',
+            'Epidura'
         ],
         correct: 0
     },
     {
-        id: 30,
+        id: 22,
+        type: 'multiple',
+        question: 'Kolik likvoru (mozkomíšního moku) se denně vyprodukuje?',
+        options: [
+            'Cca 500 ml',
+            'Cca 150 ml',
+            'Cca 1000 ml',
+            'Cca 50 ml'
+        ],
+        correct: 1
+    },
+    {
+        id: 23,
         type: 'boolean',
-        question: 'Doporučená týdenní doba aerobní aktivity pro prevenci kardiovaskulárních onemocnění je minimálně 150 minut.',
+        question: 'Hlavní funkce likvoru je mechanická ochrana centrální nervové soustavy.',
         correct: true
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'Jak dlouhá je mícha?',
+        options: [
+            '60-70 cm',
+            '20-25 cm',
+            '80-90 cm',
+            '40-45 cm'
+        ],
+        correct: 3
+    },
+    {
+        id: 25,
+        type: 'multiple',
+        question: 'Ve výši kterého obratle končí mícha?',
+        options: [
+            '2. bederní obratel (L2)',
+            '5. bederní obratel (L5)',
+            '12. hrudní obratel (Th12)',
+            '1. křížový obratel (S1)'
+        ],
+        correct: 0
+    },
+    {
+        id: 26,
+        type: 'boolean',
+        question: 'Šedá hmota míšní má tvar písmene H nebo motýla.',
+        correct: true
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'Co obsahuje šedá hmota míšní?',
+        options: [
+            'Pouze axony',
+            'Pouze dendrity',
+            'Těla neuronů',
+            'Myelinové pochvy'
+        ],
+        correct: 2
+    },
+    {
+        id: 28,
+        type: 'multiple',
+        question: 'Kde se nachází motoneurony v míše?',
+        options: [
+            'V zadních rozích šedé hmoty',
+            'V bílé hmotě',
+            'V centrálním kanálku',
+            'V předních rozích šedé hmoty'
+        ],
+        correct: 3
+    },
+       {
+        id: 30,
+        type: 'multiple',
+        question: 'Která dráha přenáší informace o bolesti, teple a chladu?',
+        options: [
+            'Pyramidová dráha',
+            'Míchohrbolová dráha',
+            'Míchomozečková dráha',
+            'Dráha hluboké citlivosti'
+        ],
+        correct: 1
+    },
+    {
+        id: 31,
+        type: 'boolean',
+        question: 'Bílá hmota míšní je tvořena axony a obklopuje šedou hmotu.',
+        correct: true
+    },
+    {
+        id: 32,
+        type: 'multiple',
+        question: 'Co jsou vzestupné míšní dráhy?',
+        options: [
+            'Dráhy vedoucí z mozku do míchy',
+            'Dráhy vedoucí z míchy do mozku',
+            'Dráhy uvnitř míchy',
+            'Dráhy v periferních nervech'
+        ],
+        correct: 1
+    },
+       {
+        id: 34,
+        type: 'multiple',
+        question: 'Která vrstva mozkových plen je bohatě prokrvená a přímo přiléhá k mozku?',
+        options: [
+            'Tvrdá plena',
+            'Pavučnice',
+            'Omozečnice (pia mater)',
+            'Všechny stejně'
+        ],
+        correct: 2
+    },
+    {
+        id: 35,
+        type: 'boolean',
+        question: 'Hyperpolarizace je stav, kdy membránový potenciál klesne pod hodnotu klidového potenciálu.',
+        correct: true
+    },
+    {
+        id: 36,
+        type: 'multiple',
+        question: 'Který neurotransmiter je spojen s pocitem odměny a motivace?',
+        options: [
+            'Serotonin',
+            'GABA',
+            'Noradrenalin',
+            'Dopamin'
+        ],
+        correct: 3
+    },
+    {
+        id: 37,
+        type: 'boolean',
+        question: 'Iniciální segment je místo, kde vzniká akční potenciál.',
+        correct: true
+    },
+       {
+        id: 39,
+        type: 'boolean',
+        question: 'Repolarizace je fáze akčního potenciálu, kdy se membránový potenciál vrací k záporným hodnotám.',
+        correct: true
+    },
+    {
+        id: 40,
+        type: 'multiple',
+        question: 'Který neurotransmiter ovlivňuje náladu, spánek a chuť k jídlu?',
+        options: [
+            'Acetylcholin',
+            'Dopamin',
+            'Serotonin',
+            'Noradrenalin'
+        ],
+        correct: 2
     }
 ]
             };
@@ -424,11 +542,16 @@
                     return;
                 }
 
+                if (!ODESILANI_ZAPNUTO) {
+                    alert('Tento kvíz je v archivu a slouží jen k procvičení.\n\nVýsledky se neodesílají.');
+                    return;
+                }
+
                 setIsSending(true);
 
                 const score = calculateScore();
                 const percentage = (score / questions.length * 100).toFixed(1);
-                const grade = percentage < 29 ? 5 : percentage <= 49 ? 4 : percentage <= 79 ? 3 : percentage <= 89 ? 2 : 1;
+                const grade = percentage < 33 ? 5 : percentage <= 51 ? 4 : percentage <= 68 ? 3 : percentage <= 84 ? 2 : 1;
                 const fullName = `${studentFirstName} ${studentLastName}`;
                 const elapsedSeconds = getElapsedTime();
                 const timeSpent = formatTime(elapsedSeconds);
